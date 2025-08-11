@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIX - Desarrollador Tecnológico</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Menu lateral -->
+    <nav class="sidebar">
+        <div class="nav-section">
+            <a href="#" class="nav-item active" data-page="home">home</a>
+            <a href="#" class="nav-item" data-page="contact">contacto</a>
+            <a href="#" class="nav-item" data-page="about">about</a>
+        </div>
+        
+        <div class="nav-section">
+            <h3>tags</h3>
+            <div class="tag-filters">
+                <button class="tag-filter" data-tag="ciencia">ciencia</button>
+                <button class="tag-filter" data-tag="arte">arte</button>
+                <button class="tag-filter" data-tag="educacion">educación</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Página Home -->
+        <div class="page" id="home-page">
+            <header class="header">
+                <h1>NIX</h1>
+            </header>
+
+            <section class="intro">
+                <p>Soy un artista y desarrollador tecnológico que explora las intersecciones entre arte, ciencia y tecnología. Mi práctica combina programación, electrónica y diseño de sistemas para crear instalaciones interactivas, objetos autónomos y experiencias inmersivas. Trabajo con microcontroladores, sensores y actuadores para desarrollar desde instalaciones sonoras hasta sistemas de monitoreo científico, siempre buscando nuevas formas de diálogo entre lo digital y lo analógico.</p>
+            </section>
+
+            <section class="projects-grid" id="projects-container">
+                <!-- Los proyectos se cargarán dinámicamente aquí -->
+            </section>
+        </div>
+
+        <!-- Página Contacto -->
+        <div class="page hidden" id="contact-page">
+            <header class="header">
+                <h1>Contacto</h1>
+            </header>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <p><strong>Email:</strong> nicolassaganias@gmail.com</p>
+                    <p><strong>Portfolio Arte:</strong> <a href="https://cargocollective.com/nicolassaganias" target="_blank">cargocollective.com/nicolassaganias</a></p>
+                </div>
+                
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Nombre</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Mensaje</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Página About -->
+        <div class="page hidden" id="about-page">
+            <header class="header">
+                <h1>About</h1>
+            </header>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Mi trabajo se sitúa en la intersección entre arte, ciencia y tecnología, explorando cómo los sistemas digitales pueden generar experiencias físicas y emocionales. Desde instalaciones sonoras interactivas hasta sistemas de monitoreo científico, cada proyecto es una oportunidad para cuestionar las fronteras entre lo orgánico y lo artificial.</p>
+                    
+                    <p>Mi práctica artística se centra en la creación de ambientes y objetos que responden, aprenden y evolucionan. Utilizo sensores, microcontroladores y algoritmos para desarrollar sistemas que dialogan con su entorno y con las personas que los habitan. Proyectos como "Cerbero", "habittat" y "mutaciones" exploran temas de vigilancia, adaptabilidad y evolución artificial.</p>
+                    
+                    <p>En el ámbito científico y educativo, desarrollo herramientas y sistemas de monitoreo que facilitan la investigación y el aprendizaje. Mi enfoque siempre busca hacer visible lo invisible, ya sea a través de datos ambientales, procesos biológicos o comportamientos emergentes en sistemas complejos.</p>
+                    
+                    <p>Mi proceso de trabajo integra programación, soldadura, diseño de circuitos y conceptualización artística, creando un flujo continuo entre idea y materialización, entre lo digital y lo analógico.</p>
+                </div>
+                
+                <div class="about-images">
+                    <div class="image-placeholder">
+                        <p>Instalación "Cerbero" en galería</p>
+                    </div>
+                    <div class="image-placeholder">
+                        <p>Proceso de desarrollo en taller</p>
+                    </div>
+                    <div class="image-placeholder">
+                        <p>Sistema "Biota" funcionando</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para expandir proyectos -->
+    <div class="modal hidden" id="project-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modal-body">
+                <!-- Contenido del proyecto expandido -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
