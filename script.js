@@ -101,6 +101,57 @@ const translations = {
         name: "Name",
         message: "Message",
         send: "Send"
+    },
+    fr: {
+        // Navegación
+        home: "accueil",
+        projects: "projets",
+        contact: "contact",
+        about: "à propos",
+        services: "services",
+        language: "langue",
+        
+        // Home
+        title: "Développeur Technologique & Artiste",
+        subtitle: "Je crée des expériences interactives qui connectent le numérique au physique",
+        description: "Mon travail explore l'intersection entre technologie, art et éducation, développant des solutions innovantes qui transforment la façon dont nous interagissons avec notre environnement.",
+        
+        // Secciones home
+        whatIDo: "que fais-je ?",
+        whatIDoText: "Je développe du matériel et des logiciels personnalisés, crée des technologies conviviales et des systèmes interactifs. Je me spécialise dans la formation, la numérisation de processus, l'acquisition et l'analyse de données, les interfaces homme-machine, l'automatisation, le prototypage rapide, l'intégration de capteurs et d'actionneurs, et des solutions créatives pour les artistes et les éducateurs.",
+        whoIAm: "qui suis-je ?",
+        whoIAmText: "J'utilise des capteurs, des microcontrôleurs et des algorithmes pour développer des systèmes qui dialoguent avec leur environnement et avec les personnes qui les habitent. Mon approche cherche toujours à rendre visible l'invisible, que ce soit à travers des données environnementales, des processus biologiques ou des comportements émergents dans des systèmes complexes.",
+        recentProjects: "projets récents",
+        seeAllProjects: "Voir Tous les Projets",
+        knowMyServices: "Connaître Mes Services",
+        
+        // Páginas
+        projectsTitle: "Projets",
+        projectsIntro: "Développement de logiciels et matériels personnalisés. Capteurs, acquisition de données, numérisation. Traductions analogique-numérique / numérique-analogique. Interfaces homme-machine. Technologies conviviales, open-source, open-hardware.",
+        servicesTitle: "Services",
+        servicesIntro: "J'offre des services spécialisés dans le développement de solutions technologiques personnalisées, intégrant matériel et logiciel pour créer des expériences uniques et des systèmes fonctionnels.",
+        contactTitle: "Contact",
+        aboutTitle: "À Propos",
+        
+        // Servicios
+        scienceResearch: "Science & Recherche",
+        scienceResearchText: "Prototypes et systèmes expérimentaux avec des capteurs personnalisés, acquisition de données et connectivité pour la recherche scientifique.",
+        digitalArt: "Art Numérique & Interactif",
+        digitalArtText: "Développement de solutions technologiques personnalisées pour les artistes qui veulent incorporer des éléments interactifs, des capteurs ou des systèmes de contrôle dans leurs œuvres.",
+        developments: "Développements",
+        developmentsText: "Développements artistiques qui combinent technologie, capteurs et actionneurs avec une vision esthétique et des contributions créatives. Développement de solutions pour les artistes qui veulent commander une partie d'une pièce ou l'assemblage/ etc solutions créatives pour les artistes qui veulent incorporer quelque chose de technologique dans leur travail. J'ai aussi de l'expérience en assemblage.",
+        sustainability: "Durabilité & Éducation",
+        sustainabilityText: "Systèmes éducatifs interactifs et outils de surveillance environnementale. Développement d'expériences d'apprentissage qui connectent la technologie avec la conscience écologique.",
+        
+        // Tags
+        filterByTags: "Filtrer par tags",
+        
+        // Contacto
+        email: "Email",
+        portfolioArt: "Portfolio d'Art",
+        name: "Nom",
+        message: "Message",
+        send: "Envoyer"
     }
 };
 
@@ -577,7 +628,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Renderizado inicial con animación
     setTimeout(() => {
         renderProjectsAnimated();
-        renderRecentProjects();
         
         // Test directo de las service cards
         const testCards = document.querySelectorAll('.service-card');
@@ -595,6 +645,12 @@ document.addEventListener('DOMContentLoaded', function () {
         // Inicializar highlights clickeables del home
         initializeHomeHighlights();
     }, 100);
+    
+    // Renderizar proyectos recientes después de un poco más de tiempo
+    setTimeout(() => {
+        console.log('Ejecutando renderRecentProjects...');
+        renderRecentProjects();
+    }, 300);
 });
 
 // Navegación entre páginas
@@ -966,9 +1022,33 @@ function debounce(func, wait) {
 
 // Responsive: manejo del menú en móvil
 function initializeMobileMenu() {
-    // Esta función se puede expandir para agregar un botón de menú hamburguesa en móvil
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const sidebar = document.querySelector('.sidebar');
-
+    
+    if (mobileMenuBtn && sidebar) {
+        mobileMenuBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+            
+            // Agregar overlay para cerrar al hacer click fuera
+            let overlay = document.querySelector('.sidebar-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'sidebar-overlay';
+                document.body.appendChild(overlay);
+            }
+            
+            if (sidebar.classList.contains('open')) {
+                overlay.classList.add('open');
+                overlay.addEventListener('click', function() {
+                    sidebar.classList.remove('open');
+                    overlay.classList.remove('open');
+                });
+            } else {
+                overlay.classList.remove('open');
+            }
+        });
+    }
+    
     // Detectar clicks fuera del sidebar en móvil para cerrarlo
     document.addEventListener('click', function (e) {
         if (window.innerWidth <= 768) {
@@ -979,22 +1059,36 @@ function initializeMobileMenu() {
     });
 }
 
-// Inicializar funciones adicionales
-document.addEventListener('DOMContentLoaded', function () {
-    initializeMobileMenu();
-});
+
 
 // Función para renderizar proyectos recientes en el home
 function renderRecentProjects() {
     const recentContainer = document.getElementById('recent-projects-container');
-    if (!recentContainer) return;
+    console.log('Buscando contenedor de proyectos recientes:', recentContainer);
+    if (!recentContainer) {
+        console.log('No se encontró el contenedor de proyectos recientes');
+        return;
+    }
+
+    console.log('Total de proyectos disponibles:', projects.length);
+    console.log('Proyectos:', projects);
 
     // Obtener los 3 últimos proyectos (ordenados por fecha)
-    const recentProjects = [...projects]
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, 3);
+    let recentProjects;
+    try {
+        recentProjects = [...projects]
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .slice(0, 3);
+    } catch (error) {
+        console.log('Error ordenando por fecha, tomando primeros 3 proyectos:', error);
+        recentProjects = projects.slice(0, 3);
+    }
 
-    if (recentProjects.length === 0) return;
+    console.log('Proyectos recientes seleccionados:', recentProjects);
+    if (recentProjects.length === 0) {
+        console.log('No hay proyectos recientes');
+        return;
+    }
 
     recentContainer.innerHTML = recentProjects
         .map(project => `
