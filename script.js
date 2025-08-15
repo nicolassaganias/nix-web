@@ -644,6 +644,9 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // Inicializar highlights clickeables del home
         initializeHomeHighlights();
+        
+        // Inicializar menú móvil
+        initializeMobileMenu();
     }, 100);
     
     // Renderizar proyectos recientes después de un poco más de tiempo
@@ -670,6 +673,57 @@ function initializeNavigation() {
             // Mostrar/ocultar submenu de tags
             toggleTagsSubmenu(targetPage);
         });
+    });
+
+    // Inicializar botones CTA del home
+    initializeCTAButtons();
+}
+
+// Función para inicializar botones CTA del home
+function initializeCTAButtons() {
+    const ctaButtons = document.querySelectorAll('.cta-button');
+    
+    console.log('🔍 Inicializando botones CTA...');
+    console.log('🔘 Botones CTA encontrados:', ctaButtons.length);
+    console.log('🔘 Botones:', ctaButtons);
+    
+    if (ctaButtons.length === 0) {
+        console.log('❌ ERROR: No se encontraron botones CTA');
+        return;
+    }
+    
+    ctaButtons.forEach((button, index) => {
+        const targetPage = button.getAttribute('data-page');
+        console.log(`🔘 Botón ${index + 1}:`, { button, targetPage, text: button.textContent });
+        
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const targetPage = this.getAttribute('data-page');
+            console.log('🖱️ Click en CTA button:', targetPage);
+            console.log('🔘 Botón clickeado:', this);
+            
+            // Navegar a la página
+            console.log('🧭 Navegando a página:', targetPage);
+            navigateToPage(targetPage);
+            
+            // Actualizar estado activo en la navegación del sidebar
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(nav => nav.classList.remove('active'));
+            const targetNav = document.querySelector(`[data-page="${targetPage}"]`);
+            if (targetNav) {
+                targetNav.classList.add('active');
+                console.log('✅ Navegación activa actualizada');
+            } else {
+                console.log('❌ No se encontró nav-item para:', targetPage);
+            }
+            
+            // Mostrar/ocultar submenu de tags si es necesario
+            toggleTagsSubmenu(targetPage);
+        });
+        
+        console.log(`✅ Event listener agregado al botón ${index + 1}`);
     });
 }
 
@@ -749,15 +803,30 @@ function applyTranslations() {
 }
 
 function navigateToPage(page) {
+    console.log('🧭 navigateToPage llamada con:', page);
+    
     // Ocultar todas las páginas
     const pages = document.querySelectorAll('.page');
-    pages.forEach(p => p.classList.add('hidden'));
+    console.log('📄 Páginas encontradas:', pages.length);
+    
+    pages.forEach(p => {
+        p.classList.add('hidden');
+        console.log('📄 Ocultando página:', p.id);
+    });
 
     // Mostrar la página seleccionada
     const targetPage = document.getElementById(`${page}-page`);
+    console.log('🎯 Página objetivo:', `${page}-page`);
+    console.log('🎯 Elemento encontrado:', targetPage);
+    
     if (targetPage) {
         targetPage.classList.remove('hidden');
         currentPage = page;
+        console.log('✅ Página mostrada:', page);
+        console.log('✅ Página actual:', currentPage);
+    } else {
+        console.log('❌ ERROR: No se encontró la página:', `${page}-page`);
+        console.log('🔍 Páginas disponibles:', Array.from(pages).map(p => p.id));
     }
 }
 
@@ -1025,9 +1094,25 @@ function initializeMobileMenu() {
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const sidebar = document.querySelector('.sidebar');
     
+    console.log('🔍 Inicializando menú móvil...');
+    console.log('📱 Botón móvil encontrado:', mobileMenuBtn);
+    console.log('📋 Sidebar encontrado:', sidebar);
+    console.log('🌐 Ancho de ventana:', window.innerWidth);
+    
     if (mobileMenuBtn && sidebar) {
-        mobileMenuBtn.addEventListener('click', function() {
+        console.log('✅ Elementos encontrados, agregando event listeners...');
+        
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('🖱️ Click en botón móvil detectado!');
+            
+            const wasOpen = sidebar.classList.contains('open');
             sidebar.classList.toggle('open');
+            const isNowOpen = sidebar.classList.contains('open');
+            
+            console.log('🔓 Sidebar estaba abierto:', wasOpen);
+            console.log('🔓 Sidebar ahora está:', isNowOpen ? 'ABIERTO' : 'CERRADO');
             
             // Agregar overlay para cerrar al hacer click fuera
             let overlay = document.querySelector('.sidebar-overlay');
@@ -1035,25 +1120,42 @@ function initializeMobileMenu() {
                 overlay = document.createElement('div');
                 overlay.className = 'sidebar-overlay';
                 document.body.appendChild(overlay);
+                console.log('🖼️ Overlay creado y agregado al DOM');
             }
             
-            if (sidebar.classList.contains('open')) {
+            if (isNowOpen) {
                 overlay.classList.add('open');
+                console.log('🖼️ Overlay activado');
+                
+                // Remover event listeners anteriores para evitar duplicados
+                overlay.replaceWith(overlay.cloneNode(true));
+                overlay = document.querySelector('.sidebar-overlay');
+                
                 overlay.addEventListener('click', function() {
                     sidebar.classList.remove('open');
                     overlay.classList.remove('open');
+                    console.log('🖼️ Sidebar cerrado por overlay');
                 });
             } else {
                 overlay.classList.remove('open');
+                console.log('🖼️ Overlay desactivado');
             }
         });
+        
+        console.log('✅ Event listener agregado al botón móvil');
+    } else {
+        console.log('❌ ERROR: No se encontraron elementos del menú móvil');
+        console.log('🔍 Buscando elementos...');
+        console.log('🔍 Todos los botones con id mobile-menu-btn:', document.querySelectorAll('#mobile-menu-btn'));
+        console.log('🔍 Todos los elementos con clase sidebar:', document.querySelectorAll('.sidebar'));
     }
     
     // Detectar clicks fuera del sidebar en móvil para cerrarlo
     document.addEventListener('click', function (e) {
         if (window.innerWidth <= 768) {
-            if (sidebar && !sidebar.contains(e.target)) {
+            if (sidebar && !sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
                 sidebar.classList.remove('open');
+                console.log('🖱️ Sidebar cerrado por click fuera');
             }
         }
     });
