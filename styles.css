@@ -154,10 +154,9 @@ body {
 
 /* Botón de menú móvil */
 .mobile-menu-btn {
-    position: absolute;
+    position: fixed;
     left: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 1rem;
     background: none;
     border: none;
     font-size: 1.5rem;
@@ -915,6 +914,37 @@ body {
     /* Botón de menú móvil */
     .mobile-menu-btn {
         display: block;
+    }
+    
+    /* Forzar colores negros en móvil (para elementos que puedan ser azules) */
+    .nav-item,
+    .tag-filter,
+    .language-btn,
+    .cta-button,
+    .highlight-item,
+    .service-card h3,
+    .service-card p,
+    .project-title,
+    .project-description,
+    .project-tag {
+        color: black !important;
+    }
+    
+    /* Asegurar que los bordes también sean negros */
+    .nav-item:hover,
+    .nav-item.active,
+    .tag-filter:hover,
+    .tag-filter.active,
+    .language-btn:hover,
+    .language-btn.active {
+        border-color: black !important;
+    }
+    
+    /* Asegurar que los botones activos mantengan el fondo negro y texto blanco */
+    .tag-filter.active,
+    .language-btn.active {
+        background-color: black !important;
+        color: white !important;
     }
     
     /* Header y textos */
