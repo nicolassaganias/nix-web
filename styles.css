@@ -164,6 +164,7 @@ body {
     padding: 0.5rem;
     display: none;
     z-index: 99999;
+    color: black;
 }
 
 .mobile-menu-btn:hover {
@@ -914,6 +915,8 @@ body {
     /* Botón de menú móvil */
     .mobile-menu-btn {
         display: block;
+        z-index: 99999;
+        color: black !important;
     }
     
     /* Forzar colores negros en móvil (para elementos que puedan ser azules) */
