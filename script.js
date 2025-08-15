@@ -803,30 +803,22 @@ function applyTranslations() {
 }
 
 function navigateToPage(page) {
-    console.log('🧭 navigateToPage llamada con:', page);
-    
     // Ocultar todas las páginas
     const pages = document.querySelectorAll('.page');
-    console.log('📄 Páginas encontradas:', pages.length);
-    
-    pages.forEach(p => {
-        p.classList.add('hidden');
-        console.log('📄 Ocultando página:', p.id);
-    });
+    pages.forEach(p => p.classList.add('hidden'));
 
     // Mostrar la página seleccionada
     const targetPage = document.getElementById(`${page}-page`);
-    console.log('🎯 Página objetivo:', `${page}-page`);
-    console.log('🎯 Elemento encontrado:', targetPage);
-    
     if (targetPage) {
         targetPage.classList.remove('hidden');
         currentPage = page;
-        console.log('✅ Página mostrada:', page);
-        console.log('✅ Página actual:', currentPage);
-    } else {
-        console.log('❌ ERROR: No se encontró la página:', `${page}-page`);
-        console.log('🔍 Páginas disponibles:', Array.from(pages).map(p => p.id));
+        
+        // Scroll al inicio de la página
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+        });
     }
 }
 
