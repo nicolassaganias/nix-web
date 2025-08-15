@@ -163,7 +163,7 @@ body {
     cursor: pointer;
     padding: 0.5rem;
     display: none;
-    z-index: 9999;
+    z-index: 99999;
 }
 
 .mobile-menu-btn:hover {
