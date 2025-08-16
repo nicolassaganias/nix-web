@@ -1088,40 +1088,71 @@ function debounce(func, wait) {
 
 // Responsive: manejo del menú en móvil
 function initializeMobileMenu() {
+    console.log('🔍 Inicializando menú móvil...');
+    
+    // Reset del estado del sidebar al inicializar
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar) {
+        sidebar.classList.remove('open');
+        console.log('🔄 Estado del sidebar reseteado');
+    }
+    
     // Usar event delegation para que funcione en todas las páginas
     document.addEventListener('click', function(e) {
         // Solo procesar clicks en botones móviles
         if (e.target && e.target.id === 'mobile-menu-btn') {
+            console.log('✅ Click en botón móvil detectado!');
+            
             const sidebar = document.querySelector('.sidebar');
-            if (!sidebar) return;
+            console.log('📋 Sidebar encontrado:', sidebar);
             
-            sidebar.classList.toggle('open');
-            
-            // Agregar overlay para cerrar al hacer click fuera
-            let overlay = document.querySelector('.sidebar-overlay');
-            if (!overlay) {
-                overlay = document.createElement('div');
-                overlay.className = 'sidebar-overlay';
-                document.body.appendChild(overlay);
+            if (!sidebar) {
+                console.log('❌ No se encontró sidebar');
+                return;
             }
             
-            if (sidebar.classList.contains('open')) {
+            // Toggle simple del estado
+            const isOpen = sidebar.classList.contains('open');
+            console.log('🔓 Sidebar está abierto:', isOpen);
+            
+            if (isOpen) {
+                // Cerrar
+                sidebar.classList.remove('open');
+                console.log('🔒 Cerrando sidebar');
+                
+                // Cerrar overlay
+                const overlay = document.querySelector('.sidebar-overlay');
+                if (overlay) {
+                    overlay.classList.remove('open');
+                }
+            } else {
+                // Abrir
+                sidebar.classList.add('open');
+                console.log('🔓 Abriendo sidebar');
+                
+                // Crear overlay
+                let overlay = document.querySelector('.sidebar-overlay');
+                if (!overlay) {
+                    overlay = document.createElement('div');
+                    overlay.className = 'sidebar-overlay';
+                    document.body.appendChild(overlay);
+                    console.log('🖼️ Overlay creado');
+                }
+                
                 overlay.classList.add('open');
+                console.log('🖼️ Overlay activado');
                 
-                // Remover event listeners anteriores para evitar duplicados
-                const newOverlay = overlay.cloneNode(true);
-                overlay.parentNode.replaceChild(newOverlay, overlay);
-                overlay = newOverlay;
-                
+                // Event listener para cerrar con overlay
                 overlay.addEventListener('click', function() {
                     sidebar.classList.remove('open');
                     overlay.classList.remove('open');
+                    console.log('🖼️ Sidebar cerrado por overlay');
                 });
-            } else {
-                overlay.classList.remove('open');
             }
         }
     });
+    
+    console.log('✅ Event delegation configurado para menú móvil');
     
     // Detectar clicks fuera del sidebar en móvil para cerrarlo
     document.addEventListener('click', function (e) {
