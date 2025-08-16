@@ -819,6 +819,11 @@ function navigateToPage(page) {
             left: 0,
             behavior: 'smooth'
         });
+        
+        // Reinicializar menú móvil para la nueva página
+        setTimeout(() => {
+            initializeMobileMenu();
+        }, 100);
     }
 }
 
