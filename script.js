@@ -1088,11 +1088,13 @@ function debounce(func, wait) {
 
 // Responsive: manejo del menú en móvil
 function initializeMobileMenu() {
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const sidebar = document.querySelector('.sidebar');
-    
-    if (mobileMenuBtn && sidebar) {
-        mobileMenuBtn.addEventListener('click', function() {
+    // Usar event delegation para que funcione en todas las páginas
+    document.addEventListener('click', function(e) {
+        // Solo procesar clicks en botones móviles
+        if (e.target && e.target.id === 'mobile-menu-btn') {
+            const sidebar = document.querySelector('.sidebar');
+            if (!sidebar) return;
+            
             sidebar.classList.toggle('open');
             
             // Agregar overlay para cerrar al hacer click fuera
@@ -1118,13 +1120,16 @@ function initializeMobileMenu() {
             } else {
                 overlay.classList.remove('open');
             }
-        });
-    }
+        }
+    });
     
     // Detectar clicks fuera del sidebar en móvil para cerrarlo
     document.addEventListener('click', function (e) {
         if (window.innerWidth <= 768) {
-            if (sidebar && !sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+            const sidebar = document.querySelector('.sidebar');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            
+            if (sidebar && !sidebar.contains(e.target) && !mobileMenuBtn?.contains(e.target)) {
                 sidebar.classList.remove('open');
                 
                 // Cerrar también el overlay
