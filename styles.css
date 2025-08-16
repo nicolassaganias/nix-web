@@ -23,6 +23,7 @@ body {
     position: fixed;
     height: 100vh;
     overflow-y: auto;
+    z-index: 1000;
 }
 
 .nav-section {
@@ -884,10 +885,17 @@ body {
         transition: transform 0.3s ease;
         width: 280px;
         z-index: 1000;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        background-color: white;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
     }
     
     .sidebar.open {
         transform: translateX(0);
+        display: block;
     }
     
     /* Overlay para cerrar sidebar */
