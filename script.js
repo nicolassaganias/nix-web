@@ -1086,25 +1086,9 @@ function initializeMobileMenu() {
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const sidebar = document.querySelector('.sidebar');
     
-    console.log('🔍 Inicializando menú móvil...');
-    console.log('📱 Botón móvil encontrado:', mobileMenuBtn);
-    console.log('📋 Sidebar encontrado:', sidebar);
-    console.log('🌐 Ancho de ventana:', window.innerWidth);
-    
     if (mobileMenuBtn && sidebar) {
-        console.log('✅ Elementos encontrados, agregando event listeners...');
-        
-        mobileMenuBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('🖱️ Click en botón móvil detectado!');
-            
-            const wasOpen = sidebar.classList.contains('open');
+        mobileMenuBtn.addEventListener('click', function() {
             sidebar.classList.toggle('open');
-            const isNowOpen = sidebar.classList.contains('open');
-            
-            console.log('🔓 Sidebar estaba abierto:', wasOpen);
-            console.log('🔓 Sidebar ahora está:', isNowOpen ? 'ABIERTO' : 'CERRADO');
             
             // Agregar overlay para cerrar al hacer click fuera
             let overlay = document.querySelector('.sidebar-overlay');
@@ -1112,34 +1096,24 @@ function initializeMobileMenu() {
                 overlay = document.createElement('div');
                 overlay.className = 'sidebar-overlay';
                 document.body.appendChild(overlay);
-                console.log('🖼️ Overlay creado y agregado al DOM');
             }
             
-            if (isNowOpen) {
+            if (sidebar.classList.contains('open')) {
                 overlay.classList.add('open');
-                console.log('🖼️ Overlay activado');
                 
                 // Remover event listeners anteriores para evitar duplicados
-                overlay.replaceWith(overlay.cloneNode(true));
-                overlay = document.querySelector('.sidebar-overlay');
+                const newOverlay = overlay.cloneNode(true);
+                overlay.parentNode.replaceChild(newOverlay, overlay);
+                overlay = newOverlay;
                 
                 overlay.addEventListener('click', function() {
                     sidebar.classList.remove('open');
                     overlay.classList.remove('open');
-                    console.log('🖼️ Sidebar cerrado por overlay');
                 });
             } else {
                 overlay.classList.remove('open');
-                console.log('🖼️ Overlay desactivado');
             }
         });
-        
-        console.log('✅ Event listener agregado al botón móvil');
-    } else {
-        console.log('❌ ERROR: No se encontraron elementos del menú móvil');
-        console.log('🔍 Buscando elementos...');
-        console.log('🔍 Todos los botones con id mobile-menu-btn:', document.querySelectorAll('#mobile-menu-btn'));
-        console.log('🔍 Todos los elementos con clase sidebar:', document.querySelectorAll('.sidebar'));
     }
     
     // Detectar clicks fuera del sidebar en móvil para cerrarlo
@@ -1147,7 +1121,12 @@ function initializeMobileMenu() {
         if (window.innerWidth <= 768) {
             if (sidebar && !sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
                 sidebar.classList.remove('open');
-                console.log('🖱️ Sidebar cerrado por click fuera');
+                
+                // Cerrar también el overlay
+                const overlay = document.querySelector('.sidebar-overlay');
+                if (overlay) {
+                    overlay.classList.remove('open');
+                }
             }
         }
     });
