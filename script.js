@@ -1097,6 +1097,15 @@ function initializeMobileMenu() {
         console.log('🔄 Estado del sidebar reseteado');
     }
     
+    // Verificar si ya se configuró el event listener
+    if (window.mobileMenuInitialized) {
+        console.log('⚠️ Menú móvil ya inicializado, saltando...');
+        return;
+    }
+    
+    // Marcar como inicializado
+    window.mobileMenuInitialized = true;
+    
     // Usar event delegation para que funcione en todas las páginas
     document.addEventListener('click', function(e) {
         // Solo procesar clicks en botones móviles

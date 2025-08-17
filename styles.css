@@ -887,7 +887,7 @@ body {
         width: 280px;
         height: 100vh;
         background-color: white;
-        z-index: 1000;
+        z-index: 99999;  /* MUY ALTO para estar por encima de todo */
         transition: left 0.3s ease;
         box-shadow: 2px 0 10px rgba(0,0,0,0.1);
         overflow-y: auto;
