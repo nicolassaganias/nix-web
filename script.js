@@ -1086,16 +1086,102 @@ function debounce(func, wait) {
     };
 }
 
-// Responsive: manejo del menú en móvil - VERSIÓN BÁSICA
+// Responsive: manejo del menú en móvil - VERSIÓN COMPLETA
 function initializeMobileMenu() {
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
     
     if (mobileMenuBtn && sidebar) {
-        mobileMenuBtn.addEventListener('click', function() {
-            sidebar.classList.toggle('open');
+        // Crear overlay si no existe
+        let overlay = document.querySelector('.sidebar-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.className = 'sidebar-overlay';
+            document.body.appendChild(overlay);
+        }
+        
+        // Toggle del menú con el botón hamburguesa
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleSidebar();
+        });
+        
+        // Cerrar menú al tocar el overlay
+        overlay.addEventListener('click', function() {
+            closeSidebar();
+        });
+        
+        // Cerrar menú al tocar en el contenido principal
+        mainContent.addEventListener('click', function() {
+            if (sidebar.classList.contains('open')) {
+                closeSidebar();
+            }
+        });
+        
+        // Cerrar menú al tocar en los botones de navegación
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                closeSidebar();
+            });
+        });
+        
+        // Cerrar menú al tocar en los botones de idioma
+        const languageBtns = document.querySelectorAll('.language-btn');
+        languageBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                closeSidebar();
+            });
+        });
+        
+        // Cerrar menú al tocar en los filtros de tags
+        const tagFilters = document.querySelectorAll('.tag-filter');
+        tagFilters.forEach(filter => {
+            filter.addEventListener('click', function() {
+                closeSidebar();
+            });
+        });
+        
+        // Cerrar menú con ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                closeSidebar();
+            }
         });
     }
+}
+
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    const mainContent = document.querySelector('.main-content');
+    
+    if (sidebar.classList.contains('open')) {
+        closeSidebar();
+    } else {
+        openSidebar();
+    }
+}
+
+function openSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    const mainContent = document.querySelector('.main-content');
+    
+    sidebar.classList.add('open');
+    overlay.classList.add('open');
+    mainContent.classList.add('sidebar-open');
+}
+
+function closeSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    const mainContent = document.querySelector('.main-content');
+    
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
+    mainContent.classList.remove('sidebar-open');
 }
 
 
