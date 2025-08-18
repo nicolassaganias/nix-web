@@ -661,7 +661,11 @@ function initializeNavigation() {
     const navItems = document.querySelectorAll('.nav-item');
 
     navItems.forEach(item => {
-        item.addEventListener('click', function (e) {
+        // Remover event listeners existentes para evitar duplicación
+        const newItem = item.cloneNode(true);
+        item.parentNode.replaceChild(newItem, item);
+        
+        newItem.addEventListener('click', function (e) {
             e.preventDefault();
             const targetPage = this.getAttribute('data-page');
             navigateToPage(targetPage);
@@ -820,8 +824,9 @@ function navigateToPage(page) {
             behavior: 'smooth'
         });
         
-        // Reinicializar menú móvil para la nueva página
+        // Limpiar event listeners duplicados y reinicializar menú móvil
         setTimeout(() => {
+            cleanupEventListeners();
             initializeMobileMenu();
         }, 100);
     }
@@ -832,7 +837,11 @@ function initializeTagFilters() {
     const tagButtons = document.querySelectorAll('.tag-filter');
 
     tagButtons.forEach(button => {
-        button.addEventListener('click', function () {
+        // Remover event listeners existentes para evitar duplicación
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+        
+        newButton.addEventListener('click', function () {
             const tag = this.getAttribute('data-tag');
             toggleTagFilter(tag, this);
         });
@@ -1101,8 +1110,12 @@ function initializeMobileMenu() {
             document.body.appendChild(overlay);
         }
         
+        // Remover event listeners existentes para evitar duplicación
+        const newMobileMenuBtn = mobileMenuBtn.cloneNode(true);
+        mobileMenuBtn.parentNode.replaceChild(newMobileMenuBtn, mobileMenuBtn);
+        
         // Toggle del menú con el botón hamburguesa
-        mobileMenuBtn.addEventListener('click', function(e) {
+        newMobileMenuBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             toggleSidebar();
         });
@@ -1122,7 +1135,11 @@ function initializeMobileMenu() {
         // Cerrar menú al tocar en los botones de navegación
         const navItems = document.querySelectorAll('.nav-item');
         navItems.forEach(item => {
-            item.addEventListener('click', function() {
+            // Remover event listeners existentes
+            const newItem = item.cloneNode(true);
+            item.parentNode.replaceChild(newItem, item);
+            
+            newItem.addEventListener('click', function() {
                 closeSidebar();
             });
         });
@@ -1130,7 +1147,11 @@ function initializeMobileMenu() {
         // Cerrar menú al tocar en los botones de idioma
         const languageBtns = document.querySelectorAll('.language-btn');
         languageBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
+            // Remover event listeners existentes
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+            
+            newBtn.addEventListener('click', function() {
                 closeSidebar();
             });
         });
@@ -1138,7 +1159,14 @@ function initializeMobileMenu() {
         // Cerrar menú al tocar en los filtros de tags
         const tagFilters = document.querySelectorAll('.tag-filter');
         tagFilters.forEach(filter => {
-            filter.addEventListener('click', function() {
+            // Remover event listeners existentes
+            const newFilter = filter.cloneNode(true);
+            filter.parentNode.replaceChild(newFilter, filter);
+            
+            // Recrear el event listener original del filtro
+            const tag = newFilter.getAttribute('data-tag');
+            newFilter.addEventListener('click', function() {
+                toggleTagFilter(tag, this);
                 closeSidebar();
             });
         });
@@ -1182,6 +1210,37 @@ function closeSidebar() {
     sidebar.classList.remove('open');
     overlay.classList.remove('open');
     mainContent.classList.remove('sidebar-open');
+}
+
+// Función para limpiar event listeners duplicados
+function cleanupEventListeners() {
+    // Limpiar event listeners del botón hamburguesa
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    if (mobileMenuBtn) {
+        const newBtn = mobileMenuBtn.cloneNode(true);
+        mobileMenuBtn.parentNode.replaceChild(newBtn, mobileMenuBtn);
+    }
+    
+    // Limpiar event listeners de navegación
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        const newItem = item.cloneNode(true);
+        item.parentNode.replaceChild(newItem, item);
+    });
+    
+    // Limpiar event listeners de idioma
+    const languageBtns = document.querySelectorAll('.language-btn');
+    languageBtns.forEach(btn => {
+        const newBtn = btn.cloneNode(true);
+        btn.parentNode.replaceChild(newBtn, btn);
+    });
+    
+    // Limpiar event listeners de filtros
+    const tagFilters = document.querySelectorAll('.tag-filter');
+    tagFilters.forEach(filter => {
+        const newFilter = filter.cloneNode(true);
+        filter.parentNode.replaceChild(newFilter, filter);
+    });
 }
 
 
@@ -1268,7 +1327,11 @@ function initializeLanguageSelector() {
     const languageBtns = document.querySelectorAll('.language-btn');
     
     languageBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
+        // Remover event listeners existentes para evitar duplicación
+        const newBtn = btn.cloneNode(true);
+        btn.parentNode.replaceChild(newBtn, btn);
+        
+        newBtn.addEventListener('click', function() {
             const lang = this.getAttribute('data-lang');
             changeLanguage(lang);
         });

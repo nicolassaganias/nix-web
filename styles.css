@@ -930,13 +930,19 @@ body {
         z-index: 99999;
         color: black !important;
         position: fixed;
-        left: 0.5rem;
-        top: 1rem;
+        left: 0.3rem;
+        top: 0.8rem;
         background: white;
         border: 1px solid #e0e0e0;
-        border-radius: 4px;
-        padding: 0.5rem;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-radius: 3px;
+        padding: 0.3rem;
+        font-size: 1.2rem;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     /* Navegación más compacta en móvil */
@@ -1149,7 +1155,7 @@ body {
     
     /* Selector de idioma */
     .language-selector {
-        padding-top: 2rem;
+        padding-top: 2.5rem;
         padding-bottom: 1rem;
     }
     
