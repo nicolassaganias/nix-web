@@ -879,17 +879,18 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
-    /* Sidebar móvil - VERSIÓN BÁSICA */
+    /* Sidebar móvil - VERSIÓN COMPACTA */
     .sidebar {
         position: fixed;
         top: 0;
-        left: -280px;
-        width: 280px;
+        left: -120px;
+        width: 120px;
         height: 100vh;
         background-color: white;
         z-index: 1000;
         transition: left 0.3s ease;
         border-right: 1px solid #e0e0e0;
+        padding: 0.5rem 0.3rem;
     }
     
     .sidebar.open {
@@ -912,6 +913,11 @@ body {
         display: block;
     }
     
+    /* Ajustar el contenido principal cuando el sidebar está abierto */
+    .main-content.sidebar-open {
+        margin-left: 120px;
+    }
+    
     .main-content {
         margin-left: 0;
         padding: 1rem;
@@ -923,6 +929,21 @@ body {
         display: block;
         z-index: 99999;
         color: black !important;
+    }
+    
+    /* Navegación más compacta en móvil */
+    .nav-section {
+        margin-bottom: 1rem;
+    }
+    
+    .nav-section h3 {
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .nav-item {
+        padding: 0.3rem 0;
+        font-size: 0.8rem;
     }
     
     /* Forzar colores negros en móvil (para elementos que puedan ser azules) */
@@ -1093,14 +1114,14 @@ body {
     }
     
     .tag-filters {
-        gap: 0.6rem;
+        gap: 0.4rem;
         flex-wrap: wrap;
         justify-content: center;
     }
     
     .tag-filter {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.75rem;
+        padding: 0.3rem 0.6rem;
+        font-size: 0.7rem;
     }
     
     /* Proyectos */
@@ -1120,18 +1141,21 @@ body {
     
     /* Selector de idioma */
     .language-selector {
-        padding-top: 1rem;
+        padding-top: 0.5rem;
+        padding-bottom: 1rem;
     }
     
     .language-buttons {
-        gap: 0.25rem;
+        gap: 0.2rem;
         justify-content: center;
+        flex-direction: column;
     }
     
     .language-btn {
-        padding: 0.25rem 0.5rem;
-        font-size: 0.65rem;
-        min-width: 32px;
+        padding: 0.2rem 0.3rem;
+        font-size: 0.6rem;
+        min-width: 28px;
+        width: 100%;
     }
     
     /* Modal */
