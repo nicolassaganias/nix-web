@@ -1086,102 +1086,17 @@ function debounce(func, wait) {
     };
 }
 
-// Responsive: manejo del menú en móvil
+// Responsive: manejo del menú en móvil - VERSIÓN BÁSICA
 function initializeMobileMenu() {
-    console.log('🔍 Inicializando menú móvil...');
-    
-    // Reset del estado del sidebar al inicializar
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const sidebar = document.querySelector('.sidebar');
-    if (sidebar) {
-        sidebar.classList.remove('open');
-        console.log('🔄 Estado del sidebar reseteado');
+    
+    if (mobileMenuBtn && sidebar) {
+        mobileMenuBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+        });
     }
-    
-    // Verificar si ya se configuró el event listener
-    if (window.mobileMenuInitialized) {
-        console.log('⚠️ Menú móvil ya inicializado, saltando...');
-        return;
-    }
-    
-    // Marcar como inicializado
-    window.mobileMenuInitialized = true;
-    
-    // Usar event delegation para que funcione en todas las páginas
-    document.addEventListener('click', function(e) {
-        // Solo procesar clicks en botones móviles
-        if (e.target && e.target.id === 'mobile-menu-btn') {
-            console.log('✅ Click en botón móvil detectado!');
-            
-            const sidebar = document.querySelector('.sidebar');
-            console.log('📋 Sidebar encontrado:', sidebar);
-            
-            if (!sidebar) {
-                console.log('❌ No se encontró sidebar');
-                return;
-            }
-            
-            // Toggle simple del estado
-            const isOpen = sidebar.classList.contains('open');
-            console.log('🔓 Sidebar está abierto:', isOpen);
-            
-            if (isOpen) {
-                // Cerrar
-                sidebar.classList.remove('open');
-                console.log('🔒 Cerrando sidebar');
-                
-                // Cerrar overlay
-                const overlay = document.querySelector('.sidebar-overlay');
-                if (overlay) {
-                    overlay.classList.remove('open');
-                }
-            } else {
-                // Abrir
-                sidebar.classList.add('open');
-                console.log('🔓 Abriendo sidebar');
-                
-                // Crear overlay
-                let overlay = document.querySelector('.sidebar-overlay');
-                if (!overlay) {
-                    overlay = document.createElement('div');
-                    overlay.className = 'sidebar-overlay';
-                    document.body.appendChild(overlay);
-                    console.log('🖼️ Overlay creado');
-                }
-                
-                overlay.classList.add('open');
-                console.log('🖼️ Overlay activado');
-                
-                // Event listener para cerrar con overlay
-                overlay.addEventListener('click', function() {
-                    sidebar.classList.remove('open');
-                    overlay.classList.remove('open');
-                    console.log('🖼️ Sidebar cerrado por overlay');
-                });
-            }
-        }
-    });
-    
-    console.log('✅ Event delegation configurado para menú móvil');
-    
-    // Detectar clicks fuera del sidebar en móvil para cerrarlo
-    document.addEventListener('click', function (e) {
-        if (window.innerWidth <= 768) {
-            const sidebar = document.querySelector('.sidebar');
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            
-            if (sidebar && !sidebar.contains(e.target) && !mobileMenuBtn?.contains(e.target)) {
-                sidebar.classList.remove('open');
-                
-                // Cerrar también el overlay
-                const overlay = document.querySelector('.sidebar-overlay');
-                if (overlay) {
-                    overlay.classList.remove('open');
-                }
-            }
-        }
-    });
 }
-
 
 
 // Función para renderizar proyectos recientes en el home

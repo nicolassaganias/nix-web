@@ -879,24 +879,21 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
-    /* Sidebar móvil - SOLUCIÓN SIMPLE */
+    /* Sidebar móvil - VERSIÓN BÁSICA */
     .sidebar {
         position: fixed;
         top: 0;
-        left: -280px;  /* Completamente fuera de la pantalla */
+        left: -280px;
         width: 280px;
         height: 100vh;
         background-color: white;
-        z-index: 99999;  /* MUY ALTO para estar por encima de todo */
+        z-index: 1000;
         transition: left 0.3s ease;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-        overflow-y: auto;
+        border-right: 1px solid #e0e0e0;
     }
     
     .sidebar.open {
-        left: 0;  /* Se desliza hacia la derecha */
-        border: 3px solid red;  /* DEBUG: borde rojo para ver si está abierto */
-        background-color: yellow;  /* DEBUG: fondo amarillo para ver si está visible */
+        left: 0;
     }
     
     /* Overlay para cerrar sidebar */
