@@ -661,13 +661,10 @@ function initializeNavigation() {
     const navItems = document.querySelectorAll('.nav-item');
 
     navItems.forEach(item => {
-        // Remover event listeners existentes para evitar duplicación
-        const newItem = item.cloneNode(true);
-        item.parentNode.replaceChild(newItem, item);
-        
-        newItem.addEventListener('click', function (e) {
+        item.addEventListener('click', function (e) {
             e.preventDefault();
             const targetPage = this.getAttribute('data-page');
+            console.log('Navegando a:', targetPage);
             navigateToPage(targetPage);
 
             // Actualizar estado activo
@@ -807,14 +804,23 @@ function applyTranslations() {
 }
 
 function navigateToPage(page) {
+    console.log('🔍 navigateToPage llamada con:', page);
+    
     // Ocultar todas las páginas
     const pages = document.querySelectorAll('.page');
-    pages.forEach(p => p.classList.add('hidden'));
+    console.log('📄 Páginas encontradas:', pages.length);
+    pages.forEach(p => {
+        p.classList.add('hidden');
+        console.log('🚫 Ocultando página:', p.id);
+    });
 
     // Mostrar la página seleccionada
     const targetPage = document.getElementById(`${page}-page`);
+    console.log('🎯 Página objetivo:', targetPage);
+    
     if (targetPage) {
         targetPage.classList.remove('hidden');
+        console.log('✅ Mostrando página:', targetPage.id);
         currentPage = page;
         
         // Scroll al inicio de la página
@@ -824,11 +830,12 @@ function navigateToPage(page) {
             behavior: 'smooth'
         });
         
-        // Limpiar event listeners duplicados y reinicializar menú móvil
+        // Solo reinicializar menú móvil (sin cleanup problemático)
         setTimeout(() => {
-            cleanupEventListeners();
             initializeMobileMenu();
         }, 100);
+    } else {
+        console.log('❌ ERROR: No se encontró la página:', `${page}-page`);
     }
 }
 
@@ -1095,13 +1102,12 @@ function debounce(func, wait) {
     };
 }
 
-// Responsive: manejo del menú en móvil - VERSIÓN COMPLETA
+// Responsive: manejo del menú en móvil - VERSIÓN SIMPLIFICADA
 function initializeMobileMenu() {
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const sidebar = document.querySelector('.sidebar');
     const mainContent = document.querySelector('.main-content');
     
-    if (mobileMenuBtn && sidebar) {
+    if (sidebar) {
         // Crear overlay si no existe
         let overlay = document.querySelector('.sidebar-overlay');
         if (!overlay) {
@@ -1110,24 +1116,27 @@ function initializeMobileMenu() {
             document.body.appendChild(overlay);
         }
         
-        // Remover event listeners existentes para evitar duplicación
-        const newMobileMenuBtn = mobileMenuBtn.cloneNode(true);
-        mobileMenuBtn.parentNode.replaceChild(newMobileMenuBtn, mobileMenuBtn);
-        
-        // Toggle del menú con el botón hamburguesa
-        newMobileMenuBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            toggleSidebar();
+        // Agregar event listeners a todos los botones hamburguesa
+        const mobileMenuBtns = document.querySelectorAll('.mobile-menu-btn');
+        mobileMenuBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Hamburguesa clickeada!', this.id);
+                toggleSidebar();
+            });
         });
         
         // Cerrar menú al tocar el overlay
         overlay.addEventListener('click', function() {
+            console.log('Overlay clickeado, cerrando menú');
             closeSidebar();
         });
         
         // Cerrar menú al tocar en el contenido principal
         mainContent.addEventListener('click', function() {
             if (sidebar.classList.contains('open')) {
+                console.log('Contenido principal clickeado, cerrando menú');
                 closeSidebar();
             }
         });
@@ -1135,23 +1144,22 @@ function initializeMobileMenu() {
         // Cerrar menú al tocar en los botones de navegación
         const navItems = document.querySelectorAll('.nav-item');
         navItems.forEach(item => {
-            // Remover event listeners existentes
-            const newItem = item.cloneNode(true);
-            item.parentNode.replaceChild(newItem, item);
-            
-            newItem.addEventListener('click', function() {
+            item.addEventListener('click', function() {
+                console.log('Nav item clickeado, cerrando menú');
                 closeSidebar();
+                
+                // Remover clase active de todos los nav items
+                navItems.forEach(nav => nav.classList.remove('active'));
+                // Agregar clase active al item clickeado
+                this.classList.add('active');
             });
         });
         
         // Cerrar menú al tocar en los botones de idioma
         const languageBtns = document.querySelectorAll('.language-btn');
         languageBtns.forEach(btn => {
-            // Remover event listeners existentes
-            const newBtn = btn.cloneNode(true);
-            btn.parentNode.replaceChild(newBtn, btn);
-            
-            newBtn.addEventListener('click', function() {
+            btn.addEventListener('click', function() {
+                console.log('Language btn clickeado, cerrando menú');
                 closeSidebar();
             });
         });
@@ -1159,14 +1167,8 @@ function initializeMobileMenu() {
         // Cerrar menú al tocar en los filtros de tags
         const tagFilters = document.querySelectorAll('.tag-filter');
         tagFilters.forEach(filter => {
-            // Remover event listeners existentes
-            const newFilter = filter.cloneNode(true);
-            filter.parentNode.replaceChild(newFilter, filter);
-            
-            // Recrear el event listener original del filtro
-            const tag = newFilter.getAttribute('data-tag');
-            newFilter.addEventListener('click', function() {
-                toggleTagFilter(tag, this);
+            filter.addEventListener('click', function() {
+                console.log('Tag filter clickeado, cerrando menú');
                 closeSidebar();
             });
         });
@@ -1174,9 +1176,15 @@ function initializeMobileMenu() {
         // Cerrar menú con ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                console.log('ESC presionado, cerrando menú');
                 closeSidebar();
             }
         });
+        
+        console.log('Menú móvil inicializado correctamente con', mobileMenuBtns.length, 'botones hamburguesa');
+    } else {
+        console.log('Error: No se encontró el sidebar');
+        console.log('sidebar:', sidebar);
     }
 }
 
@@ -1185,9 +1193,14 @@ function toggleSidebar() {
     const overlay = document.querySelector('.sidebar-overlay');
     const mainContent = document.querySelector('.main-content');
     
+    console.log('toggleSidebar llamado');
+    console.log('Estado actual del sidebar:', sidebar.classList.contains('open'));
+    
     if (sidebar.classList.contains('open')) {
+        console.log('Cerrando sidebar...');
         closeSidebar();
     } else {
+        console.log('Abriendo sidebar...');
         openSidebar();
     }
 }
@@ -1197,9 +1210,11 @@ function openSidebar() {
     const overlay = document.querySelector('.sidebar-overlay');
     const mainContent = document.querySelector('.main-content');
     
+    console.log('Abriendo sidebar...');
     sidebar.classList.add('open');
     overlay.classList.add('open');
     mainContent.classList.add('sidebar-open');
+    console.log('Sidebar abierto, clases:', sidebar.classList.toString());
 }
 
 function closeSidebar() {
@@ -1207,40 +1222,17 @@ function closeSidebar() {
     const overlay = document.querySelector('.sidebar-overlay');
     const mainContent = document.querySelector('.main-content');
     
+    console.log('Cerrando sidebar...');
     sidebar.classList.remove('open');
     overlay.classList.remove('open');
     mainContent.classList.remove('sidebar-open');
+    console.log('Sidebar cerrado, clases:', sidebar.classList.toString());
 }
 
-// Función para limpiar event listeners duplicados
+// Función para limpiar event listeners duplicados (simplificada)
 function cleanupEventListeners() {
-    // Limpiar event listeners del botón hamburguesa
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    if (mobileMenuBtn) {
-        const newBtn = mobileMenuBtn.cloneNode(true);
-        mobileMenuBtn.parentNode.replaceChild(newBtn, mobileMenuBtn);
-    }
-    
-    // Limpiar event listeners de navegación
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach(item => {
-        const newItem = item.cloneNode(true);
-        item.parentNode.replaceChild(newItem, item);
-    });
-    
-    // Limpiar event listeners de idioma
-    const languageBtns = document.querySelectorAll('.language-btn');
-    languageBtns.forEach(btn => {
-        const newBtn = btn.cloneNode(true);
-        btn.parentNode.replaceChild(newBtn, btn);
-    });
-    
-    // Limpiar event listeners de filtros
-    const tagFilters = document.querySelectorAll('.tag-filter');
-    tagFilters.forEach(filter => {
-        const newFilter = filter.cloneNode(true);
-        filter.parentNode.replaceChild(newFilter, filter);
-    });
+    // Por ahora solo limpiamos la consola
+    console.log('Event listeners limpiados');
 }
 
 

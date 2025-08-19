@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NIX - Desarrollador Tecnológico</title>
+    <title>MA7ERIA - Desarrollos Tecnológicos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -19,7 +22,7 @@
                 <button class="language-btn" data-lang="en">EN</button>
             </div>
         </div>
-        
+
         <div class="nav-section">
             <a href="#" class="nav-item active" data-page="home">home</a>
             <a href="#" class="nav-item" data-page="projects">proyectos</a>
@@ -51,30 +54,59 @@
         <!-- Página Home -->
         <div class="page" id="home-page">
             <header class="header">
-                <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
-                <h1>NIX</h1>
+                <h1>MA7ERIA</h1>
             </header>
 
             <section class="home-intro">
                 <div class="home-text">
-                    <h2>Desarrollador Tecnológico & Artista</h2>
-                    <p class="home-description">Soy un creador que habita en la intersección entre arte, artesanía,ciencia y tecnología. Mi práctica se centra en desarrollar soluciones tecnológicas personalizadas que generan experiencias únicas y sistemas funcionales.</p>
-                    
+                    <h2>Desarrollos Tecnológicos</h2>
+                    <div class="scrolling-text-container">
+                        <div class="scrolling-text">
+                            <span>CIENCIA</span>
+                            <span>ARTE</span>
+                            <span>EDUCACIÓN</span>
+                            <span>IOT</span>
+                            <span>SOFTWARE-HARDWARE</span>
+                            <span>SENSORIZACIÓN</span>
+                            <span>DIGITALIZACIÓN</span>
+                            <span>PROTOTIPADO</span>
+                            <span>OPEN-SOURCE</span>
+                            <span>DIY-DIWO</span>
+                            <span>DOMÓTICA</span>
+                            <span>SISTEMAS-EMBEBIDOS</span>
+                            <span>INVESTIGACIÓN</span>
+                            <!-- Duplicado para loop infinito -->
+                            <span>CIENCIA</span>
+                            <span>ARTE</span>
+                            <span>EDUCACIÓN</span>
+                            <span>IOT</span>
+                            <span>SOFTWARE-HARDWARE</span>
+                            <span>SENSORIZACIÓN</span>
+                            <span>DIGITALIZACIÓN</span>
+                            <span>PROTOTIPADO</span>
+                            <span>OPEN-SOURCE</span>
+                            <span>DIY-DIWO</span>
+                            <span>DOMÓTICA</span>
+                            <span>SISTEMAS-EMBEBIDOS</span>
+                            <span>INVESTIGACIÓN</span>
+                        </div>
+                    </div>
+
                     <div class="home-highlights">
                         <div class="highlight-item clickable" data-highlight="ciencia-investigacion">
-                            <span class="highlight-icon">🔬</span>
+                            <span class="highlight-icon">[SCI]</span>
                             <span class="highlight-text">Ciencia & Investigación</span>
                         </div>
-                        <div class="highlight-item clickable" data-highlight="arte-interactivo">
-                            <span class="highlight-icon">🎨</span>
+                        <div class="highlight-item clickable" data-highlight="arte">
+                            <span class="highlight-icon">[ART]</span>
                             <span class="highlight-text">Arte Interactivo</span>
                         </div>
                         <div class="highlight-item clickable" data-highlight="desarrollos">
-                            <span class="highlight-icon">⚙️</span>
+                            <span class="highlight-icon">[DEV]</span>
                             <span class="highlight-text">Desarrollos a Medida</span>
                         </div>
                         <div class="highlight-item clickable" data-highlight="sostenibilidad">
-                            <span class="highlight-icon">🌱</span>
+                            <span class="highlight-icon">[ECO]</span>
                             <span class="highlight-text">Sostenibilidad</span>
                         </div>
                     </div>
@@ -91,7 +123,10 @@
             <section class="home-what-i-do">
                 <div class="what-i-do-preview">
                     <h3>¿Qué hago?</h3>
-                    <p>Desarrollo hardware y software personalizado, creo tecnologías conviviales y sistemas interactivos. Me especializo en automatizaciones, digitalización de procesos, adquisición y análisis de datos, interfaces humano-máquina, automatización, prototipado rápido, integración de sensores y actuadores, y soluciones creativas para artistas y educadores.</p>
+                    <p>Desarrollo hardware y software personalizado, creo tecnologías conviviales y sistemas
+                        interactivos. Me especializo en automatizaciones, digitalización de procesos, adquisición y
+                        análisis de datos, interfaces humano-máquina, automatización, prototipado rápido, integración de
+                        sensores y actuadores, y soluciones creativas para artistas y educadores.</p>
                 </div>
             </section>
             <div class="home-cta">
@@ -103,12 +138,13 @@
         <!-- Página Proyectos -->
         <div class="page hidden" id="projects-page">
             <header class="header">
-                <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
                 <h1>Proyectos</h1>
             </header>
 
             <section class="intro">
-                <p>Desarrollos de software y hardware personalizado. Sensores, adquisición de datos, digitalización. Traducciones analógico-digital / digital-analógico. Interfaces humano - máquina. Tecnologías conviviales, open-source, open-hard.</p>
+                <p>Desarrollos de software y hardware personalizado. Sensores, adquisición de datos, digitalización.
+                    Traducciones analógico-digital / digital-analógico. Interfaces humano - máquina. Tecnologías
+                    conviviales, open-source, open-hard.</p>
             </section>
 
 
@@ -122,67 +158,77 @@
 
         <div class="page hidden" id="contact-page">
             <header class="header">
-                <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
                 <h1>Contacto</h1>
             </header>
 
             <div class="contact-content">
                 <div class="contact-info">
                     <p><strong>Email:</strong> nicolassaganias@gmail.com</p>
-                    <p><strong>Portfolio Arte:</strong> <a href="https://cargocollective.com/nicolassaganias"
-                            target="_blank">cargocollective.com/nicolassaganias</a></p>
+
+                    <form class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Nombre</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Mensaje</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+
+                        <button type="submit">Enviar</button>
+                    </form>
                 </div>
-
-                <form class="contact-form">
-                    <div class="form-group">
-                        <label for="name">Nombre</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="message">Mensaje</label>
-                        <textarea id="message" name="message" rows="5" required></textarea>
-                    </div>
-
-                    <button type="submit">Enviar</button>
-                </form>
             </div>
         </div>
 
         <!-- Página About -->
         <div class="page hidden" id="about-page">
             <header class="header">
-                <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
                 <h1>About</h1>
             </header>
 
             <div class="about-content">
                 <div class="about-text">
-                    <p>Mi trabajo se sitúa en la intersección entre arte, ciencia y tecnología, explorando cómo los
-                        sistemas digitales pueden generar experiencias físicas y emocionales. Desde instalaciones
-                        sonoras interactivas hasta sistemas de monitoreo científico, cada proyecto es una oportunidad
-                        para cuestionar las fronteras entre lo orgánico y lo artificial.</p>
+                    <p><strong>MA7ERIA</strong> es un proyecto vivo, híbrido, centrado en ofrecer soluciones
+                        tecnológicas personalizadas creando objetos y sistemas a medida para diferentes públicos:
+                        ciencia, arte, empresas, particulares.</p>
 
-                    <p>Mi práctica artística se centra en la creación de ambientes y objetos que responden, aprenden y
-                        evolucionan. Utilizo sensores, microcontroladores y algoritmos para desarrollar sistemas que
-                        dialogan con su entorno y con las personas que los habitan. Proyectos como "Cerbero", "BIOTA"
-                        y "mutaciones" exploran temas de vigilancia, adaptabilidad y evolución artificial.</p>
+                    <p>Trabajamos en colaboración con profesionales de distintos ámbitos para adaptarnos a las
+                        necesidades específicas de cada proyecto a desarrollar.</p>
+
+                    <div class="about-cta-buttons">
+                        <a href="#" class="cta-button" data-page="services"> Servicios</a>
+                        <a href="#" class="cta-button secondary" data-page="projects"> Proyectos Realizados</a>
+                    </div>
+                    <p><strong>Nicolás Saganías</strong>, desarrollador tecnológico, artista, docente.</p>
+
+                    <p>Mi carrera profesional es el resultado de mis variados intereses: la construcción, la física, el
+                        sonido, la creatividad (el pensamiento lateral), el uso de nuevas tecnologías, internet, entre
+                        muchísimas otras.</p>
+
+                    <p>Mi proceso de trabajo integra software y hardware a través de la programación y el diseño y
+                        desarrollos de circuitos electrónicos y electromecánicos, creando un flujo continuo entre idea y
+                        materialización, entre lo digital y lo analógico.</p>
 
                     <p>En el ámbito científico y educativo, desarrollo herramientas y sistemas de monitoreo que
                         facilitan la investigación y el aprendizaje. Mi enfoque siempre busca hacer visible lo
                         invisible, ya sea a través de datos ambientales, procesos biológicos o comportamientos
                         emergentes en sistemas complejos.</p>
 
-                    <p>Mi proceso de trabajo integra software y hardware a través de la programación y el diseño y
-                        desarrollos
-                        de circuitos electrónicos y electromecánicos, creando un flujo continuo entre idea y
-                        materialización,
-                        entre lo digital y lo analógico.</p>
+                    <p>Llevo 15 años inventando máquinas y objetos que requieren una mirada integral, poniendo el foco
+                        en la durabilidad, la robustez y la personalización, y ofreciendo una alternativa a las
+                        soluciones tecnológicas de las grandes empresas, que tienden a la obsolescencia programada y a
+                        mitificar la tecnología convirtiéndola en una caja negra y misteriosa.</p>
+
+                    <p>Mi objetivo es, además de satisfacer las necesidades de distintos proyectos, democratizar el uso
+                        y el conocimiento sobre la tecnología, una herramienta tan obligatoriamente necesaria en esta
+                        etapa de la humanidad.</p>
                 </div>
 
                 <div class="about-images">
@@ -202,7 +248,6 @@
         <!-- Página Servicios -->
         <div class="page hidden" id="services-page">
             <header class="header">
-                <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
                 <h1>Servicios</h1>
             </header>
 
@@ -220,8 +265,8 @@
                         </div>
                         <div class="service-content-bottom">
                             <div class="service-text-content">
-                                <p>Prototipos y sistemas experimentales con sensores personalizados, 
-                                adquisición de datos y conectividad para investigación científica.</p>
+                                <p>Prototipos y sistemas experimentales con sensores personalizados,
+                                    adquisición de datos y conectividad para investigación científica.</p>
                                 <div class="service-tags">
                                     <span class="service-tag">investigación</span>
                                     <span class="service-tag">iot</span>
@@ -241,7 +286,8 @@
                         </div>
                         <div class="service-content-bottom">
                             <div class="service-text-content">
-                                <p>Desarrollo de soluciones tecnológicas personalizadas para artistas que quieren incorporar elementos interactivos, sensores o sistemas de control en sus obras.
+                                <p>Desarrollo de soluciones tecnológicas personalizadas para artistas que quieren
+                                    incorporar elementos interactivos, sensores o sistemas de control en sus obras.
                                 </p>
                                 <div class="service-tags">
                                     <span class="service-tag">desarrollos</span>
@@ -263,8 +309,8 @@
                         </div>
                         <div class="service-content-bottom">
                             <div class="service-text-content">
-                                <p>Soluciones tecnológicas personalizadas para necesidades específicas, 
-                                desde automatización industrial hasta dispositivos de uso doméstico.</p>
+                                <p>Soluciones tecnológicas personalizadas para necesidades específicas,
+                                    desde automatización industrial hasta dispositivos de uso doméstico.</p>
                                 <div class="service-tags">
                                     <span class="service-tag">desarrollos</span>
                                     <span class="service-tag">investigación</span>
@@ -284,15 +330,16 @@
                         </div>
                         <div class="service-content-bottom">
                             <div class="service-text-content">
-                                <p>Sistemas de monitoreo ambiental y talleres de programación/electrónica 
-                                para promover prácticas sostenibles y soberanía tecnológica.</p>
+                                <p>Sistemas de monitoreo ambiental y talleres de programación/electrónica
+                                    para promover prácticas sostenibles y soberanía tecnológica.</p>
                                 <div class="service-tags">
                                     <span class="service-tag">sostenibilidad</span>
                                     <span class="service-tag">educación</span>
                                 </div>
                             </div>
                             <div class="service-project-image">
-                                <img src="images/kitAmbientalMain.jpg" alt="Kit Ambiental - Plataforma DIY para ciencia ciudadana">
+                                <img src="images/kitAmbientalMain.jpg"
+                                    alt="Kit Ambiental - Plataforma DIY para ciencia ciudadana">
                             </div>
                         </div>
                     </div>
