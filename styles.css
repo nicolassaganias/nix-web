@@ -248,6 +248,7 @@ body {
     text-align: center;
     transition: var(--transition);
     cursor: pointer;
+    border: 2px solid var(--border);
 }
 
 .highlight-item:hover {
@@ -750,15 +751,19 @@ body {
     
     .highlight-item {
         padding: 1rem;
+        background: red !important;
+        border: 3px solid blue !important;
     }
     
     .highlight-icon {
         font-size: 1.2rem;
         margin-bottom: 0.8rem;
+        background: yellow !important;
     }
     
     .highlight-text {
         font-size: 1rem;
+        color: black !important;
     }
     
     /* Project images responsive - más pequeñas y proporcionadas */
