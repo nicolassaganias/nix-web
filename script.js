@@ -1102,6 +1102,14 @@ function debounce(func, wait) {
     };
 }
 
+
+function setHamburgerAria(isOpen) {
+    const buttons = document.querySelectorAll('.mobile-menu-btn');
+    buttons.forEach(btn => {
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        btn.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+    });
+}
 // Responsive: manejo del menú en móvil - VERSIÓN SIMPLIFICADA
 function initializeMobileMenu() {
     const sidebar = document.querySelector('.sidebar');
@@ -1214,6 +1222,8 @@ function openSidebar() {
     sidebar.classList.add('open');
     overlay.classList.add('open');
     mainContent.classList.add('sidebar-open');
+    document.body.classList.add('menu-open');
+    setHamburgerAria(true);
     console.log('Sidebar abierto, clases:', sidebar.classList.toString());
 }
 
@@ -1226,6 +1236,8 @@ function closeSidebar() {
     sidebar.classList.remove('open');
     overlay.classList.remove('open');
     mainContent.classList.remove('sidebar-open');
+    document.body.classList.remove('menu-open');
+    setHamburgerAria(false);
     console.log('Sidebar cerrado, clases:', sidebar.classList.toString());
 }
 
