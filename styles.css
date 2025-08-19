@@ -1169,3 +1169,47 @@ body.menu-open { overflow: hidden; }
   .project-card { max-width: 340px; }
   .project-image { width: 84%; }
 }
+
+
+
+/* ===== Mobile layout refinements ===== */
+@media (max-width: 768px) {
+  /* Limit line-length and center the main sections */
+  .main-content { width: 92vw; max-width: 640px; margin: 0 auto; }
+  .header, .home-intro, .intro, .home-highlights, .recent-projects, .services, .about, .contact, .scrolling-text-container {
+    width: 92vw; max-width: 640px; margin-left: auto; margin-right: auto;
+  }
+
+  /* Bigger, friendlier text */
+  html { font-size: 18px; }
+  body { line-height: 1.65; }
+  p, li { font-size: 1.05rem; }
+
+  /* Highlights in single column and centered */
+  .home-highlights {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+    margin: 2rem auto !important;
+  }
+  .highlight-item { padding: 1.25rem 1rem; }
+
+  /* Project cards and images contained */
+  .projects-grid, .recent-projects-grid { grid-template-columns: 1fr !important; }
+  .project-card { max-width: 360px; margin: 0.75rem auto; }
+  .project-image { width: 80%; margin: 0.5rem auto 0; aspect-ratio: 16/9; }
+
+  /* Ticker/keywords not full-bleed */
+  .scrolling-text-container { width: 86vw; }
+  .scrolling-text span { font-size: 0.95rem; }
+
+  /* Top category bar (if present) should wrap + center */
+  .category-strip, .keyword-strip, .menu, .nav-inline, .tags-inline {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  html { font-size: 17px; }
+  .project-card { max-width: 340px; }
+  .project-image { width: 84%; }
+}
