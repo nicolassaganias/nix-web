@@ -154,7 +154,7 @@ body {
 .main-content {
     flex: 1;
     margin-left: 280px;
-    padding: 0;
+    padding: 2rem 0;
     background: var(--background);
 }
 
@@ -163,6 +163,14 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
+}
+
+#home-page {
+    margin-top: 1rem;
+}
+
+.page:last-child {
+    margin-bottom: 2rem;
 }
 
 .page.hidden {
@@ -174,7 +182,7 @@ body {
 /* Header moderno */
 .header {
     text-align: center;
-    margin: 1rem 0 2rem 0;
+    margin: 1rem 0 1rem 0;
     position: relative;
 }
 
@@ -191,7 +199,7 @@ body {
 .home-intro {
     text-align: center;
     margin-bottom: 5rem;
-    margin-top: 0.5rem;
+    margin-top: 0;
 }
 
 .home-text h2 {

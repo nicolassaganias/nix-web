@@ -10,7 +10,7 @@ const translations = {
         language: "idioma",
         
         // Home
-        title: "Desarrollador Tecnológico & Artista",
+        title: "Desarrollos Tecnológicos",
         subtitle: "Creo experiencias interactivas que conectan lo digital con lo físico",
         description: "Mi trabajo explora la intersección entre tecnología, arte y educación, desarrollando soluciones innovadoras que transforman la forma en que interactuamos con nuestro entorno.",
         
@@ -61,7 +61,7 @@ const translations = {
         language: "language",
         
         // Home
-        title: "Technological Developer & Artist",
+        title: "Technological Developments",
         subtitle: "I create interactive experiences that connect digital with physical",
         description: "My work explores the intersection between technology, art and education, developing innovative solutions that transform how we interact with our environment.",
         
@@ -526,7 +526,7 @@ const projects = [
         title: "Aleatoriedades",
         description: "La rama de un árbol atrapada en un loop constante. Land-art.",
         image: IMG_BASE + "AleatoriedadesMain.png",
-        tags: ["arte", "land art"],
+        tags: ["arte", "land-art"],
         details:
           "Tras una tormenta, una rama quedó atrapada en un ciclo repetitivo: un extremo sujeto a piedras, el otro rebotando sobre el agua. Mi intervención reforzó su estructura y anclaje para que el movimiento persistiera, extendiendo un instante fortuito hacia una observación prolongada.",
         specs: [
@@ -577,7 +577,7 @@ const projects = [
         title: "Todo lo que flota tiene que flotar",
         description: "Instalación efímera de flotabilidad, equilibrio y azar en entorno natural.",
         image: IMG_BASE + "todoLoQueFlotaMain.png",
-        tags: ["arte", "land art"],
+        tags: ["arte", "land-art"],
         details:
             "Ensayo sobre tensión capilar, vasos comunicantes, densidad y formas inestables usando hojas, ramas, piedras, agua y objetos locales. Registro audiovisual y partitura de acciones.",
         specs: [
