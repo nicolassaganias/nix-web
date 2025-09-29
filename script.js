@@ -104,6 +104,9 @@ const translations = {
     }
 };
 
+// Idioma actual
+let currentLanguage = 'es';
+
 // Ruta base para las imágenes
 const IMG_BASE = 'images/';
 
@@ -569,6 +572,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initializeModal();
     initializeContactForm();
     initializeServicesPage();
+    initializeLanguageSelector(); // Llamar la nueva función
 
     // Renderizado inicial con animación
     setTimeout(() => {
@@ -683,6 +687,69 @@ function toggleTagsSubmenu(page) {
             tagsSubmenu.style.display = 'none';
         }
     }
+}
+
+// Función para cambiar idioma
+function changeLanguage(lang) {
+    currentLanguage = lang;
+
+    // Actualizar botones de idioma
+    document.querySelectorAll('.language-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    document.querySelector(`[data-lang="${lang}"]`).classList.add('active');
+
+    // Aplicar traducciones
+    applyTranslations();
+}
+
+// Función para aplicar traducciones
+function applyTranslations() {
+    const t = translations[currentLanguage];
+
+    // Navegación
+    document.querySelectorAll('[data-page="home"]').forEach(el => el.textContent = t.home);
+    document.querySelectorAll('[data-page="projects"]').forEach(el => el.textContent = t.projects);
+    document.querySelectorAll('[data-page="contact"]').forEach(el => el.textContent = t.contact);
+    document.querySelectorAll('[data-page="about"]').forEach(el => el.textContent = t.about);
+    document.querySelectorAll('[data-page="services"]').forEach(el => el.textContent = t.services);
+
+    // Home
+    document.querySelector('.home-text h2').textContent = t.title;
+    document.querySelector('.home-description').textContent = t.description;
+    document.querySelector('.home-what-i-do h3').textContent = t.whatIDo;
+    document.querySelector('.home-what-i-do p').textContent = t.whatIDoText;
+    document.querySelector('.recent-projects h3').textContent = t.recentProjects;
+    document.querySelector('[data-page="projects"]').textContent = t.seeAllProjects;
+    document.querySelector('[data-page="services"]').textContent = t.knowMyServices;
+
+    // Páginas
+    document.querySelector('#projects-page h1').textContent = t.projectsTitle;
+    document.querySelector('#projects-page .intro p').textContent = t.projectsIntro;
+    document.querySelector('#services-page h1').textContent = t.servicesTitle;
+    document.querySelector('#services-page .services-intro p').textContent = t.servicesIntro;
+    document.querySelector('#contact-page h1').textContent = t.contactTitle;
+    document.querySelector('#about-page h1').textContent = t.aboutTitle;
+
+    // Servicios
+    document.querySelector('.service-card:nth-child(1) h3').textContent = t.scienceResearch;
+    document.querySelector('.service-card:nth-child(1) p').textContent = t.scienceResearchText;
+    document.querySelector('.service-card:nth-child(2) h3').textContent = t.digitalArt;
+    document.querySelector('.service-card:nth-child(2) p').textContent = t.digitalArtText;
+    document.querySelector('.service-card:nth-child(3) h3').textContent = t.developments;
+    document.querySelector('.service-card:nth-child(3) p').textContent = t.developmentsText;
+    document.querySelector('.service-card:nth-child(4) h3').textContent = t.sustainability;
+    document.querySelector('.service-card:nth-child(4) p').textContent = t.sustainabilityText;
+
+    // Tags
+    document.querySelector('.tags-submenu h3').textContent = t.filterByTags;
+
+    // Contacto
+    document.querySelector('.contact-info strong:first-of-type').textContent = t.email + ':';
+    document.querySelector('.contact-info strong:last-of-type').textContent = t.portfolioArt + ':';
+    document.querySelector('label[for="name"]').textContent = t.name;
+    document.querySelector('label[for="message"]').textContent = t.message;
+    document.querySelector('button[type="submit"]').textContent = t.send;
 }
 
 function navigateToPage(page) {
@@ -1048,6 +1115,15 @@ function initializeMobileMenu() {
             });
         });
 
+        // Cerrar menú al tocar en los botones de idioma
+        const languageBtns = document.querySelectorAll('.language-btn');
+        languageBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                console.log('Language btn clickeado, cerrando menú');
+                closeSidebar();
+            });
+        });
+
         // Cerrar menú al tocar en los filtros de tags
         const tagFilters = document.querySelectorAll('.tag-filter');
         tagFilters.forEach(filter => {
@@ -1200,6 +1276,22 @@ function initializeServicesPage() {
 
     // Inicializar cards de servicios clickeables
     initializeServiceCards();
+}
+
+// Función para inicializar el selector de idioma
+function initializeLanguageSelector() {
+    const languageBtns = document.querySelectorAll('.language-btn');
+
+    languageBtns.forEach(btn => {
+        // Remover event listeners existentes para evitar duplicación
+        const newBtn = btn.cloneNode(true);
+        btn.parentNode.replaceChild(newBtn, btn);
+
+        newBtn.addEventListener('click', function () {
+            const lang = this.getAttribute('data-lang');
+            changeLanguage(lang);
+        });
+    });
 }
 
 // Inicializar cards de servicios clickeables
