@@ -81,41 +81,6 @@ body {
   box-shadow: var(--shadow);
 }
 
-/* Selector de idioma moderno */
-.language-selector {
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 2rem;
-}
-
-.language-buttons {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.language-btn {
-  background: var(--surface);
-  border: 2px solid var(--border);
-  padding: 0.5rem 1rem;
-  font-size: 0.85rem;
-  font-family: "Courier New", monospace;
-  font-weight: bold;
-  cursor: pointer;
-  transition: var(--transition);
-  border-radius: var(--radius);
-  min-width: 50px;
-}
-
-.language-btn:hover {
-  border-color: var(--accent);
-  background: var(--background);
-  transform: translateY(-1px);
-}
-
-.language-btn.active {
-  background: var(--primary);
-  color: var(--background);
-  border-color: var(--primary);
-}
 
 /* Filtros de tags modernos */
 .tag-filters {
