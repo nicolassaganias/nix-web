@@ -1,180 +1,5 @@
-// Traducciones
-const translations = {
-    es: {
-        // Navegación
-        home: "home",
-        projects: "proyectos",
-        contact: "contacto",
-        about: "about",
-        services: "servicios",
-        language: "idioma",
-
-        // Home
-        title: "Desarrollos Tecnológicos",
-        subtitle: "Creo experiencias interactivas que conectan lo digital con lo físico",
-        description: "Mi trabajo explora la intersección entre tecnología, arte y educación, desarrollando soluciones innovadoras que transforman la forma en que interactuamos con nuestro entorno.",
-
-        // Secciones home
-        whatIDo: "¿qué hago?",
-        whatIDoText: "Desarrollo hardware y software personalizado, creo tecnologías conviviales y sistemas interactivos. Me especializo en formaciones, digitalización de procesos, adquisición y análisis de datos, interfaces humano-máquina, automatización, prototipado rápido, integración de sensores y actuadores, y soluciones creativas para artistas y educadores.",
-        whoIAm: "¿quién soy?",
-        whoIAmText: "Utilizo sensores, microcontroladores y algoritmos para desarrollar sistemas que dialogan con su entorno y con las personas que los habitan. Mi enfoque siempre busca hacer visible lo invisible, ya sea a través de datos ambientales, procesos biológicos o comportamientos emergentes en sistemas complejos.",
-        recentProjects: "proyectos recientes",
-        seeAllProjects: "Ver Todos los Proyectos",
-        knowMyServices: "Conocer Mis Servicios",
-        
-        // Home highlights
-        highlightScience: "Ciencia & Investigación",
-        highlightArt: "Arte Interactivo",
-        highlightDevelopments: "Desarrollos a Medida",
-        highlightSustainability: "Sostenibilidad",
-        
-        // Home CTA buttons
-        ctaProjects: "Proyectos",
-        ctaServices: "Servicios",
-        
-        // Scrolling text
-        scrollingScience: "CIENCIA",
-        scrollingArt: "ARTE",
-        scrollingEducation: "EDUCACIÓN",
-        scrollingIot: "IOT",
-        scrollingSoftware: "SOFTWARE-HARDWARE",
-        scrollingSensors: "SENSORIZACIÓN",
-        scrollingDigital: "DIGITALIZACIÓN",
-        scrollingPrototyping: "PROTOTIPADO",
-        scrollingOpenSource: "OPEN-SOURCE",
-        scrollingDiy: "DIY-DIWO",
-        scrollingDomotics: "DOMÓTICA",
-        scrollingEmbedded: "SISTEMAS-EMBEBIDOS",
-        scrollingResearch: "INVESTIGACIÓN",
-
-        // Páginas
-        projectsTitle: "Proyectos",
-        projectsIntro: "Desarrollos de software y hardware personalizado. Sensores, adquisición de datos, digitalización. Traducciones analógico-digital / digital-analógico. Interfaces humano - máquina. Tecnologías conviviales, open-source, open-hard.",
-        servicesTitle: "Servicios",
-        servicesIntro: "Ofrezco servicios especializados en el desarrollo de soluciones tecnológicas personalizadas, integrando hardware y software para crear experiencias únicas y sistemas funcionales.",
-        contactTitle: "Contacto",
-        aboutTitle: "About",
-
-        // Servicios
-        scienceResearch: "Ciencia & Investigación",
-        scienceResearchText: "Prototipos y sistemas experimentales con sensores personalizados, adquisición de datos y conectividad para investigación científica.",
-        digitalArt: "Arte Digital e Interactivo",
-        digitalArtText: "Desarrollo de soluciones tecnológicas personalizadas para artistas que quieren incorporar elementos interactivos, sensores o sistemas de control en sus obras.",
-        developments: "Desarrollos",
-        developmentsText: "Desarrollos artísticos que combinan tecnología, sensores y actuadores con una mirada estética y aportes creativos. Desarrollo de soluciones para artistas que quieran encargar una parte de alguna pieza o el montaje/ etc soluciones creativas para artistas que quieren incorporar algo tecnológico en su obra. También tengo experiencia en montaje.",
-        sustainability: "Sostenibilidad y Educación",
-        sustainabilityText: "Sistemas educativos interactivos y herramientas de monitoreo ambiental. Desarrollo de experiencias de aprendizaje que conectan tecnología con conciencia ecológica.",
-
-        // Tags
-        filterByTags: "Filtrar por tags",
-
-        // Contacto
-        email: "Email",
-        portfolioArt: "Portfolio Arte",
-        name: "Nombre",
-        message: "Mensaje",
-        send: "Enviar",
-        
-        // Proyectos
-        technicalSpecs: "Especificaciones Técnicas:",
-        noProjectsFound: "No hay proyectos que coincidan con los filtros seleccionados."
-    },
-    en: {
-        // Navegación
-        home: "home",
-        projects: "projects",
-        contact: "contact",
-        about: "about",
-        services: "services",
-        language: "language",
-
-        // Home
-        title: "Technological Developments",
-        subtitle: "I create interactive experiences that connect digital with physical",
-        description: "My work explores the intersection between technology, art and education, developing innovative solutions that transform how we interact with our environment.",
-
-        // Secciones home
-        whatIDo: "what do i do?",
-        whatIDoText: "I develop custom hardware and software, create convivial technologies and interactive systems. I specialize in training, process digitization, data acquisition and analysis, human-machine interfaces, automation, rapid prototyping, sensor and actuator integration, and creative solutions for artists and educators.",
-        whoIAm: "who am i?",
-        whoIAmText: "I use sensors, microcontrollers and algorithms to develop systems that dialogue with their environment and with the people who inhabit them. My approach always seeks to make the invisible visible, whether through environmental data, biological processes or emergent behaviors in complex systems.",
-        recentProjects: "recent projects",
-        seeAllProjects: "See All Projects",
-        knowMyServices: "Know My Services",
-        
-        // Home highlights
-        highlightScience: "Science & Research",
-        highlightArt: "Interactive Art",
-        highlightDevelopments: "Custom Developments",
-        highlightSustainability: "Sustainability",
-        
-        // Home CTA buttons
-        ctaProjects: "Projects",
-        ctaServices: "Services",
-        
-        // Scrolling text
-        scrollingScience: "SCIENCE",
-        scrollingArt: "ART",
-        scrollingEducation: "EDUCATION",
-        scrollingIot: "IOT",
-        scrollingSoftware: "SOFTWARE-HARDWARE",
-        scrollingSensors: "SENSORIZATION",
-        scrollingDigital: "DIGITIZATION",
-        scrollingPrototyping: "PROTOTYPING",
-        scrollingOpenSource: "OPEN-SOURCE",
-        scrollingDiy: "DIY-DIWO",
-        scrollingDomotics: "HOME AUTOMATION",
-        scrollingEmbedded: "EMBEDDED SYSTEMS",
-        scrollingResearch: "RESEARCH",
-
-        // Páginas
-        projectsTitle: "Projects",
-        projectsIntro: "Custom software and hardware development. Sensors, data acquisition, digitization. Analog-digital / digital-analog translations. Human-machine interfaces. Convivial technologies, open-source, open-hardware.",
-        servicesTitle: "Services",
-        servicesIntro: "I offer specialized services in the development of customized technological solutions, integrating hardware and software to create unique experiences and functional systems.",
-        contactTitle: "Contact",
-        aboutTitle: "About",
-
-        // Servicios
-        scienceResearch: "Science & Research",
-        scienceResearchText: "Prototypes and experimental systems with custom sensors, data acquisition and connectivity for scientific research.",
-        digitalArt: "Digital & Interactive Art",
-        digitalArtText: "Development of customized technological solutions for artists who want to incorporate interactive elements, sensors or control systems in their works.",
-        developments: "Developments",
-        developmentsText: "Artistic developments that combine technology, sensors and actuators with an aesthetic vision and creative contributions. Development of solutions for artists who want to commission a part of a piece or the assembly/ etc creative solutions for artists who want to incorporate something technological in their work. I also have experience in assembly.",
-        sustainability: "Sustainability & Education",
-        sustainabilityText: "Interactive educational systems and environmental monitoring tools. Development of learning experiences that connect technology with ecological awareness.",
-
-        // Tags
-        filterByTags: "Filter by tags",
-
-        // Contacto
-        email: "Email",
-        portfolioArt: "Art Portfolio",
-        name: "Name",
-        message: "Message",
-        send: "Send",
-        
-        // Proyectos
-        technicalSpecs: "Technical Specifications:",
-        noProjectsFound: "No projects match the selected filters."
-    }
-};
-
-// Idioma actual
-let currentLanguage = 'es';
-
 // Ruta base para las imágenes
 const IMG_BASE = 'images/';
-
-// Función helper para obtener texto traducido de un proyecto
-function getProjectText(project, field) {
-    if (currentLanguage === 'en' && project[field + 'En']) {
-        return project[field + 'En'];
-    }
-    return project[field];
-}
 
 // Proyectos NIX (curados + actualizados)
 const projects = [
@@ -182,13 +7,10 @@ const projects = [
         id: 16,
         title: "GAD",
         description: "Sistema IoT para monitoreo y control inteligente de tanques de agua.",
-        descriptionEn: "IoT system for intelligent monitoring and control of water tanks.",
         image: IMG_BASE + "GADMain.jpeg",
         tags: ["ciencia", "iot", "sostenibilidad", "desarrollos"],
         details:
             "GAD es un sistema de gestión de agua que combina sensores de ultrasonido y caudalímetros para medir nivel y consumo en tanques domésticos o de edificios. Los datos se envían a una plataforma central en línea, desde la que se puede controlar de forma remota la apertura y cierre de la electroválvula de carga. Esto permite optimizar el uso del recurso, prevenir desabastecimientos y responder rápidamente a fugas o consumos inusuales. El diseño incluye módulos autónomos basados en ESP32 que se acoplan directamente a los tanques, con electrónica protegida y comunicación estable para contextos urbanos o zonas con escasez hídrica.",
-        detailsEn:
-            "GAD is a water management system that combines ultrasonic sensors and flow meters to measure level and consumption in domestic or building tanks. Data is sent to an online central platform, from which the loading solenoid valve can be remotely controlled. This allows optimizing resource use, preventing shortages, and quickly responding to leaks or unusual consumption. The design includes autonomous modules based on ESP32 that attach directly to tanks, with protected electronics and stable communication for urban contexts or areas with water scarcity.",
         specs: [
             "MCU: ESP32 con conectividad WiFi",
             "Sensores: ultrasonido para nivel y caudalímetros para consumo",
@@ -196,26 +18,16 @@ const projects = [
             "Plataforma: gestión remota online basada en Firebase",
             "Aplicación: optimización y control inteligente del agua"
         ],
-        specsEn: [
-            "MCU: ESP32 with WiFi connectivity",
-            "Sensors: ultrasound for level and flow meters for consumption",
-            "Actuators: solenoid valve for controlled loading",
-            "Platform: online remote management based on Firebase",
-            "Application: optimization and intelligent water control"
-        ],
         date: "2025-01-10"
     },
     {
         id: 15,
         title: "Flapp",
         description: "Plataforma BLE + app móvil para registrar parámetros del agua en laboratorio.",
-        descriptionEn: "BLE platform + mobile app to record water parameters in the laboratory.",
         image: IMG_BASE + "FlappMain.jpg",
         tags: ["ciencia", "iot", "investigación", "sostenibilidad", "desarrollos"],
         details:
             "Sistema modular y low-cost de adquisición para ensayos con membranas (ósmosis inversa/directa) u otros procesos físico-químicos. ESP32 alimentado por batería con sensórica intercambiable. App Flutter (Android/iOS) para visualizar tiempo real, registrar y exportar datos.",
-        detailsEn:
-            "Modular and low-cost acquisition system for membrane tests (reverse/direct osmosis) or other physical-chemical processes. Battery-powered ESP32 with interchangeable sensors. Flutter app (Android/iOS) to visualize real-time, record and export data.",
         specs: [
             "MCU: ESP32",
             "App: Flutter (BT Low Energy)",
@@ -223,39 +35,22 @@ const projects = [
             "Exportación: .csv",
             "Uso: laboratorio/field portable"
         ],
-        specsEn: [
-            "MCU: ESP32",
-            "App: Flutter (BT Low Energy)",
-            "Sensors: pH, EC, ORP, pressure, weight",
-            "Export: .csv",
-            "Use: laboratory/field portable"
-        ],
         date: "2025-02-01"
     },
     {
         id: 19,
         title: "LIFE",
         description: "Monitoreo industrial para aguas grises con PLC Opta y reportes diarios online.",
-        descriptionEn: "Industrial monitoring for greywater with Opta PLC and daily online reports.",
         image: IMG_BASE + "LIFEMain.jpg",
         tags: ["ciencia", "iot", "investigación", "sostenibilidad", "desarrollos"],
         details:
             "Implementación para el proyecto europeo LIFE BIODAPH2O: diseño y despliegue de un sistema robusto de adquisición y envío de datos en infraestructura real de aguas grises. Conexión de >10 sensores (pH, OD, temp., turbidez, conductividad, caudal) a un PLC Arduino Opta + expansión. Registros en tiempo real y envío de reportes .csv diarios a los equipos de investigación; comunicación por WiFi/4G y  MQTT para integración remota. Cableado y puesta en marcha con criterios industriales (bajo mantenimiento/alta disponibilidad).",
-        detailsEn:
-            "Implementation for the European LIFE BIODAPH2O project: design and deployment of a robust data acquisition and transmission system in real greywater infrastructure. Connection of >10 sensors (pH, OD, temp., turbidity, conductivity, flow) to an Arduino Opta PLC + expansion. Real-time logging and daily .csv report sending to research teams; WiFi/4G and MQTT communication for remote integration. Wiring and commissioning with industrial criteria (low maintenance/high availability).",
         specs: [
             "PLC: Arduino Opta + expansión",
             "Entradas: 4–20 mA / 0–10 V",
             "Sensores: pH, OD, turbidez, EC, caudal, temp.",
             "Comms: WiFi 4G, MQTT",
             "Automatización: reportes .csv diarios"
-        ],
-        specsEn: [
-            "PLC: Arduino Opta + expansion",
-            "Inputs: 4–20 mA / 0–10 V",
-            "Sensors: pH, OD, turbidity, EC, flow, temp.",
-            "Comms: WiFi 4G, MQTT",
-            "Automation: daily .csv reports"
         ],
         date: "2025-03-15"
     },
@@ -668,7 +463,6 @@ document.addEventListener('DOMContentLoaded', function () {
     initializeModal();
     initializeContactForm();
     initializeServicesPage();
-    initializeLanguageSelector(); // Llamar la nueva función
 
     // Renderizado inicial con animación
     setTimeout(() => {
@@ -785,150 +579,6 @@ function toggleTagsSubmenu(page) {
     }
 }
 
-// Función para cambiar idioma
-function changeLanguage(lang) {
-    currentLanguage = lang;
-
-    // Actualizar botones de idioma
-    document.querySelectorAll('.language-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    document.querySelector(`[data-lang="${lang}"]`).classList.add('active');
-
-    // Aplicar traducciones
-    applyTranslations();
-}
-
-// Función para aplicar traducciones
-function applyTranslations() {
-    const t = translations[currentLanguage];
-
-    // Navegación
-    document.querySelectorAll('[data-page="home"]').forEach(el => el.textContent = t.home);
-    document.querySelectorAll('[data-page="projects"]').forEach(el => el.textContent = t.projects);
-    document.querySelectorAll('[data-page="contact"]').forEach(el => el.textContent = t.contact);
-    document.querySelectorAll('[data-page="about"]').forEach(el => el.textContent = t.about);
-    document.querySelectorAll('[data-page="services"]').forEach(el => el.textContent = t.services);
-
-    // Home
-    const homeTitle = document.querySelector('.home-text h2');
-    if (homeTitle) homeTitle.textContent = t.title;
-    
-    const homeDescription = document.querySelector('.home-description');
-    if (homeDescription) homeDescription.textContent = t.description;
-    
-    const whatIDoTitle = document.querySelector('.home-what-i-do h3');
-    if (whatIDoTitle) whatIDoTitle.textContent = t.whatIDo;
-    
-    const whatIDoText = document.querySelector('.home-what-i-do p');
-    if (whatIDoText) whatIDoText.textContent = t.whatIDoText;
-    
-    const recentProjectsTitle = document.querySelector('.recent-projects h3');
-    if (recentProjectsTitle) recentProjectsTitle.textContent = t.recentProjects;
-    
-    // Home highlights
-    const highlightScience = document.querySelector('[data-highlight="ciencia-investigacion"] .highlight-text');
-    if (highlightScience) highlightScience.textContent = t.highlightScience;
-    
-    const highlightArt = document.querySelector('[data-highlight="arte"] .highlight-text');
-    if (highlightArt) highlightArt.textContent = t.highlightArt;
-    
-    const highlightDevelopments = document.querySelector('[data-highlight="desarrollos"] .highlight-text');
-    if (highlightDevelopments) highlightDevelopments.textContent = t.highlightDevelopments;
-    
-    const highlightSustainability = document.querySelector('[data-highlight="sostenibilidad"] .highlight-text');
-    if (highlightSustainability) highlightSustainability.textContent = t.highlightSustainability;
-    
-    // Home CTA buttons
-    const ctaButtons = document.querySelectorAll('.home-cta .cta-button');
-    ctaButtons.forEach(btn => {
-        const page = btn.getAttribute('data-page');
-        if (page === 'projects') btn.textContent = t.ctaProjects;
-        if (page === 'services') btn.textContent = t.ctaServices;
-    });
-    
-    // Scrolling text
-    const scrollingTexts = document.querySelectorAll('.scrolling-text span');
-    if (scrollingTexts.length > 0) {
-        const scrollingMapEs = {
-            'CIENCIA': 'scrollingScience',
-            'ARTE': 'scrollingArt',
-            'EDUCACIÓN': 'scrollingEducation',
-            'IOT': 'scrollingIot',
-            'SOFTWARE-HARDWARE': 'scrollingSoftware',
-            'SENSORIZACIÓN': 'scrollingSensors',
-            'DIGITALIZACIÓN': 'scrollingDigital',
-            'PROTOTIPADO': 'scrollingPrototyping',
-            'OPEN-SOURCE': 'scrollingOpenSource',
-            'DIY-DIWO': 'scrollingDiy',
-            'DOMÓTICA': 'scrollingDomotics',
-            'SISTEMAS-EMBEBIDOS': 'scrollingEmbedded',
-            'INVESTIGACIÓN': 'scrollingResearch'
-        };
-        
-        const scrollingMapEn = {
-            'SCIENCE': 'scrollingScience',
-            'ART': 'scrollingArt',
-            'EDUCATION': 'scrollingEducation',
-            'IOT': 'scrollingIot',
-            'SOFTWARE-HARDWARE': 'scrollingSoftware',
-            'SENSORIZATION': 'scrollingSensors',
-            'DIGITIZATION': 'scrollingDigital',
-            'PROTOTYPING': 'scrollingPrototyping',
-            'OPEN-SOURCE': 'scrollingOpenSource',
-            'DIY-DIWO': 'scrollingDiy',
-            'HOME AUTOMATION': 'scrollingDomotics',
-            'EMBEDDED SYSTEMS': 'scrollingEmbedded',
-            'RESEARCH': 'scrollingResearch'
-        };
-        
-        scrollingTexts.forEach(span => {
-            const originalText = span.textContent.trim();
-            const map = currentLanguage === 'es' ? scrollingMapEs : scrollingMapEn;
-            const translationKey = map[originalText];
-            if (translationKey && t[translationKey]) {
-                span.textContent = t[translationKey];
-            }
-        });
-    }
-    
-    // Re-renderizar proyectos si estamos en la página de proyectos o en el home
-    if (currentPage === 'projects' || currentPage === 'home') {
-        if (currentPage === 'projects') {
-            renderProjectsAnimated();
-        } else if (currentPage === 'home') {
-            renderRecentProjects();
-        }
-    }
-
-    // Páginas
-    document.querySelector('#projects-page h1').textContent = t.projectsTitle;
-    document.querySelector('#projects-page .intro p').textContent = t.projectsIntro;
-    document.querySelector('#services-page h1').textContent = t.servicesTitle;
-    document.querySelector('#services-page .services-intro p').textContent = t.servicesIntro;
-    document.querySelector('#contact-page h1').textContent = t.contactTitle;
-    document.querySelector('#about-page h1').textContent = t.aboutTitle;
-
-    // Servicios
-    document.querySelector('.service-card:nth-child(1) h3').textContent = t.scienceResearch;
-    document.querySelector('.service-card:nth-child(1) p').textContent = t.scienceResearchText;
-    document.querySelector('.service-card:nth-child(2) h3').textContent = t.digitalArt;
-    document.querySelector('.service-card:nth-child(2) p').textContent = t.digitalArtText;
-    document.querySelector('.service-card:nth-child(3) h3').textContent = t.developments;
-    document.querySelector('.service-card:nth-child(3) p').textContent = t.developmentsText;
-    document.querySelector('.service-card:nth-child(4) h3').textContent = t.sustainability;
-    document.querySelector('.service-card:nth-child(4) p').textContent = t.sustainabilityText;
-
-    // Tags
-    document.querySelector('.tags-submenu h3').textContent = t.filterByTags;
-
-    // Contacto
-    document.querySelector('.contact-info strong:first-of-type').textContent = t.email + ':';
-    document.querySelector('.contact-info strong:last-of-type').textContent = t.portfolioArt + ':';
-    document.querySelector('label[for="name"]').textContent = t.name;
-    document.querySelector('label[for="message"]').textContent = t.message;
-    document.querySelector('button[type="submit"]').textContent = t.send;
-}
 
 function navigateToPage(page) {
     console.log('🔍 navigateToPage llamada con:', page);
@@ -1030,7 +680,7 @@ function renderProjects() {
     const container = document.getElementById('projects-container');
 
     if (filteredProjects.length === 0) {
-        container.innerHTML = `<p style="text-align: center; color: #666;">${translations[currentLanguage].noProjectsFound}</p>`;
+        container.innerHTML = '<p style="text-align: center; color: #666;">No hay proyectos que coincidan con los filtros seleccionados.</p>';
         return;
     }
 
@@ -1042,7 +692,7 @@ function renderProjects() {
               <img src="${project.image}" alt="${project.title}" loading="lazy">
             </div>
             <h3 class="project-title">${project.title}</h3>
-            <p class="project-description">${getProjectText(project, 'description')}</p>
+            <p class="project-description">${project.description}</p>
             <div class="project-tags">
               ${project.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
             </div>
@@ -1059,7 +709,7 @@ function renderProjectsAnimated() {
     const container = document.getElementById('projects-container');
 
     if (filteredProjects.length === 0) {
-        container.innerHTML = `<p style="text-align: center; color: #666; opacity: 0;" class="no-projects">${translations[currentLanguage].noProjectsFound}</p>`;
+        container.innerHTML = '<p style="text-align: center; color: #666; opacity: 0;" class="no-projects">No hay proyectos que coincidan con los filtros seleccionados.</p>';
         // Animar la entrada del mensaje
         setTimeout(() => {
             const message = container.querySelector('.no-projects');
@@ -1080,7 +730,7 @@ function renderProjectsAnimated() {
               <img src="${project.image}" alt="${project.title}" loading="lazy">
             </div>
             <h3 class="project-title">${project.title}</h3>
-            <p class="project-description">${getProjectText(project, 'description')}</p>
+            <p class="project-description">${project.description}</p>
             <div class="project-tags">
               ${project.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
             </div>
@@ -1160,12 +810,12 @@ function openProjectModal(projectId) {
             <img src="${project.image}" alt="${project.title}">
           </div>
           <div class="project-details">
-            ${getProjectText(project, 'details')}
+            ${project.details}
           </div>
           <div class="project-specs">
-            <h3>${translations[currentLanguage].technicalSpecs}</h3>
+            <h3>Especificaciones Técnicas:</h3>
             <ul>
-              ${getProjectText(project, 'specs').map(spec => `<li>• ${spec}</li>`).join('')}
+              ${project.specs.map(spec => `<li>• ${spec}</li>`).join('')}
             </ul>
           </div>
           <div class="project-tags">
@@ -1293,14 +943,6 @@ function initializeMobileMenu() {
             });
         });
 
-        // Cerrar menú al tocar en los botones de idioma
-        const languageBtns = document.querySelectorAll('.language-btn');
-        languageBtns.forEach(btn => {
-            btn.addEventListener('click', function () {
-                console.log('Language btn clickeado, cerrando menú');
-                closeSidebar();
-            });
-        });
 
         // Cerrar menú al tocar en los filtros de tags
         const tagFilters = document.querySelectorAll('.tag-filter');
@@ -1456,21 +1098,6 @@ function initializeServicesPage() {
     initializeServiceCards();
 }
 
-// Función para inicializar el selector de idioma
-function initializeLanguageSelector() {
-    const languageBtns = document.querySelectorAll('.language-btn');
-
-    languageBtns.forEach(btn => {
-        // Remover event listeners existentes para evitar duplicación
-        const newBtn = btn.cloneNode(true);
-        btn.parentNode.replaceChild(newBtn, btn);
-
-        newBtn.addEventListener('click', function () {
-            const lang = this.getAttribute('data-lang');
-            changeLanguage(lang);
-        });
-    });
-}
 
 // Inicializar cards de servicios clickeables
 function initializeServiceCards() {
