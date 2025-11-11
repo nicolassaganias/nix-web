@@ -22,6 +22,31 @@ const translations = {
         recentProjects: "proyectos recientes",
         seeAllProjects: "Ver Todos los Proyectos",
         knowMyServices: "Conocer Mis Servicios",
+        
+        // Home highlights
+        highlightScience: "Ciencia & Investigación",
+        highlightArt: "Arte Interactivo",
+        highlightDevelopments: "Desarrollos a Medida",
+        highlightSustainability: "Sostenibilidad",
+        
+        // Home CTA buttons
+        ctaProjects: "Proyectos",
+        ctaServices: "Servicios",
+        
+        // Scrolling text
+        scrollingScience: "CIENCIA",
+        scrollingArt: "ARTE",
+        scrollingEducation: "EDUCACIÓN",
+        scrollingIot: "IOT",
+        scrollingSoftware: "SOFTWARE-HARDWARE",
+        scrollingSensors: "SENSORIZACIÓN",
+        scrollingDigital: "DIGITALIZACIÓN",
+        scrollingPrototyping: "PROTOTIPADO",
+        scrollingOpenSource: "OPEN-SOURCE",
+        scrollingDiy: "DIY-DIWO",
+        scrollingDomotics: "DOMÓTICA",
+        scrollingEmbedded: "SISTEMAS-EMBEBIDOS",
+        scrollingResearch: "INVESTIGACIÓN",
 
         // Páginas
         projectsTitle: "Proyectos",
@@ -49,7 +74,11 @@ const translations = {
         portfolioArt: "Portfolio Arte",
         name: "Nombre",
         message: "Mensaje",
-        send: "Enviar"
+        send: "Enviar",
+        
+        // Proyectos
+        technicalSpecs: "Especificaciones Técnicas:",
+        noProjectsFound: "No hay proyectos que coincidan con los filtros seleccionados."
     },
     en: {
         // Navegación
@@ -73,6 +102,31 @@ const translations = {
         recentProjects: "recent projects",
         seeAllProjects: "See All Projects",
         knowMyServices: "Know My Services",
+        
+        // Home highlights
+        highlightScience: "Science & Research",
+        highlightArt: "Interactive Art",
+        highlightDevelopments: "Custom Developments",
+        highlightSustainability: "Sustainability",
+        
+        // Home CTA buttons
+        ctaProjects: "Projects",
+        ctaServices: "Services",
+        
+        // Scrolling text
+        scrollingScience: "SCIENCE",
+        scrollingArt: "ART",
+        scrollingEducation: "EDUCATION",
+        scrollingIot: "IOT",
+        scrollingSoftware: "SOFTWARE-HARDWARE",
+        scrollingSensors: "SENSORIZATION",
+        scrollingDigital: "DIGITIZATION",
+        scrollingPrototyping: "PROTOTYPING",
+        scrollingOpenSource: "OPEN-SOURCE",
+        scrollingDiy: "DIY-DIWO",
+        scrollingDomotics: "HOME AUTOMATION",
+        scrollingEmbedded: "EMBEDDED SYSTEMS",
+        scrollingResearch: "RESEARCH",
 
         // Páginas
         projectsTitle: "Projects",
@@ -100,7 +154,11 @@ const translations = {
         portfolioArt: "Art Portfolio",
         name: "Name",
         message: "Message",
-        send: "Send"
+        send: "Send",
+        
+        // Proyectos
+        technicalSpecs: "Technical Specifications:",
+        noProjectsFound: "No projects match the selected filters."
     }
 };
 
@@ -110,16 +168,27 @@ let currentLanguage = 'es';
 // Ruta base para las imágenes
 const IMG_BASE = 'images/';
 
+// Función helper para obtener texto traducido de un proyecto
+function getProjectText(project, field) {
+    if (currentLanguage === 'en' && project[field + 'En']) {
+        return project[field + 'En'];
+    }
+    return project[field];
+}
+
 // Proyectos NIX (curados + actualizados)
 const projects = [
     {
         id: 16,
         title: "GAD",
         description: "Sistema IoT para monitoreo y control inteligente de tanques de agua.",
+        descriptionEn: "IoT system for intelligent monitoring and control of water tanks.",
         image: IMG_BASE + "GADMain.jpeg",
         tags: ["ciencia", "iot", "sostenibilidad", "desarrollos"],
         details:
             "GAD es un sistema de gestión de agua que combina sensores de ultrasonido y caudalímetros para medir nivel y consumo en tanques domésticos o de edificios. Los datos se envían a una plataforma central en línea, desde la que se puede controlar de forma remota la apertura y cierre de la electroválvula de carga. Esto permite optimizar el uso del recurso, prevenir desabastecimientos y responder rápidamente a fugas o consumos inusuales. El diseño incluye módulos autónomos basados en ESP32 que se acoplan directamente a los tanques, con electrónica protegida y comunicación estable para contextos urbanos o zonas con escasez hídrica.",
+        detailsEn:
+            "GAD is a water management system that combines ultrasonic sensors and flow meters to measure level and consumption in domestic or building tanks. Data is sent to an online central platform, from which the loading solenoid valve can be remotely controlled. This allows optimizing resource use, preventing shortages, and quickly responding to leaks or unusual consumption. The design includes autonomous modules based on ESP32 that attach directly to tanks, with protected electronics and stable communication for urban contexts or areas with water scarcity.",
         specs: [
             "MCU: ESP32 con conectividad WiFi",
             "Sensores: ultrasonido para nivel y caudalímetros para consumo",
@@ -127,16 +196,26 @@ const projects = [
             "Plataforma: gestión remota online basada en Firebase",
             "Aplicación: optimización y control inteligente del agua"
         ],
+        specsEn: [
+            "MCU: ESP32 with WiFi connectivity",
+            "Sensors: ultrasound for level and flow meters for consumption",
+            "Actuators: solenoid valve for controlled loading",
+            "Platform: online remote management based on Firebase",
+            "Application: optimization and intelligent water control"
+        ],
         date: "2025-01-10"
     },
     {
         id: 15,
         title: "Flapp",
         description: "Plataforma BLE + app móvil para registrar parámetros del agua en laboratorio.",
+        descriptionEn: "BLE platform + mobile app to record water parameters in the laboratory.",
         image: IMG_BASE + "FlappMain.jpg",
         tags: ["ciencia", "iot", "investigación", "sostenibilidad", "desarrollos"],
         details:
             "Sistema modular y low-cost de adquisición para ensayos con membranas (ósmosis inversa/directa) u otros procesos físico-químicos. ESP32 alimentado por batería con sensórica intercambiable. App Flutter (Android/iOS) para visualizar tiempo real, registrar y exportar datos.",
+        detailsEn:
+            "Modular and low-cost acquisition system for membrane tests (reverse/direct osmosis) or other physical-chemical processes. Battery-powered ESP32 with interchangeable sensors. Flutter app (Android/iOS) to visualize real-time, record and export data.",
         specs: [
             "MCU: ESP32",
             "App: Flutter (BT Low Energy)",
@@ -144,22 +223,39 @@ const projects = [
             "Exportación: .csv",
             "Uso: laboratorio/field portable"
         ],
+        specsEn: [
+            "MCU: ESP32",
+            "App: Flutter (BT Low Energy)",
+            "Sensors: pH, EC, ORP, pressure, weight",
+            "Export: .csv",
+            "Use: laboratory/field portable"
+        ],
         date: "2025-02-01"
     },
     {
         id: 19,
         title: "LIFE",
         description: "Monitoreo industrial para aguas grises con PLC Opta y reportes diarios online.",
+        descriptionEn: "Industrial monitoring for greywater with Opta PLC and daily online reports.",
         image: IMG_BASE + "LIFEMain.jpg",
         tags: ["ciencia", "iot", "investigación", "sostenibilidad", "desarrollos"],
         details:
             "Implementación para el proyecto europeo LIFE BIODAPH2O: diseño y despliegue de un sistema robusto de adquisición y envío de datos en infraestructura real de aguas grises. Conexión de >10 sensores (pH, OD, temp., turbidez, conductividad, caudal) a un PLC Arduino Opta + expansión. Registros en tiempo real y envío de reportes .csv diarios a los equipos de investigación; comunicación por WiFi/4G y  MQTT para integración remota. Cableado y puesta en marcha con criterios industriales (bajo mantenimiento/alta disponibilidad).",
+        detailsEn:
+            "Implementation for the European LIFE BIODAPH2O project: design and deployment of a robust data acquisition and transmission system in real greywater infrastructure. Connection of >10 sensors (pH, OD, temp., turbidity, conductivity, flow) to an Arduino Opta PLC + expansion. Real-time logging and daily .csv report sending to research teams; WiFi/4G and MQTT communication for remote integration. Wiring and commissioning with industrial criteria (low maintenance/high availability).",
         specs: [
             "PLC: Arduino Opta + expansión",
             "Entradas: 4–20 mA / 0–10 V",
             "Sensores: pH, OD, turbidez, EC, caudal, temp.",
             "Comms: WiFi 4G, MQTT",
             "Automatización: reportes .csv diarios"
+        ],
+        specsEn: [
+            "PLC: Arduino Opta + expansion",
+            "Inputs: 4–20 mA / 0–10 V",
+            "Sensors: pH, OD, turbidity, EC, flow, temp.",
+            "Comms: WiFi 4G, MQTT",
+            "Automation: daily .csv reports"
         ],
         date: "2025-03-15"
     },
@@ -715,13 +811,95 @@ function applyTranslations() {
     document.querySelectorAll('[data-page="services"]').forEach(el => el.textContent = t.services);
 
     // Home
-    document.querySelector('.home-text h2').textContent = t.title;
-    document.querySelector('.home-description').textContent = t.description;
-    document.querySelector('.home-what-i-do h3').textContent = t.whatIDo;
-    document.querySelector('.home-what-i-do p').textContent = t.whatIDoText;
-    document.querySelector('.recent-projects h3').textContent = t.recentProjects;
-    document.querySelector('[data-page="projects"]').textContent = t.seeAllProjects;
-    document.querySelector('[data-page="services"]').textContent = t.knowMyServices;
+    const homeTitle = document.querySelector('.home-text h2');
+    if (homeTitle) homeTitle.textContent = t.title;
+    
+    const homeDescription = document.querySelector('.home-description');
+    if (homeDescription) homeDescription.textContent = t.description;
+    
+    const whatIDoTitle = document.querySelector('.home-what-i-do h3');
+    if (whatIDoTitle) whatIDoTitle.textContent = t.whatIDo;
+    
+    const whatIDoText = document.querySelector('.home-what-i-do p');
+    if (whatIDoText) whatIDoText.textContent = t.whatIDoText;
+    
+    const recentProjectsTitle = document.querySelector('.recent-projects h3');
+    if (recentProjectsTitle) recentProjectsTitle.textContent = t.recentProjects;
+    
+    // Home highlights
+    const highlightScience = document.querySelector('[data-highlight="ciencia-investigacion"] .highlight-text');
+    if (highlightScience) highlightScience.textContent = t.highlightScience;
+    
+    const highlightArt = document.querySelector('[data-highlight="arte"] .highlight-text');
+    if (highlightArt) highlightArt.textContent = t.highlightArt;
+    
+    const highlightDevelopments = document.querySelector('[data-highlight="desarrollos"] .highlight-text');
+    if (highlightDevelopments) highlightDevelopments.textContent = t.highlightDevelopments;
+    
+    const highlightSustainability = document.querySelector('[data-highlight="sostenibilidad"] .highlight-text');
+    if (highlightSustainability) highlightSustainability.textContent = t.highlightSustainability;
+    
+    // Home CTA buttons
+    const ctaButtons = document.querySelectorAll('.home-cta .cta-button');
+    ctaButtons.forEach(btn => {
+        const page = btn.getAttribute('data-page');
+        if (page === 'projects') btn.textContent = t.ctaProjects;
+        if (page === 'services') btn.textContent = t.ctaServices;
+    });
+    
+    // Scrolling text
+    const scrollingTexts = document.querySelectorAll('.scrolling-text span');
+    if (scrollingTexts.length > 0) {
+        const scrollingMapEs = {
+            'CIENCIA': 'scrollingScience',
+            'ARTE': 'scrollingArt',
+            'EDUCACIÓN': 'scrollingEducation',
+            'IOT': 'scrollingIot',
+            'SOFTWARE-HARDWARE': 'scrollingSoftware',
+            'SENSORIZACIÓN': 'scrollingSensors',
+            'DIGITALIZACIÓN': 'scrollingDigital',
+            'PROTOTIPADO': 'scrollingPrototyping',
+            'OPEN-SOURCE': 'scrollingOpenSource',
+            'DIY-DIWO': 'scrollingDiy',
+            'DOMÓTICA': 'scrollingDomotics',
+            'SISTEMAS-EMBEBIDOS': 'scrollingEmbedded',
+            'INVESTIGACIÓN': 'scrollingResearch'
+        };
+        
+        const scrollingMapEn = {
+            'SCIENCE': 'scrollingScience',
+            'ART': 'scrollingArt',
+            'EDUCATION': 'scrollingEducation',
+            'IOT': 'scrollingIot',
+            'SOFTWARE-HARDWARE': 'scrollingSoftware',
+            'SENSORIZATION': 'scrollingSensors',
+            'DIGITIZATION': 'scrollingDigital',
+            'PROTOTYPING': 'scrollingPrototyping',
+            'OPEN-SOURCE': 'scrollingOpenSource',
+            'DIY-DIWO': 'scrollingDiy',
+            'HOME AUTOMATION': 'scrollingDomotics',
+            'EMBEDDED SYSTEMS': 'scrollingEmbedded',
+            'RESEARCH': 'scrollingResearch'
+        };
+        
+        scrollingTexts.forEach(span => {
+            const originalText = span.textContent.trim();
+            const map = currentLanguage === 'es' ? scrollingMapEs : scrollingMapEn;
+            const translationKey = map[originalText];
+            if (translationKey && t[translationKey]) {
+                span.textContent = t[translationKey];
+            }
+        });
+    }
+    
+    // Re-renderizar proyectos si estamos en la página de proyectos o en el home
+    if (currentPage === 'projects' || currentPage === 'home') {
+        if (currentPage === 'projects') {
+            renderProjectsAnimated();
+        } else if (currentPage === 'home') {
+            renderRecentProjects();
+        }
+    }
 
     // Páginas
     document.querySelector('#projects-page h1').textContent = t.projectsTitle;
@@ -852,7 +1030,7 @@ function renderProjects() {
     const container = document.getElementById('projects-container');
 
     if (filteredProjects.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #666;">No hay proyectos que coincidan con los filtros seleccionados.</p>';
+        container.innerHTML = `<p style="text-align: center; color: #666;">${translations[currentLanguage].noProjectsFound}</p>`;
         return;
     }
 
@@ -864,7 +1042,7 @@ function renderProjects() {
               <img src="${project.image}" alt="${project.title}" loading="lazy">
             </div>
             <h3 class="project-title">${project.title}</h3>
-            <p class="project-description">${project.description}</p>
+            <p class="project-description">${getProjectText(project, 'description')}</p>
             <div class="project-tags">
               ${project.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
             </div>
@@ -881,7 +1059,7 @@ function renderProjectsAnimated() {
     const container = document.getElementById('projects-container');
 
     if (filteredProjects.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #666; opacity: 0;" class="no-projects">No hay proyectos que coincidan con los filtros seleccionados.</p>';
+        container.innerHTML = `<p style="text-align: center; color: #666; opacity: 0;" class="no-projects">${translations[currentLanguage].noProjectsFound}</p>`;
         // Animar la entrada del mensaje
         setTimeout(() => {
             const message = container.querySelector('.no-projects');
@@ -902,7 +1080,7 @@ function renderProjectsAnimated() {
               <img src="${project.image}" alt="${project.title}" loading="lazy">
             </div>
             <h3 class="project-title">${project.title}</h3>
-            <p class="project-description">${project.description}</p>
+            <p class="project-description">${getProjectText(project, 'description')}</p>
             <div class="project-tags">
               ${project.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
             </div>
@@ -982,12 +1160,12 @@ function openProjectModal(projectId) {
             <img src="${project.image}" alt="${project.title}">
           </div>
           <div class="project-details">
-            ${project.details}
+            ${getProjectText(project, 'details')}
           </div>
           <div class="project-specs">
-            <h3>Especificaciones Técnicas:</h3>
+            <h3>${translations[currentLanguage].technicalSpecs}</h3>
             <ul>
-              ${project.specs.map(spec => `<li>• ${spec}</li>`).join('')}
+              ${getProjectText(project, 'specs').map(spec => `<li>• ${spec}</li>`).join('')}
             </ul>
           </div>
           <div class="project-tags">
