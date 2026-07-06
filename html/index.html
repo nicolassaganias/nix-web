@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NIX | Arte, Ciencia y Tecnología</title>
+    <meta
+      name="description"
+      content="Portfolio multidisciplinario de Nicolás Saganías: desarrollos tecnológicos, arte interactivo, investigación y educación."
+    />
+    <link rel="canonical" href="https://nix.is-a.dev/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="scanlines" aria-hidden="true"></div>
+    <div class="grid-bg" aria-hidden="true"></div>
+
+    <header class="hero" id="inicio">
+      <nav class="top-nav">
+        <a href="#inicio" class="brand">
+          <span class="brand-mark">◈</span> NIX
+        </a>
+        <div class="top-nav-links">
+          <a href="#universos">Universos</a>
+          <a href="#obras">Obras</a>
+          <a href="#contextos">Contextos</a>
+          <a href="#conectar">Conectar</a>
+        </div>
+      </nav>
+
+      <div class="hero-content">
+        <p class="eyebrow">[ NICOLÁS SAGANÍAS ]</p>
+        <h1>
+          Tecnología sensible para
+          <span class="accent-text">arte, ciencia y territorio</span>
+        </h1>
+        <p class="lead">
+          Desarrollo software + hardware a medida, investigación aplicada y
+          experiencias interactivas. Una práctica híbrida entre laboratorio,
+          taller y escena.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#obras">Ver proyectos</a>
+          <a class="btn btn-ghost" href="#conectar">Trabajemos juntos</a>
+        </div>
+        <div class="hero-readout" aria-hidden="true">
+          <span>SYS::online</span>
+          <span>MODE::hybrid</span>
+          <span>IO::sensor/actuator</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="manifiesto">
+        <p>
+          Diseño sistemas que traducen fenómenos invisibles en experiencias
+          visibles: datos ambientales, comportamiento vegetal, movimiento,
+          sonido y luz. Cada proyecto es una mezcla de prototipado técnico,
+          criterio estético y contexto humano.
+        </p>
+      </section>
+
+      <section class="universos" id="universos">
+        <div class="section-label">// universos</div>
+        <h2>Áreas de trabajo</h2>
+        <div class="universos-grid">
+          <article class="card">
+            <span class="card-tag">[DEV]</span>
+            <h3>Desarrollo tecnológico</h3>
+            <p>
+              Dispositivos custom, IoT, automatización, sensorización y
+              sistemas embebidos para empresas, universidades y equipos
+              independientes.
+            </p>
+          </article>
+          <article class="card">
+            <span class="card-tag">[ART]</span>
+            <h3>Arte interactivo</h3>
+            <p>
+              Instalaciones que combinan electrónica, software, materiales
+              orgánicos y programación audiovisual para expandir la percepción.
+            </p>
+          </article>
+          <article class="card">
+            <span class="card-tag">[SCI]</span>
+            <h3>Investigación aplicada</h3>
+            <p>
+              Instrumentación y adquisición de datos para proyectos científicos,
+              especialmente en agua, ambiente y procesos experimentales.
+            </p>
+          </article>
+          <article class="card">
+            <span class="card-tag">[EDU]</span>
+            <h3>Educación y transferencia</h3>
+            <p>
+              Talleres, documentación y herramientas abiertas para democratizar
+              conocimientos técnicos y autonomía tecnológica.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="obras" id="obras">
+        <div class="section-head">
+          <div class="section-label">// obras</div>
+          <h2>Proyectos</h2>
+          <p>Arte, ciencia, IoT, educación y más — filtrá por tag. Click en un proyecto para ver detalle.</p>
+        </div>
+        <div
+          class="tag-filters"
+          id="tag-filters"
+          role="group"
+          aria-label="Filtrar proyectos por tag"
+        ></div>
+        <p class="gallery-count" id="gallery-count" aria-live="polite"></p>
+        <div class="gallery" id="gallery"></div>
+        <div class="gallery-controls" id="gallery-controls">
+          <button type="button" class="gallery-btn" id="show-more">Mostrar más</button>
+          <button type="button" class="gallery-btn" id="show-all">Mostrar todo</button>
+          <button type="button" class="gallery-btn" id="show-less" hidden>Mostrar menos</button>
+        </div>
+      </section>
+
+      <section class="contextos" id="contextos">
+        <div class="section-label">// contextos</div>
+        <h2>Contextos</h2>
+        <div class="contextos-grid">
+          <article class="contexto">
+            <h3>Estudio</h3>
+            <p>
+              Práctica independiente en instalaciones, dispositivos y software
+              entre arte, naturaleza y electrónica. Raíces en Argentina con
+              Autobuzz — co-fundado con Faktor para desarrollo tecnológico en
+              obras de artistas argentinos e internacionales — y STRLAC Records,
+              net label de música experimental con Faktor y Pol, aún activa. Del
+              taller a la escena.
+            </p>
+          </article>
+          <article class="contexto">
+            <h3>Investigación</h3>
+            <p>
+              Colaboración con universidades en instrumentación, IoT y sensores
+              ambientales: Universitat de Girona (sistemas experimentales y
+              tratamiento de agua), UOC (tecnologías inalámbricas y adquisición
+              de datos) y PUCE Ibarra, Ecuador (sensores para monitoreo de aire
+              y agua en la laguna Yaguarcocha).
+            </p>
+          </article>
+          <article class="contexto">
+            <h3>Educación</h3>
+            <p>
+              Difusión de estas prácticas en talleres y formación: acercar
+              hardware y tecnología a más personas, para que puedan empatizar un
+              poco más con las máquinas que usan todos los días.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="conectar" id="conectar">
+        <div class="section-label">// conectar</div>
+        <h2>Contacto</h2>
+        <p>
+          Para desarrollos técnicos, obras interactivas o proyectos de
+          investigación.
+        </p>
+        <div class="links">
+          <a
+            href="https://www.upwork.com/freelancers/~01472d619ba9e306d5?viewMode=1"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Upwork</a
+          >
+          <a
+            href="https://www.linkedin.com/in/nicolas-saganias/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >LinkedIn</a
+          >
+          <a
+            href="https://www.instagram.com/nix_._._____._._/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Instagram</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>
+        NIX · Nicolás Saganías · Arte + Ciencia + Tecnología ·
+        <span id="year"></span>
+      </p>
+    </footer>
+
+    <div class="modal hidden" id="project-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-content">
+        <button class="close-modal" type="button" aria-label="Cerrar">&times;</button>
+        <div id="modal-body"></div>
+      </div>
+    </div>
+
+    <script src="./projects-data.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>
