@@ -1,22 +1,36 @@
-# Configurar nix.is-a.dev
+# nix.is-a.dev con GitHub Pages
 
-## Dominio raíz (`nix.is-a.dev`)
+Hosting: **GitHub Pages** (workflow `.github/workflows/pages.yml`).
 
-`domains/nix.json` → CNAME a `cname.vercel-dns.com`
+## 1. Activar Pages en el repo
 
-En Vercel: agregá **nix.is-a.dev** (sin redirect a www). Si pide TXT de verificación, creá `domains/_vercel.nix.json` con ese valor.
+1. [nix-web → Settings → Pages](https://github.com/nicolassaganias/nix-web/settings/pages)
+2. **Build and deployment** → Source: **GitHub Actions**
+3. Tras el próximo push a `main`, el workflow publica la web de `/html` + `/images`.
 
-## www (`www.nix.is-a.dev`)
+URL temporal: `https://nicolassaganias.github.io/nix-web/` (hasta configurar el dominio).
 
-Vercel ya dio estos registros (incluidos en el PR):
+## 2. Dominio en is-a.dev
+
+PR en [is-a-dev/register](https://github.com/is-a-dev/register) con:
 
 | Archivo | Contenido |
 |---------|-----------|
-| `www.nix.json` | CNAME → `9c1e0363078a4f93.vercel-dns-017.com` |
-| `_vercel.www.nix.json` | TXT de verificación Vercel |
+| `domains/nix.json` | CNAME → `nicolassaganias.github.io` |
 
-## PR en is-a-dev/register
+Cuando mergeen el PR, el DNS de `nix.is-a.dev` apunta a GitHub.
 
-Los JSON están en `is-a-dev/domains/`. Copiarlos a un fork de [is-a-dev/register](https://github.com/is-a-dev/register) y abrir PR.
+## 3. Verificar dominio en GitHub
 
-Cuando mergeen + verifiques en Vercel → `https://www.nix.is-a.dev` (y `https://nix.is-a.dev` si registraste también el raíz).
+**Después** de que mergeen el PR de is-a.dev:
+
+1. Repo **nix-web** → Settings → Pages → **Custom domain** → `nix.is-a.dev`
+2. GitHub muestra un **TXT** de verificación (hostname tipo `_github-pages-challenge-nix.is-a.dev`).
+3. Copiá ese valor en `is-a-dev/domains/_github-pages-challenge-nix.nix.json` y abrí **otro PR** en is-a-dev/register.
+4. Cuando mergeen, volvé a GitHub y pulsá **Verify**.
+5. Activá **Enforce HTTPS**.
+
+## Notas
+
+- No hace falta Vercel: el deploy es solo por GitHub Actions.
+- Si antes registraste `www.nix.is-a.dev` para Vercel, ignorá esos archivos (`www.nix.json`, `_vercel.www.nix.json`); ya no aplican.
