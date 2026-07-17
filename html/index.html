@@ -60,7 +60,7 @@
     <main>
       <section class="manifiesto">
         <p>
-          Diseño sistemas que traducen fenómenos invisibles en experiencias
+          Diseño y desarrollo sistemas que traducen fenómenos invisibles en experiencias
           visibles: datos ambientales, comportamiento vegetal, movimiento,
           sonido y luz. Cada proyecto es una mezcla de prototipado técnico,
           criterio estético y contexto humano.
@@ -129,8 +129,8 @@
       </section>
 
       <section class="contextos" id="contextos">
-        <div class="section-label">// contextos</div>
-        <h2>Contextos</h2>
+        <div class="section-label">// universos</div>
+        <h2>Universos</h2>
         <div class="contextos-grid">
           <article class="contexto">
             <h3>Estudio</h3>
@@ -156,11 +156,55 @@
           <article class="contexto">
             <h3>Educación</h3>
             <p>
-              Difusión de estas prácticas en talleres y formación: acercar
-              hardware y tecnología a más personas, para que puedan empatizar un
-              poco más con las máquinas que usan todos los días.
+              Diseño y desarrollo de cursos y talleres para acercar hardware,
+              electrónica y programación a más personas. Eje principal en
+              <strong>Introducción a la programación y la electrónica</strong>,
+              junto con propuestas adaptadas a cada contexto educativo.
+              Experiencia como ayudante de cátedra en
+              <strong>UNTREF</strong> y <strong>UBA</strong>.
             </p>
           </article>
+          <article class="contexto">
+            <h3>Música</h3>
+            <p>
+              Baterista y percusionista, apasionado del ritmo. Compositor y
+              productor en diversos formatos, transitando texturas
+              contemplativas y rítmicas, mezcladas con paisajes sonoros
+              minimalistas y experimentales.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="musica" id="musica">
+        <div class="section-label">// musica</div>
+        <h2>Música</h2>
+        <p class="musica-intro">
+          Reproductor local (sin interfaz externa). Carga de tracks desde archivos propios.
+        </p>
+        <div class="music-player">
+          <div class="music-readout" aria-hidden="true">
+            <span>AUDIO::online</span>
+            <span>MODE::cyborg</span>
+            <span>SRC::local-files</span>
+          </div>
+          <div class="music-list" id="music-list" role="list" aria-label="Lista de temas"></div>
+          <div class="music-embed-wrap">
+            <div class="music-now-playing" id="music-now-playing">Sin reproducción</div>
+            <audio id="music-audio" preload="metadata"></audio>
+            <div class="music-controls">
+              <button type="button" class="music-control-btn" id="music-prev" aria-label="Anterior">‹‹</button>
+              <button type="button" class="music-control-btn" id="music-play" aria-label="Reproducir o pausar">PLAY</button>
+              <button type="button" class="music-control-btn" id="music-next" aria-label="Siguiente">››</button>
+            </div>
+            <input id="music-seek" class="music-seek" type="range" min="0" max="100" value="0" step="0.1" aria-label="Posición de reproducción" />
+            <div class="music-meta">
+              <span id="music-time">00:00 / 00:00</span>
+              <label class="music-volume-label" for="music-volume">VOL</label>
+              <input id="music-volume" class="music-volume" type="range" min="0" max="1" value="0.85" step="0.01" aria-label="Volumen" />
+            </div>
+            <p class="music-status" id="music-status"></p>
+          </div>
         </div>
       </section>
 
@@ -168,28 +212,29 @@
         <div class="section-label">// conectar</div>
         <h2>Contacto</h2>
         <p>
-          Para desarrollos técnicos, obras interactivas o proyectos de
-          investigación.
+          Para desarrollos técnicos, proyectos de
+          investigación o colaboraciones.
         </p>
         <div class="links">
-          <a
-            href="https://www.upwork.com/freelancers/~01472d619ba9e306d5?viewMode=1"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Upwork</a
-          >
-          <a
-            href="https://www.linkedin.com/in/nicolas-saganias/"
-            target="_blank"
-            rel="noopener noreferrer"
-            >LinkedIn</a
-          >
-          <a
-            href="https://www.instagram.com/nix_._._____._._/"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Instagram</a
-          >
+            <button type="button" id="contact-mail-trigger">Mail</button>
+            <a
+              href="https://www.linkedin.com/in/nicolas-saganias/"
+              target="_blank"
+              rel="noopener noreferrer"
+              >LinkedIn</a
+            >
+            <a
+              href="https://www.instagram.com/nix_._._____._._/"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Instagram</a
+            >
+            <a
+              href="https://www.upwork.com/freelancers/~01472d619ba9e306d5?viewMode=1"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Upwork</a
+            >
         </div>
       </section>
     </main>
@@ -205,6 +250,34 @@
       <div class="modal-content">
         <button class="close-modal" type="button" aria-label="Cerrar">&times;</button>
         <div id="modal-body"></div>
+      </div>
+    </div>
+
+    <div class="modal hidden contact-modal" id="contact-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
+      <div class="modal-content">
+        <button class="close-modal" id="contact-close" type="button" aria-label="Cerrar formulario">&times;</button>
+        <div class="contact-modal-head">
+          <p class="section-label">// compose</p>
+          <h2 id="contact-modal-title">Enviar correo</h2>
+        </div>
+        <form id="contact-form" class="contact-form">
+          <label for="contact-name">Quien sos</label>
+          <input id="contact-name" name="name" type="text" required maxlength="120" placeholder="Tu nombre o como te dicen" />
+
+          <label for="contact-subject">Asunto</label>
+          <input id="contact-subject" name="subject" type="text" required maxlength="160" placeholder="Proyecto, colaboración, consulta..." />
+
+          <label for="contact-message">Mensaje</label>
+          <textarea id="contact-message" name="message" required rows="5" placeholder="Contame que queres hacer."></textarea>
+
+          <label for="contact-attachments">Adjuntos</label>
+          <input id="contact-attachments" name="attachments" type="file" multiple />
+
+          <div class="contact-form-actions">
+            <button type="submit" class="gallery-btn" id="contact-submit">Enviar</button>
+          </div>
+          <p class="contact-status" id="contact-status" role="status"></p>
+        </form>
       </div>
     </div>
 

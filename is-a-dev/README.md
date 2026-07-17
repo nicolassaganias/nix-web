@@ -1,36 +1,29 @@
-# nix.is-a.dev con GitHub Pages
+# nix.is-a.dev con Vercel
 
-Hosting: **GitHub Pages** (workflow `.github/workflows/pages.yml`).
+Hosting: **Vercel** (proyecto `nix-web`).
 
-## 1. Activar Pages en el repo
+## Archivos para el PR en is-a-dev/register
 
-1. [nix-web → Settings → Pages](https://github.com/nicolassaganias/nix-web/settings/pages)
-2. **Build and deployment** → Source: **GitHub Actions**
-3. Tras el próximo push a `main`, el workflow publica la web de `/html` + `/images`.
+Copiá estos 3 archivos a `domains/` en tu fork de [is-a-dev/register](https://github.com/is-a-dev/register):
 
-URL temporal: `https://nicolassaganias.github.io/nix-web/` (hasta configurar el dominio).
+| Archivo | Registro |
+|---------|----------|
+| `nix.json` | A → `216.198.79.1` |
+| `_vercel.nix.json` | TXT de verificación (apex + www) |
+| `www.nix.json` | CNAME → `9c1e0363078a4f93.vercel-dns-017.com` |
 
-## 2. Dominio en is-a.dev
+El mensaje *"linked to another Vercel account"* es normal si el dominio se usó antes en otra cuenta o proyecto. El TXT en `_vercel.nix.json` prueba que sos vos.
 
-PR en [is-a-dev/register](https://github.com/is-a-dev/register) con:
+## Pasos
 
-| Archivo | Contenido |
-|---------|-----------|
-| `domains/nix.json` | CNAME → `nicolassaganias.github.io` |
-
-Cuando mergeen el PR, el DNS de `nix.is-a.dev` apunta a GitHub.
-
-## 3. Verificar dominio en GitHub
-
-**Después** de que mergeen el PR de is-a.dev:
-
-1. Repo **nix-web** → Settings → Pages → **Custom domain** → `nix.is-a.dev`
-2. GitHub muestra un **TXT** de verificación (hostname tipo `_github-pages-challenge-nix.is-a.dev`).
-3. Copiá ese valor en `is-a-dev/domains/_github-pages-challenge-nix.nix.json` y abrí **otro PR** en is-a-dev/register.
-4. Cuando mergeen, volvé a GitHub y pulsá **Verify**.
-5. Activá **Enforce HTTPS**.
+1. Fork [is-a-dev/register](https://github.com/is-a-dev/register/fork)
+2. Subí los 3 JSON de `is-a-dev/domains/` a `domains/` en el fork
+3. Abrí el PR (plantilla completa + captura de https://nix-web.vercel.app)
+4. Cuando mergeen (~horas/días), en Vercel → Domains → **Refresh** en `nix.is-a.dev` y `www.nix.is-a.dev`
+5. Cuando pasen a **Valid**, activá HTTPS
 
 ## Notas
 
-- No hace falta Vercel: el deploy es solo por GitHub Actions.
-- Si antes registraste `www.nix.is-a.dev` para Vercel, ignorá esos archivos (`www.nix.json`, `_vercel.www.nix.json`); ya no aplican.
+- Los tokens TXT van solo en `_vercel.nix.json`, no en `nix.json`.
+- Si Vercel regenera los tokens, actualizá `_vercel.nix.json` con un nuevo PR.
+- Apex: `nix.is-a.dev` · www: `www.nix.is-a.dev` (308 redirect configurado en Vercel).
