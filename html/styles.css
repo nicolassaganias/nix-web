@@ -714,9 +714,13 @@ main section {
 
 /* Music */
 .musica-intro {
-  max-width: 560px;
-  color: var(--muted);
+  max-width: 640px;
   margin-bottom: 1.25rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--chrome);
+  line-height: 1.6;
 }
 
 .music-player {
