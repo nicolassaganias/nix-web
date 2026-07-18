@@ -20,7 +20,7 @@ let displayMode = "limited";
 const CONTACT_ENDPOINT = "https://formsubmit.co/ajax/nicolassaganias@protonmail.com";
 const MUSIC_ITEMS = [
   {
-    title: "Diálogos entre planta y máquina",
+    title: "Diálogo entre planta y máquina",
     platform: "local",
     src: "/audio/dialogos-entre-planta-y-maquina.wav",
     sourceUrl: "https://soundcloud.com/nicolassaganias/dialogo-entre-una-planta-y-una-maquina",
@@ -48,14 +48,14 @@ const MUSIC_ITEMS = [
     note: "Single",
   },
   {
-    title: "Nixon San - I",
+    title: "Nix - I",
     platform: "local",
     src: "/audio/I.wav",
     sourceUrl: "https://strlacrecords.bandcamp.com/album/nixon-el-asno-de-oro",
     note: "El Asno de Oro (2020) · 05:31",
   },
   {
-    title: "Nixon San - II",
+    title: "Nix - II",
     platform: "local",
     src: "/audio/II.wav",
     sourceUrl: "https://strlacrecords.bandcamp.com/album/nixon-el-asno-de-oro",
@@ -352,7 +352,7 @@ function initContactComposer() {
     }
   };
 
-  document.getElementById("contact-mail-trigger")?.addEventListener("click", (event) => {
+  document.getElementById("contact-trigger")?.addEventListener("click", (event) => {
     event.preventDefault();
     modal?.classList.remove("hidden");
     modal?.setAttribute("aria-hidden", "false");
