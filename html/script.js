@@ -689,7 +689,7 @@ function initMusicPlayer() {
     });
 
     widget.bind(Events.LOAD_PROGRESS, (data) => {
-      const loaded = Number(data?.loadedProgress);
+      const loaded = Number(data?.loadProgress ?? data?.loadedProgress);
       if (!Number.isFinite(loaded)) return;
       loadedProgress = Math.max(0, Math.min(1, loaded));
       if (seekLoad) seekLoad.style.width = `${loadedProgress * 100}%`;
@@ -699,6 +699,11 @@ function initMusicPlayer() {
     widget.bind(Events.PLAY_PROGRESS, (data) => {
       const current = Number(data?.currentPosition) || 0;
       const relative = Number(data?.relativePosition);
+      const loaded = Number(data?.loadProgress ?? data?.loadedProgress);
+      if (Number.isFinite(loaded)) {
+        loadedProgress = Math.max(0, Math.min(1, loaded));
+        if (seekLoad) seekLoad.style.width = `${loadedProgress * 100}%`;
+      }
       if (Number.isFinite(relative) && relative > 0) {
         durationMs = current / relative;
       }
