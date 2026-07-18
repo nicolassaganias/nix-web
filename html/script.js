@@ -514,7 +514,6 @@ function loadSoundCloudApi() {
 function initMusicPlayer() {
   const list = document.getElementById("music-list");
   const iframe = document.getElementById("music-sc-iframe");
-  const deck = document.querySelector(".music-embed-wrap");
   const nowPlaying = document.getElementById("music-now-playing");
   const descriptionEl = document.getElementById("music-description");
   const playBtn = document.getElementById("music-play");
@@ -530,6 +529,8 @@ function initMusicPlayer() {
   const deckClock = document.getElementById("music-deck-clock");
   const stateFlag = document.getElementById("music-state-flag");
   const bitrateFlag = document.getElementById("music-bitrate-flag");
+  const signalEl = document.getElementById("music-signal");
+  const signalText = document.getElementById("music-signal-text");
   const status = document.getElementById("music-status");
 
   if (!list || !iframe || !nowPlaying || !descriptionEl || !playBtn || !prevBtn || !nextBtn || !seek || !volume || !time || !status) return;
@@ -541,6 +542,8 @@ function initMusicPlayer() {
   let currentIndex = 0;
   let userSeeking = false;
   let durationMs = 0;
+  let loadedProgress = 0;
+  let lastPositionMs = 0;
   let isPlaying = false;
   let widget = null;
   let pendingPlay = false;
@@ -551,23 +554,42 @@ function initMusicPlayer() {
     return "Audio";
   };
 
+  const buildMeter = (pct, width = 16) => {
+    const filled = Math.max(0, Math.min(width, Math.round((pct / 100) * width)));
+    return `${"█".repeat(filled)}${"░".repeat(width - filled)}`;
+  };
+
+  const updateSignal = (currentMs = lastPositionMs, totalMs = durationMs) => {
+    if (!signalText) return;
+    const total = totalMs > 0 ? totalMs : 0;
+    const current = Math.max(0, currentMs || 0);
+    lastPositionMs = current;
+    const pct = total > 0 ? (current / total) * 100 : 0;
+    const bufPct = Math.round(loadedProgress * 100);
+    const mode = isPlaying ? "PLAY" : "IDLE";
+    signalText.textContent = `${mode} ${buildMeter(pct)} ${Math.round(pct)}% · BUF ${bufPct}% · ${formatTime(current / 1000)}`;
+    signalEl?.classList.toggle("is-live", isPlaying);
+  };
+
   const setPlayingUi = (playing) => {
     isPlaying = playing;
     playBtn.textContent = playing ? "PAUSE" : "PLAY";
-    deck?.classList.toggle("is-playing", playing);
     if (stateFlag) stateFlag.textContent = playing ? "STATE::play" : "STATE::idle";
+    updateSignal();
   };
 
   const setProgressUi = (currentMs, totalMs, loadPct = null) => {
     const total = totalMs > 0 ? totalMs : durationMs;
     const current = Math.max(0, currentMs || 0);
+    lastPositionMs = current;
     const progress = total > 0 ? (current / total) * 100 : 0;
     if (!userSeeking) {
       seek.value = String(progress);
       if (seekFill) seekFill.style.width = `${progress}%`;
     }
-    if (seekLoad && loadPct != null) {
-      seekLoad.style.width = `${Math.max(0, Math.min(100, loadPct * 100))}%`;
+    if (loadPct != null) {
+      loadedProgress = Math.max(0, Math.min(1, loadPct));
+      if (seekLoad) seekLoad.style.width = `${loadedProgress * 100}%`;
     }
     const elapsedLabel = formatTime(current / 1000);
     const totalLabel = formatTime((total || 0) / 1000);
@@ -575,10 +597,13 @@ function initMusicPlayer() {
     if (timeElapsed) timeElapsed.textContent = elapsedLabel;
     if (timeTotal) timeTotal.textContent = totalLabel;
     if (deckClock) deckClock.textContent = elapsedLabel;
+    updateSignal(current, total);
   };
 
   const resetProgress = () => {
     durationMs = 0;
+    loadedProgress = 0;
+    lastPositionMs = 0;
     seek.value = "0";
     if (seekFill) seekFill.style.width = "0%";
     if (seekLoad) seekLoad.style.width = "0%";
@@ -659,9 +684,10 @@ function initMusicPlayer() {
 
     widget.bind(Events.LOAD_PROGRESS, (data) => {
       const loaded = Number(data?.loadedProgress);
-      if (Number.isFinite(loaded) && seekLoad) {
-        seekLoad.style.width = `${Math.max(0, Math.min(100, loaded * 100))}%`;
-      }
+      if (!Number.isFinite(loaded)) return;
+      loadedProgress = Math.max(0, Math.min(1, loaded));
+      if (seekLoad) seekLoad.style.width = `${loadedProgress * 100}%`;
+      updateSignal();
     });
 
     widget.bind(Events.PLAY_PROGRESS, (data) => {
