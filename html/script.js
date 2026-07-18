@@ -514,16 +514,25 @@ function loadSoundCloudApi() {
 function initMusicPlayer() {
   const list = document.getElementById("music-list");
   const iframe = document.getElementById("music-sc-iframe");
+  const deck = document.querySelector(".music-embed-wrap");
   const nowPlaying = document.getElementById("music-now-playing");
+  const descriptionEl = document.getElementById("music-description");
   const playBtn = document.getElementById("music-play");
   const prevBtn = document.getElementById("music-prev");
   const nextBtn = document.getElementById("music-next");
   const seek = document.getElementById("music-seek");
+  const seekFill = document.getElementById("music-seek-fill");
+  const seekLoad = document.getElementById("music-seek-load");
   const volume = document.getElementById("music-volume");
   const time = document.getElementById("music-time");
+  const timeElapsed = document.getElementById("music-time-elapsed");
+  const timeTotal = document.getElementById("music-time-total");
+  const deckClock = document.getElementById("music-deck-clock");
+  const stateFlag = document.getElementById("music-state-flag");
+  const bitrateFlag = document.getElementById("music-bitrate-flag");
   const status = document.getElementById("music-status");
 
-  if (!list || !iframe || !nowPlaying || !playBtn || !prevBtn || !nextBtn || !seek || !volume || !time || !status) return;
+  if (!list || !iframe || !nowPlaying || !descriptionEl || !playBtn || !prevBtn || !nextBtn || !seek || !volume || !time || !status) return;
   if (!MUSIC_ITEMS.length) {
     status.textContent = "Sin pistas cargadas.";
     return;
@@ -534,7 +543,6 @@ function initMusicPlayer() {
   let durationMs = 0;
   let isPlaying = false;
   let widget = null;
-  let widgetReady = false;
   let pendingPlay = false;
 
   const platformLabel = (item) => {
@@ -543,11 +551,68 @@ function initMusicPlayer() {
     return "Audio";
   };
 
+  const setPlayingUi = (playing) => {
+    isPlaying = playing;
+    playBtn.textContent = playing ? "PAUSE" : "PLAY";
+    deck?.classList.toggle("is-playing", playing);
+    if (stateFlag) stateFlag.textContent = playing ? "STATE::play" : "STATE::idle";
+  };
+
+  const setProgressUi = (currentMs, totalMs, loadPct = null) => {
+    const total = totalMs > 0 ? totalMs : durationMs;
+    const current = Math.max(0, currentMs || 0);
+    const progress = total > 0 ? (current / total) * 100 : 0;
+    if (!userSeeking) {
+      seek.value = String(progress);
+      if (seekFill) seekFill.style.width = `${progress}%`;
+    }
+    if (seekLoad && loadPct != null) {
+      seekLoad.style.width = `${Math.max(0, Math.min(100, loadPct * 100))}%`;
+    }
+    const elapsedLabel = formatTime(current / 1000);
+    const totalLabel = formatTime((total || 0) / 1000);
+    time.textContent = `${elapsedLabel} / ${totalLabel}`;
+    if (timeElapsed) timeElapsed.textContent = elapsedLabel;
+    if (timeTotal) timeTotal.textContent = totalLabel;
+    if (deckClock) deckClock.textContent = elapsedLabel;
+  };
+
   const resetProgress = () => {
     durationMs = 0;
     seek.value = "0";
-    paintRangeProgress(seek, 0, 100);
-    time.textContent = "00:00 / 00:00";
+    if (seekFill) seekFill.style.width = "0%";
+    if (seekLoad) seekLoad.style.width = "0%";
+    setProgressUi(0, 0, 0);
+  };
+
+  const cleanDescription = (raw) => {
+    if (!raw) return "";
+    return String(raw)
+      .replace(/<[^>]+>/g, " ")
+      .replace(/&nbsp;/g, " ")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/\s+/g, " ")
+      .trim();
+  };
+
+  const applySoundMeta = (sound, fallbackItem) => {
+    const title = sound?.title || fallbackItem?.title || "Sin título";
+    nowPlaying.textContent = title;
+    const desc = cleanDescription(sound?.description);
+    if (desc) {
+      descriptionEl.textContent = desc;
+    } else if (fallbackItem?.note) {
+      descriptionEl.textContent = `${fallbackItem.note}. Sin descripción en SoundCloud.`;
+    } else {
+      descriptionEl.textContent = "Sin descripción en SoundCloud.";
+    }
+    if (bitrateFlag) {
+      const genre = sound?.genre ? String(sound.genre).toUpperCase() : "STREAM";
+      bitrateFlag.textContent = `TAG::${genre.slice(0, 18)}`;
+    }
   };
 
   const setStatusForItem = (item) => {
@@ -559,17 +624,24 @@ function initMusicPlayer() {
     status.textContent = note;
   };
 
+  const refreshCurrentSound = () => {
+    if (!widget) return;
+    widget.getCurrentSound((sound) => {
+      applySoundMeta(sound, MUSIC_ITEMS[currentIndex]);
+    });
+  };
+
   const bindWidgetEvents = () => {
     if (!widget || !window.SC?.Widget) return;
     const Events = window.SC.Widget.Events;
 
     widget.bind(Events.READY, () => {
-      widgetReady = true;
       widget.setVolume(Math.round(Number(volume.value) * 100));
       widget.getDuration((ms) => {
         durationMs = Number(ms) || 0;
-        time.textContent = `00:00 / ${formatTime(durationMs / 1000)}`;
+        setProgressUi(0, durationMs);
       });
+      refreshCurrentSound();
       if (pendingPlay) {
         pendingPlay = false;
         widget.play();
@@ -577,13 +649,19 @@ function initMusicPlayer() {
     });
 
     widget.bind(Events.PLAY, () => {
-      isPlaying = true;
-      playBtn.textContent = "PAUSE";
+      setPlayingUi(true);
+      refreshCurrentSound();
     });
 
     widget.bind(Events.PAUSE, () => {
-      isPlaying = false;
-      playBtn.textContent = "PLAY";
+      setPlayingUi(false);
+    });
+
+    widget.bind(Events.LOAD_PROGRESS, (data) => {
+      const loaded = Number(data?.loadedProgress);
+      if (Number.isFinite(loaded) && seekLoad) {
+        seekLoad.style.width = `${Math.max(0, Math.min(100, loaded * 100))}%`;
+      }
     });
 
     widget.bind(Events.PLAY_PROGRESS, (data) => {
@@ -593,15 +671,11 @@ function initMusicPlayer() {
         durationMs = current / relative;
       }
       if (durationMs <= 0 || userSeeking) return;
-      const progress = (current / durationMs) * 100;
-      seek.value = String(progress);
-      paintRangeProgress(seek, progress, 100);
-      time.textContent = `${formatTime(current / 1000)} / ${formatTime(durationMs / 1000)}`;
+      setProgressUi(current, durationMs);
     });
 
     widget.bind(Events.FINISH, () => {
-      isPlaying = false;
-      playBtn.textContent = "PLAY";
+      setPlayingUi(false);
       const nextIndex = currentIndex === MUSIC_ITEMS.length - 1 ? 0 : currentIndex + 1;
       setActiveTrack(nextIndex, true);
     });
@@ -625,8 +699,7 @@ function initMusicPlayer() {
     if (!item) return;
     currentIndex = index;
     pendingPlay = false;
-    isPlaying = false;
-    widgetReady = false;
+    setPlayingUi(false);
     resetProgress();
 
     list.querySelectorAll(".music-item").forEach((btn, idx) => {
@@ -634,10 +707,13 @@ function initMusicPlayer() {
     });
 
     nowPlaying.textContent = item.title;
+    descriptionEl.textContent = "Sincronizando metadata de SoundCloud…";
     playBtn.textContent = "PLAY";
     setStatusForItem(item);
+    if (bitrateFlag) bitrateFlag.textContent = "RATE::--kbps";
 
     if (item.platform !== "soundcloud") {
+      descriptionEl.textContent = item.note || "Track disponible en Bandcamp.";
       status.innerHTML = `${escapeHtml(item.note || "Track")} · disponible en <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">Bandcamp</a> (sin stream aquí).`;
       if (autoplay) {
         window.open(item.url, "_blank", "noopener,noreferrer");
@@ -652,12 +728,12 @@ function initMusicPlayer() {
         auto_play: autoplay,
         show_artwork: false,
         callback: () => {
-          widgetReady = true;
           widget.setVolume(Math.round(Number(volume.value) * 100));
           widget.getDuration((ms) => {
             durationMs = Number(ms) || 0;
-            time.textContent = `00:00 / ${formatTime(durationMs / 1000)}`;
+            setProgressUi(0, durationMs);
           });
+          refreshCurrentSound();
           if (autoplay) {
             widget.play();
           }
@@ -665,6 +741,7 @@ function initMusicPlayer() {
       });
     } catch (error) {
       status.textContent = "No se pudo conectar con SoundCloud.";
+      descriptionEl.textContent = "Error de enlace con el stream.";
       console.error(error);
     }
   };
@@ -720,11 +797,9 @@ function initMusicPlayer() {
 
   seek.addEventListener("input", () => {
     userSeeking = true;
-    if (durationMs > 0) {
-      const nextTime = (Number(seek.value) / 100) * (durationMs / 1000);
-      time.textContent = `${formatTime(nextTime)} / ${formatTime(durationMs / 1000)}`;
-    }
-    paintRangeProgress(seek, Number(seek.value), 100);
+    const nextMs = durationMs > 0 ? (Number(seek.value) / 100) * durationMs : 0;
+    if (seekFill) seekFill.style.width = `${Number(seek.value)}%`;
+    setProgressUi(nextMs, durationMs);
   });
 
   seek.addEventListener("change", () => {
