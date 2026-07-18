@@ -20,40 +20,46 @@ let displayMode = "limited";
 const CONTACT_ENDPOINT = "https://formsubmit.co/ajax/nicolassaganias@protonmail.com";
 const MUSIC_ITEMS = [
   {
-    title: "Diálogo entre planta y máquina",
-    platform: "soundcloud",
-    url: "https://soundcloud.com/nicolassaganias/dialogo-entre-una-planta-y-una-maquina",
-    note: "Single",
-  },
-  {
     title: "NXMX",
     platform: "soundcloud",
     url: "https://soundcloud.com/nicolassaganias/nixmix",
     note: "Single",
-  },
-  {
-    title: "NEU Live Set",
-    platform: "soundcloud",
-    url: "https://soundcloud.com/nicolassaganias/neu-live-set-nix",
-    note: "Live set",
+    duration: "47:37",
   },
   {
     title: "Bola Brillante (Live)",
     platform: "soundcloud",
     url: "https://soundcloud.com/nicolassaganias/bola-brillante-live",
     note: "Single",
+    duration: "07:44",
   },
   {
     title: "Nix - I",
     platform: "bandcamp",
     url: "https://strlacrecords.bandcamp.com/album/nixon-el-asno-de-oro",
-    note: "El Asno de Oro (2020) · 05:31",
+    note: "El Asno de Oro (2020)",
+    duration: "05:31",
+  },
+  {
+    title: "NEU Live Set",
+    platform: "soundcloud",
+    url: "https://soundcloud.com/nicolassaganias/neu-live-set-nix",
+    note: "Live set",
+    duration: "28:23",
   },
   {
     title: "Nix - II",
     platform: "bandcamp",
     url: "https://strlacrecords.bandcamp.com/album/nixon-el-asno-de-oro",
-    note: "El Asno de Oro (2020) · 08:34",
+    note: "El Asno de Oro (2020)",
+    duration: "08:34",
+  },
+  {
+    title: "Diálogo entre planta y máquina",
+    platform: "soundcloud",
+    url: "https://soundcloud.com/nicolassaganias/dialogo-entre-una-planta-y-una-maquina",
+    note: "Single",
+    duration: "07:52",
   },
 ];
 
@@ -774,7 +780,10 @@ function initMusicPlayer() {
 
   list.innerHTML = MUSIC_ITEMS.map((item, index) => {
     return `<button type="button" class="music-item" data-index="${index}" role="listitem">
-      ${escapeHtml(item.title)}
+      <span class="music-item-row">
+        <span class="music-item-title">${escapeHtml(item.title)}</span>
+        <span class="music-item-duration">${escapeHtml(item.duration || "--:--")}</span>
+      </span>
       <small>${escapeHtml(platformLabel(item))}${item.note ? ` · ${escapeHtml(item.note)}` : ""}</small>
     </button>`;
   }).join("");

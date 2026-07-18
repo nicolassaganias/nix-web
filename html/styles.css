@@ -775,6 +775,24 @@ main section {
   border-left: 2px solid transparent;
 }
 
+.music-item-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.music-item-title {
+  min-width: 0;
+}
+
+.music-item-duration {
+  flex-shrink: 0;
+  color: var(--chrome);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+}
+
 .music-item small {
   display: block;
   margin-top: 0.28rem;
@@ -789,6 +807,11 @@ main section {
   color: var(--accent);
   border-left-color: var(--accent);
   box-shadow: inset 0 0 0 1px rgba(94, 184, 176, 0.12);
+}
+
+.music-item:hover .music-item-duration,
+.music-item.active .music-item-duration {
+  color: var(--accent);
 }
 
 .music-embed-wrap {
