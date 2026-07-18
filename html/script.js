@@ -21,44 +21,38 @@ const CONTACT_ENDPOINT = "https://formsubmit.co/ajax/nicolassaganias@protonmail.
 const MUSIC_ITEMS = [
   {
     title: "Diálogo entre planta y máquina",
-    platform: "local",
-    src: "/audio/dialogos-entre-planta-y-maquina.wav",
-    sourceUrl: "https://soundcloud.com/nicolassaganias/dialogo-entre-una-planta-y-una-maquina",
+    platform: "soundcloud",
+    url: "https://soundcloud.com/nicolassaganias/dialogo-entre-una-planta-y-una-maquina",
     note: "Single",
   },
   {
     title: "NXMX",
-    platform: "local",
-    src: "/audio/Nix Mix.wav",
-    sourceUrl: "https://soundcloud.com/nicolassaganias/nixmix",
+    platform: "soundcloud",
+    url: "https://soundcloud.com/nicolassaganias/nixmix",
     note: "Single",
   },
   {
     title: "NEU Live Set",
-    platform: "local",
-    src: "/audio/NEU live set - nix.wav",
-    sourceUrl: "https://soundcloud.com/nicolassaganias/neu-live-set-nix",
+    platform: "soundcloud",
+    url: "https://soundcloud.com/nicolassaganias/neu-live-set-nix",
     note: "Live set",
   },
   {
     title: "Bola Brillante (Live)",
-    platform: "local",
-    src: "/audio/bola-brillante.wav",
-    sourceUrl: "https://soundcloud.com/nicolassaganias/bola-brillante-live",
+    platform: "soundcloud",
+    url: "https://soundcloud.com/nicolassaganias/bola-brillante-live",
     note: "Single",
   },
   {
     title: "Nix - I",
-    platform: "local",
-    src: "/audio/I.wav",
-    sourceUrl: "https://strlacrecords.bandcamp.com/album/nixon-el-asno-de-oro",
+    platform: "bandcamp",
+    url: "https://strlacrecords.bandcamp.com/album/nixon-el-asno-de-oro",
     note: "El Asno de Oro (2020) · 05:31",
   },
   {
     title: "Nix - II",
-    platform: "local",
-    src: "/audio/II.wav",
-    sourceUrl: "https://strlacrecords.bandcamp.com/album/nixon-el-asno-de-oro",
+    platform: "bandcamp",
+    url: "https://strlacrecords.bandcamp.com/album/nixon-el-asno-de-oro",
     note: "El Asno de Oro (2020) · 08:34",
   },
 ];
@@ -482,9 +476,44 @@ function paintRangeProgress(input, value, max) {
   input.style.background = `linear-gradient(90deg, var(--accent) ${pct}%, var(--line) ${pct}%)`;
 }
 
+function scEmbedSrc(trackUrl) {
+  const params = new URLSearchParams({
+    url: trackUrl,
+    auto_play: "false",
+    hide_related: "true",
+    show_comments: "false",
+    show_user: "false",
+    show_reposts: "false",
+    show_teaser: "false",
+    visual: "false",
+  });
+  return `https://w.soundcloud.com/player/?${params.toString()}`;
+}
+
+function loadSoundCloudApi() {
+  return new Promise((resolve, reject) => {
+    if (window.SC?.Widget) {
+      resolve(window.SC);
+      return;
+    }
+    const existing = document.querySelector('script[src*="w.soundcloud.com/player/api.js"]');
+    if (existing) {
+      existing.addEventListener("load", () => resolve(window.SC), { once: true });
+      existing.addEventListener("error", () => reject(new Error("SoundCloud API load failed")), { once: true });
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://w.soundcloud.com/player/api.js";
+    script.async = true;
+    script.onload = () => resolve(window.SC);
+    script.onerror = () => reject(new Error("SoundCloud API load failed"));
+    document.head.appendChild(script);
+  });
+}
+
 function initMusicPlayer() {
   const list = document.getElementById("music-list");
-  const audio = document.getElementById("music-audio");
+  const iframe = document.getElementById("music-sc-iframe");
   const nowPlaying = document.getElementById("music-now-playing");
   const playBtn = document.getElementById("music-play");
   const prevBtn = document.getElementById("music-prev");
@@ -494,7 +523,7 @@ function initMusicPlayer() {
   const time = document.getElementById("music-time");
   const status = document.getElementById("music-status");
 
-  if (!list || !audio || !nowPlaying || !playBtn || !prevBtn || !nextBtn || !seek || !volume || !time || !status) return;
+  if (!list || !iframe || !nowPlaying || !playBtn || !prevBtn || !nextBtn || !seek || !volume || !time || !status) return;
   if (!MUSIC_ITEMS.length) {
     status.textContent = "Sin pistas cargadas.";
     return;
@@ -502,47 +531,150 @@ function initMusicPlayer() {
 
   let currentIndex = 0;
   let userSeeking = false;
+  let durationMs = 0;
+  let isPlaying = false;
+  let widget = null;
+  let widgetReady = false;
+  let pendingPlay = false;
 
-  const setActiveTrack = (index, autoplay = false) => {
+  const platformLabel = (item) => {
+    if (item.platform === "bandcamp") return "Bandcamp";
+    if (item.platform === "soundcloud") return "SoundCloud";
+    return "Audio";
+  };
+
+  const resetProgress = () => {
+    durationMs = 0;
+    seek.value = "0";
+    paintRangeProgress(seek, 0, 100);
+    time.textContent = "00:00 / 00:00";
+  };
+
+  const setStatusForItem = (item) => {
+    const note = item.note || platformLabel(item);
+    if (item.url) {
+      status.innerHTML = `${escapeHtml(note)} · <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(platformLabel(item))}</a>`;
+      return;
+    }
+    status.textContent = note;
+  };
+
+  const bindWidgetEvents = () => {
+    if (!widget || !window.SC?.Widget) return;
+    const Events = window.SC.Widget.Events;
+
+    widget.bind(Events.READY, () => {
+      widgetReady = true;
+      widget.setVolume(Math.round(Number(volume.value) * 100));
+      widget.getDuration((ms) => {
+        durationMs = Number(ms) || 0;
+        time.textContent = `00:00 / ${formatTime(durationMs / 1000)}`;
+      });
+      if (pendingPlay) {
+        pendingPlay = false;
+        widget.play();
+      }
+    });
+
+    widget.bind(Events.PLAY, () => {
+      isPlaying = true;
+      playBtn.textContent = "PAUSE";
+    });
+
+    widget.bind(Events.PAUSE, () => {
+      isPlaying = false;
+      playBtn.textContent = "PLAY";
+    });
+
+    widget.bind(Events.PLAY_PROGRESS, (data) => {
+      const current = Number(data?.currentPosition) || 0;
+      const relative = Number(data?.relativePosition);
+      if (Number.isFinite(relative) && relative > 0) {
+        durationMs = current / relative;
+      }
+      if (durationMs <= 0 || userSeeking) return;
+      const progress = (current / durationMs) * 100;
+      seek.value = String(progress);
+      paintRangeProgress(seek, progress, 100);
+      time.textContent = `${formatTime(current / 1000)} / ${formatTime(durationMs / 1000)}`;
+    });
+
+    widget.bind(Events.FINISH, () => {
+      isPlaying = false;
+      playBtn.textContent = "PLAY";
+      const nextIndex = currentIndex === MUSIC_ITEMS.length - 1 ? 0 : currentIndex + 1;
+      setActiveTrack(nextIndex, true);
+    });
+  };
+
+  const ensureWidget = async () => {
+    if (widget) return widget;
+    await loadSoundCloudApi();
+    if (!window.SC?.Widget) throw new Error("SoundCloud Widget no disponible");
+    if (!iframe.src) {
+      const firstSc = MUSIC_ITEMS.find((item) => item.platform === "soundcloud");
+      iframe.src = scEmbedSrc(firstSc?.url || MUSIC_ITEMS[0].url);
+    }
+    widget = window.SC.Widget(iframe);
+    bindWidgetEvents();
+    return widget;
+  };
+
+  const setActiveTrack = async (index, autoplay = false) => {
     const item = MUSIC_ITEMS[index];
     if (!item) return;
     currentIndex = index;
+    pendingPlay = false;
+    isPlaying = false;
+    widgetReady = false;
+    resetProgress();
 
     list.querySelectorAll(".music-item").forEach((btn, idx) => {
       btn.classList.toggle("active", idx === index);
     });
 
-    audio.src = item.src;
     nowPlaying.textContent = item.title;
     playBtn.textContent = "PLAY";
-    seek.value = "0";
-    paintRangeProgress(seek, 0, 100);
-    time.textContent = "00:00 / 00:00";
+    setStatusForItem(item);
 
-    if (item.sourceUrl) {
-      status.innerHTML = `${escapeHtml(item.note || "Track local")} · <a href="${escapeHtml(item.sourceUrl)}" target="_blank" rel="noopener noreferrer">fuente</a>`;
-    } else {
-      status.textContent = item.note || "Track local.";
+    if (item.platform !== "soundcloud") {
+      status.innerHTML = `${escapeHtml(item.note || "Track")} · disponible en <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">Bandcamp</a> (sin stream aquí).`;
+      if (autoplay) {
+        window.open(item.url, "_blank", "noopener,noreferrer");
+      }
+      return;
     }
 
-    if (autoplay) {
-      audio.play().then(() => {
-        playBtn.textContent = "PAUSE";
-      }).catch(() => {
-        playBtn.textContent = "PLAY";
+    try {
+      await ensureWidget();
+      pendingPlay = autoplay;
+      widget.load(item.url, {
+        auto_play: autoplay,
+        show_artwork: false,
+        callback: () => {
+          widgetReady = true;
+          widget.setVolume(Math.round(Number(volume.value) * 100));
+          widget.getDuration((ms) => {
+            durationMs = Number(ms) || 0;
+            time.textContent = `00:00 / ${formatTime(durationMs / 1000)}`;
+          });
+          if (autoplay) {
+            widget.play();
+          }
+        },
       });
+    } catch (error) {
+      status.textContent = "No se pudo conectar con SoundCloud.";
+      console.error(error);
     }
   };
 
-  list.innerHTML = MUSIC_ITEMS.map(
-    (item, index) => {
-      const sourceLabel = item.sourceUrl?.includes("bandcamp") ? "Bandcamp" : "SoundCloud";
-      return `<button type="button" class="music-item" data-index="${index}" role="listitem">
-        ${escapeHtml(item.title)}
-        <small>${sourceLabel}${item.note ? ` · ${escapeHtml(item.note)}` : ""}</small>
-      </button>`;
-    }
-  ).join("");
+  list.innerHTML = MUSIC_ITEMS.map((item, index) => {
+    return `<button type="button" class="music-item" data-index="${index}" role="listitem">
+      ${escapeHtml(item.title)}
+      <small>${escapeHtml(platformLabel(item))}${item.note ? ` · ${escapeHtml(item.note)}` : ""}</small>
+    </button>`;
+  }).join("");
 
   list.querySelectorAll(".music-item").forEach((button) => {
     button.addEventListener("click", () => {
@@ -552,17 +684,28 @@ function initMusicPlayer() {
     });
   });
 
-  playBtn.addEventListener("click", () => {
-    if (audio.paused) {
-      audio.play().then(() => {
-        playBtn.textContent = "PAUSE";
-      }).catch(() => {
-        status.textContent = "No se pudo reproducir. Verifica que el archivo exista.";
-      });
+  playBtn.addEventListener("click", async () => {
+    const item = MUSIC_ITEMS[currentIndex];
+    if (!item) return;
+
+    if (item.platform !== "soundcloud") {
+      window.open(item.url, "_blank", "noopener,noreferrer");
       return;
     }
-    audio.pause();
-    playBtn.textContent = "PLAY";
+
+    try {
+      await ensureWidget();
+      widget.isPaused((paused) => {
+        if (paused) {
+          widget.play();
+        } else {
+          widget.pause();
+        }
+      });
+    } catch (error) {
+      status.textContent = "No se pudo reproducir desde SoundCloud.";
+      console.error(error);
+    }
   });
 
   prevBtn.addEventListener("click", () => {
@@ -577,61 +720,26 @@ function initMusicPlayer() {
 
   seek.addEventListener("input", () => {
     userSeeking = true;
-    const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
-    if (duration > 0) {
-      const nextTime = (Number(seek.value) / 100) * duration;
-      time.textContent = `${formatTime(nextTime)} / ${formatTime(duration)}`;
+    if (durationMs > 0) {
+      const nextTime = (Number(seek.value) / 100) * (durationMs / 1000);
+      time.textContent = `${formatTime(nextTime)} / ${formatTime(durationMs / 1000)}`;
     }
     paintRangeProgress(seek, Number(seek.value), 100);
   });
 
   seek.addEventListener("change", () => {
-    const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
-    if (duration > 0) {
-      audio.currentTime = (Number(seek.value) / 100) * duration;
+    if (widget && durationMs > 0 && MUSIC_ITEMS[currentIndex]?.platform === "soundcloud") {
+      widget.seekTo((Number(seek.value) / 100) * durationMs);
     }
     userSeeking = false;
   });
 
   volume.addEventListener("input", () => {
-    audio.volume = Number(volume.value);
-    paintRangeProgress(volume, Number(volume.value), 1);
-  });
-
-  audio.addEventListener("loadedmetadata", () => {
-    const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
-    time.textContent = `${formatTime(0)} / ${formatTime(duration)}`;
-  });
-
-  audio.addEventListener("timeupdate", () => {
-    const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
-    if (duration <= 0) return;
-    const progress = (audio.currentTime / duration) * 100;
-    if (!userSeeking) {
-      seek.value = String(progress);
-      paintRangeProgress(seek, progress, 100);
-      time.textContent = `${formatTime(audio.currentTime)} / ${formatTime(duration)}`;
+    const vol = Number(volume.value);
+    paintRangeProgress(volume, vol, 1);
+    if (widget) {
+      widget.setVolume(Math.round(vol * 100));
     }
-  });
-
-  audio.addEventListener("ended", () => {
-    const nextIndex = currentIndex === MUSIC_ITEMS.length - 1 ? 0 : currentIndex + 1;
-    setActiveTrack(nextIndex, true);
-  });
-
-  audio.addEventListener("error", () => {
-    const current = MUSIC_ITEMS[currentIndex];
-    status.innerHTML = `No se encontró el archivo local: <code>${escapeHtml(current.src)}</code>. Súbelo y recarga.`;
-    playBtn.textContent = "PLAY";
-    nowPlaying.textContent = `${current.title} (sin archivo)`;
-  });
-
-  audio.addEventListener("play", () => {
-    playBtn.textContent = "PAUSE";
-  });
-
-  audio.addEventListener("pause", () => {
-    playBtn.textContent = "PLAY";
   });
 
   document.addEventListener("keydown", (event) => {
@@ -644,7 +752,6 @@ function initMusicPlayer() {
     playBtn.click();
   });
 
-  audio.volume = Number(volume.value);
   paintRangeProgress(volume, Number(volume.value), 1);
   setActiveTrack(0, false);
 }

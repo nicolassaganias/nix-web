@@ -815,8 +815,14 @@ main section {
   color: var(--text);
 }
 
-#music-audio {
-  display: none;
+#music-sc-iframe {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  border: 0;
+  overflow: hidden;
 }
 
 .music-controls {
