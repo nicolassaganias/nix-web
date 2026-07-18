@@ -698,10 +698,18 @@ main section {
 }
 
 /* Contact */
-.conectar p {
-  max-width: 480px;
-  color: var(--muted);
-  margin-bottom: 1.5rem;
+.contact-block,
+.social-block {
+  margin-top: 1.5rem;
+}
+
+.contact-block:first-of-type {
+  margin-top: 0;
+}
+
+.contact-block .section-label,
+.social-block .section-label {
+  margin-bottom: 0.85rem;
 }
 
 /* Music */
@@ -1114,15 +1122,6 @@ main section {
 
 .links-contact {
   grid-template-columns: 1fr;
-  max-width: 240px;
-}
-
-.social-block {
-  margin-top: 2rem;
-}
-
-.social-block .section-label {
-  margin-bottom: 0.85rem;
 }
 
 .links-social {
