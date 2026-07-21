@@ -55,6 +55,7 @@ const MUSIC_ITEMS = [
     duration: "08:34",
   },
   {
+    titleKey: "musicTrackDialogo",
     title: "Diálogo entre planta y máquina",
     platform: "soundcloud",
     url: "https://soundcloud.com/nicolassaganias/dialogo-entre-una-planta-y-una-maquina",
@@ -62,6 +63,84 @@ const MUSIC_ITEMS = [
     duration: "07:52",
   },
 ];
+
+let openProjectId = null;
+let musicLangRefresh = null;
+let lastProjectOrder = null;
+
+function musicItemTitle(item) {
+  if (item.titleKey && t()[item.titleKey]) return t()[item.titleKey];
+  return item.title;
+}
+
+function applyStaticI18n() {
+  const dict = t();
+  document.documentElement.lang = currentLang === "en" ? "en" : "es";
+
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    const key = el.getAttribute("data-i18n");
+    const value = dict[key];
+    if (typeof value !== "string") return;
+    if (el.tagName === "TITLE") {
+      document.title = value;
+      return;
+    }
+    if (el.tagName === "META" && el.getAttribute("name") === "description") {
+      el.setAttribute("content", value);
+      return;
+    }
+    el.textContent = value;
+  });
+
+  document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+    const key = el.getAttribute("data-i18n-html");
+    const value = dict[key];
+    if (typeof value === "string") el.innerHTML = value;
+  });
+
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+    const key = el.getAttribute("data-i18n-placeholder");
+    const value = dict[key];
+    if (typeof value === "string") el.setAttribute("placeholder", value);
+  });
+
+  document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+    const key = el.getAttribute("data-i18n-aria");
+    const value = dict[key];
+    if (typeof value === "string") el.setAttribute("aria-label", value);
+  });
+
+  document.querySelectorAll(".lang-btn").forEach((btn) => {
+    const active = btn.dataset.lang === currentLang;
+    btn.classList.toggle("active", active);
+    btn.setAttribute("aria-pressed", active ? "true" : "false");
+  });
+}
+
+function setLanguage(lang) {
+  if (lang !== "es" && lang !== "en") return;
+  currentLang = lang;
+  try {
+    localStorage.setItem("nix-lang", lang);
+  } catch (_) {
+    /* ignore */
+  }
+  applyStaticI18n();
+  renderTagFilters();
+  renderProjects({ reshuffle: false, resetLimit: false });
+  musicLangRefresh?.();
+  if (openProjectId != null) {
+    openProjectModal(openProjectId);
+  }
+}
+
+function initLangSwitch() {
+  currentLang = getStoredLang();
+  applyStaticI18n();
+  document.querySelectorAll(".lang-btn").forEach((btn) => {
+    btn.addEventListener("click", () => setLanguage(btn.dataset.lang));
+  });
+}
 
 const yearEl = document.getElementById("year");
 if (yearEl) {
@@ -116,12 +195,13 @@ function renderTagFilters() {
   const container = document.getElementById("tag-filters");
   if (!container) return;
 
+  const previousTag = activeTag;
   container.innerHTML = "";
 
   const allBtn = document.createElement("button");
-  allBtn.className = "tag-filter active";
+  allBtn.className = "tag-filter";
   allBtn.dataset.tag = "all";
-  allBtn.textContent = "#todos";
+  allBtn.textContent = t().tagAll;
   allBtn.addEventListener("click", () => setFilter("all"));
   container.appendChild(allBtn);
 
@@ -129,9 +209,14 @@ function renderTagFilters() {
     const btn = document.createElement("button");
     btn.className = "tag-filter";
     btn.dataset.tag = tag;
-    btn.textContent = `#${tag}`;
+    btn.textContent = `#${tagLabel(tag)}`;
     btn.addEventListener("click", () => setFilter(tag));
     container.appendChild(btn);
+  });
+
+  activeTag = previousTag;
+  document.querySelectorAll(".tag-filter").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.tag === activeTag);
   });
 }
 
@@ -185,19 +270,21 @@ function updateCount(filteredTotal, shownCount) {
   const el = document.getElementById("gallery-count");
   if (!el) return;
 
-  const label = activeTag === "all" ? "todos" : `#${activeTag}`;
+  const dict = t();
+  const label =
+    activeTag === "all" ? dict.countAllLabel : `#${tagLabel(activeTag)}`;
 
   if (filteredTotal === 0) {
-    el.textContent = `0 proyectos · ${label}`;
+    el.textContent = dict.countZero(label);
     return;
   }
 
   if (shownCount >= filteredTotal) {
-    el.textContent = `${filteredTotal} proyecto${filteredTotal !== 1 ? "s" : ""} · ${label}`;
+    el.textContent = dict.countAll(filteredTotal, label);
     return;
   }
 
-  el.textContent = `mostrando ${shownCount} de ${filteredTotal} · ${label}`;
+  el.textContent = dict.countPartial(shownCount, filteredTotal, label);
 }
 
 function updateGalleryControls(filteredTotal, shownCount) {
@@ -225,33 +312,49 @@ function updateGalleryControls(filteredTotal, shownCount) {
   showLess.hidden = !isExpanded;
 }
 
-function renderProjects() {
+function renderProjects({ reshuffle = true, resetLimit = true } = {}) {
   const gallery = document.getElementById("gallery");
   if (!gallery) return;
 
-  resetDisplayLimit();
-  const shuffled = shuffleArray(getFilteredProjects());
+  if (resetLimit) resetDisplayLimit();
 
-  gallery.innerHTML = shuffled
-    .map(
-      (p) => `
-    <article class="project" data-id="${p.id}" data-tags="${p.tags.join(",")}" role="button" tabindex="0" aria-label="Ver detalle de ${escapeHtml(p.title)}">
-      <img src="${p.image}" alt="${escapeHtml(p.title)}" loading="lazy" />
+  const filtered = getFilteredProjects();
+  let ordered;
+  if (!reshuffle && lastProjectOrder?.length) {
+    const byId = new Map(filtered.map((p) => [p.id, p]));
+    ordered = lastProjectOrder.map((id) => byId.get(id)).filter(Boolean);
+    filtered.forEach((p) => {
+      if (!ordered.some((item) => item.id === p.id)) ordered.push(p);
+    });
+  } else {
+    ordered = shuffleArray(filtered);
+  }
+  lastProjectOrder = ordered.map((p) => p.id);
+
+  const dict = t();
+
+  gallery.innerHTML = ordered
+    .map((p) => {
+      const title = projectField(p, "title");
+      const description = projectField(p, "description");
+      return `
+    <article class="project" data-id="${p.id}" data-tags="${p.tags.join(",")}" role="button" tabindex="0" aria-label="${escapeHtml(dict.viewDetail(title))}">
+      <img src="${p.image}" alt="${escapeHtml(title)}" loading="lazy" />
       <div class="project-meta">
         <div class="project-tags">
-          ${p.tags.map((t) => `<span>#${t}</span>`).join("")}
+          ${p.tags.map((tag) => `<span>#${escapeHtml(tagLabel(tag))}</span>`).join("")}
         </div>
-        <h3>${escapeHtml(p.title)}</h3>
-        <p>${escapeHtml(p.description)}</p>
+        <h3>${escapeHtml(title)}</h3>
+        <p>${escapeHtml(description)}</p>
       </div>
     </article>
-  `
-    )
+  `;
+    })
     .join("");
 
   gallery.insertAdjacentHTML(
     "beforeend",
-    '<p class="gallery-empty is-hidden">Ningún proyecto con ese tag.</p>'
+    `<p class="gallery-empty is-hidden">${escapeHtml(dict.emptyGallery)}</p>`
   );
 
   bindProjectClicks();
@@ -281,32 +384,39 @@ function openProjectModal(projectId) {
   const modalBody = document.getElementById("modal-body");
   if (!modalBody) return;
 
+  openProjectId = projectId;
+  const dict = t();
+  const title = projectField(project, "title");
+  const description = projectField(project, "description");
+  const details = projectField(project, "details");
+  const specs = projectField(project, "specs");
+
   modalBody.innerHTML = `
     <div class="modal-project">
       <div class="modal-tags">
-        ${project.tags.map((t) => `<span>#${escapeHtml(t)}</span>`).join("")}
+        ${project.tags.map((tag) => `<span>#${escapeHtml(tagLabel(tag))}</span>`).join("")}
       </div>
-      <h2 id="modal-title">${escapeHtml(project.title)}</h2>
+      <h2 id="modal-title">${escapeHtml(title)}</h2>
       <div class="modal-image">
-        <img src="${project.image}" alt="${escapeHtml(project.title)}" />
+        <img src="${project.image}" alt="${escapeHtml(title)}" />
       </div>
-      <p class="modal-description">${escapeHtml(project.description)}</p>
+      <p class="modal-description">${escapeHtml(description)}</p>
       <div class="modal-details">
-        <p>${escapeHtml(project.details)}</p>
+        <p>${escapeHtml(details)}</p>
       </div>
       ${
-        project.specs?.length
+        specs?.length
           ? `<div class="modal-specs">
-        <h3>Especificaciones</h3>
+        <h3>${escapeHtml(dict.specsTitle)}</h3>
         <ul>
-          ${project.specs.map((s) => `<li>${escapeHtml(s)}</li>`).join("")}
+          ${specs.map((s) => `<li>${escapeHtml(s)}</li>`).join("")}
         </ul>
       </div>`
           : ""
       }
       ${
         project.link
-          ? `<a class="modal-link" href="${escapeHtml(project.link)}" target="_blank" rel="noopener noreferrer">Ver en Instagram →</a>`
+          ? `<a class="modal-link" href="${escapeHtml(project.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(dict.viewInstagram)}</a>`
           : ""
       }
     </div>
@@ -324,6 +434,7 @@ function closeModal() {
   modal?.classList.add("hidden");
   modal?.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
+  openProjectId = null;
 }
 
 function initModal() {
@@ -377,12 +488,12 @@ function initContactComposer() {
     const submitBtn = document.getElementById("contact-submit");
     if (submitBtn instanceof HTMLButtonElement) submitBtn.disabled = true;
     if (status) {
-      status.textContent = "Enviando...";
+      status.textContent = t().sending;
       status.className = "contact-status";
     }
 
     const payload = new FormData(form);
-    payload.append("_subject", `[NIX Web] ${payload.get("subject") || "Nuevo mensaje"}`);
+    payload.append("_subject", `[NIX Web] ${payload.get("subject") || t().subjectFallback}`);
     payload.append("_captcha", "false");
     payload.append("_template", "table");
 
@@ -397,14 +508,14 @@ function initContactComposer() {
       }
 
       if (status) {
-        status.textContent = "Enviado. Gracias por escribir.";
+        status.textContent = t().sentOk;
         status.className = "contact-status ok";
       }
       form.reset();
       closeModal();
     } catch (error) {
       if (status) {
-        status.textContent = "Error al enviar. Intenta de nuevo en unos segundos.";
+        status.textContent = t().sendError;
         status.className = "contact-status error";
       }
     } finally {
@@ -541,7 +652,7 @@ function initMusicPlayer() {
 
   if (!list || !iframe || !nowPlaying || !descriptionEl || !playBtn || !prevBtn || !nextBtn || !seek || !volume || !time || !status) return;
   if (!MUSIC_ITEMS.length) {
-    status.textContent = "Sin pistas cargadas.";
+    status.textContent = t().noTracks;
     return;
   }
 
@@ -630,15 +741,16 @@ function initMusicPlayer() {
   };
 
   const applySoundMeta = (sound, fallbackItem) => {
-    const title = sound?.title || fallbackItem?.title || "Sin título";
+    const dict = t();
+    const title = sound?.title || (fallbackItem ? musicItemTitle(fallbackItem) : null) || dict.noTitle;
     nowPlaying.textContent = title;
     const desc = cleanDescription(sound?.description);
     if (desc) {
       descriptionEl.textContent = desc;
     } else if (fallbackItem?.note) {
-      descriptionEl.textContent = `${fallbackItem.note}. Sin descripción en SoundCloud.`;
+      descriptionEl.textContent = dict.noScDescWithNote(fallbackItem.note);
     } else {
-      descriptionEl.textContent = "Sin descripción en SoundCloud.";
+      descriptionEl.textContent = dict.noScDesc;
     }
     if (bitrateFlag) {
       const genre = sound?.genre ? String(sound.genre).toUpperCase() : "STREAM";
@@ -743,15 +855,18 @@ function initMusicPlayer() {
       btn.classList.toggle("active", idx === index);
     });
 
-    nowPlaying.textContent = item.title;
-    descriptionEl.textContent = "Sincronizando metadata de SoundCloud…";
+    nowPlaying.textContent = musicItemTitle(item);
+    descriptionEl.textContent = t().syncingMeta;
     playBtn.textContent = "PLAY";
     setStatusForItem(item);
     if (bitrateFlag) bitrateFlag.textContent = "RATE::--kbps";
 
     if (item.platform !== "soundcloud") {
-      descriptionEl.textContent = item.note || "Track disponible en Bandcamp.";
-      status.innerHTML = `${escapeHtml(item.note || "Track")} · disponible en <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">Bandcamp</a> (sin stream aquí).`;
+      descriptionEl.textContent = item.note || t().bandcampTrack;
+      const statusHtml = t()
+        .bandcampStatus(escapeHtml(item.note || "Track"))
+        .replace("__URL__", escapeHtml(item.url));
+      status.innerHTML = statusHtml;
       if (autoplay) {
         window.open(item.url, "_blank", "noopener,noreferrer");
       }
@@ -777,29 +892,50 @@ function initMusicPlayer() {
         },
       });
     } catch (error) {
-      status.textContent = "No se pudo conectar con SoundCloud.";
-      descriptionEl.textContent = "Error de enlace con el stream.";
+      status.textContent = t().scConnectError;
+      descriptionEl.textContent = t().streamLinkError;
       console.error(error);
     }
   };
 
-  list.innerHTML = MUSIC_ITEMS.map((item, index) => {
-    return `<button type="button" class="music-item" data-index="${index}" role="listitem">
+  const renderMusicList = () => {
+    list.innerHTML = MUSIC_ITEMS.map((item, index) => {
+      return `<button type="button" class="music-item" data-index="${index}" role="listitem">
       <span class="music-item-row">
-        <span class="music-item-title">${escapeHtml(item.title)}</span>
+        <span class="music-item-title">${escapeHtml(musicItemTitle(item))}</span>
         <span class="music-item-duration">${escapeHtml(item.duration || "--:--")}</span>
       </span>
       <small>${escapeHtml(platformLabel(item))}${item.note ? ` · ${escapeHtml(item.note)}` : ""}</small>
     </button>`;
-  }).join("");
+    }).join("");
 
-  list.querySelectorAll(".music-item").forEach((button) => {
-    button.addEventListener("click", () => {
-      const index = Number(button.dataset.index);
-      if (Number.isNaN(index)) return;
-      setActiveTrack(index, true);
+    list.querySelectorAll(".music-item").forEach((button) => {
+      button.addEventListener("click", () => {
+        const index = Number(button.dataset.index);
+        if (Number.isNaN(index)) return;
+        setActiveTrack(index, true);
+      });
+      button.classList.toggle("active", Number(button.dataset.index) === currentIndex);
     });
-  });
+  };
+
+  musicLangRefresh = () => {
+    renderMusicList();
+    const item = MUSIC_ITEMS[currentIndex];
+    if (!item) return;
+    if (item.platform !== "soundcloud") {
+      nowPlaying.textContent = musicItemTitle(item);
+      descriptionEl.textContent = item.note || t().bandcampTrack;
+      status.innerHTML = t()
+        .bandcampStatus(escapeHtml(item.note || "Track"))
+        .replace("__URL__", escapeHtml(item.url));
+      return;
+    }
+    refreshCurrentSound();
+    setStatusForItem(item);
+  };
+
+  renderMusicList();
 
   playBtn.addEventListener("click", async () => {
     const item = MUSIC_ITEMS[currentIndex];
@@ -820,7 +956,7 @@ function initMusicPlayer() {
         }
       });
     } catch (error) {
-      status.textContent = "No se pudo reproducir desde SoundCloud.";
+      status.textContent = t().scPlayError;
       console.error(error);
     }
   });
@@ -872,6 +1008,7 @@ function initMusicPlayer() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  initLangSwitch();
   renderTagFilters();
   renderProjects();
   initModal();

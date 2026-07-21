@@ -3,9 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NIX | Arte, Ciencia y Tecnología</title>
+    <title data-i18n="metaTitle">NIX | Arte, Ciencia y Tecnología</title>
     <meta
       name="description"
+      data-i18n="metaDescription"
       content="Portfolio multidisciplinario de Nicolás Saganías: desarrollos tecnológicos, arte interactivo, investigación y educación."
     />
     <link rel="canonical" href="https://nix.is-a.dev/" />
@@ -26,28 +27,35 @@
         <a href="#inicio" class="brand">
           <span class="brand-mark">◈</span> NIX
         </a>
-        <div class="top-nav-links">
-          <a href="#universos">Universos</a>
-          <a href="#obras">Obras</a>
-          <a href="#contextos">Contextos</a>
-          <a href="#conectar">Conectar</a>
+        <div class="top-nav-right">
+          <div class="top-nav-links">
+            <a href="#universos" data-i18n="navUniverses">Universos</a>
+            <a href="#obras" data-i18n="navWorks">Obras</a>
+            <a href="#contextos" data-i18n="navContexts">Contextos</a>
+            <a href="#conectar" data-i18n="navConnect">Conectar</a>
+          </div>
+          <div class="lang-switch" role="group" aria-label="Language">
+            <button type="button" class="lang-btn active" data-lang="es" aria-pressed="true">ES</button>
+            <span class="lang-sep" aria-hidden="true">/</span>
+            <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">ENG</button>
+          </div>
         </div>
       </nav>
 
       <div class="hero-content">
         <p class="eyebrow">[ NICOLÁS SAGANÍAS ]</p>
         <h1>
-          Tecnología sensible para
-          <span class="accent-text">arte, ciencia y territorio</span>
+          <span data-i18n="heroTitleBefore">Tecnología sensible para</span>
+          <span class="accent-text" data-i18n="heroTitleAccent">arte, ciencia y territorio</span>
         </h1>
-        <p class="lead">
+        <p class="lead" data-i18n="heroLead">
           Desarrollo software + hardware a medida, investigación aplicada y
           experiencias interactivas. Una práctica híbrida entre laboratorio,
           taller y escena.
         </p>
         <div class="hero-cta">
-          <a class="btn btn-primary" href="#obras">Ver proyectos</a>
-          <a class="btn btn-ghost" href="#conectar">Trabajemos juntos</a>
+          <a class="btn btn-primary" href="#obras" data-i18n="ctaProjects">Ver proyectos</a>
+          <a class="btn btn-ghost" href="#conectar" data-i18n="ctaWork">Trabajemos juntos</a>
         </div>
         <div class="hero-readout" aria-hidden="true">
           <span>SYS::online</span>
@@ -59,7 +67,7 @@
 
     <main>
       <section class="manifiesto">
-        <p>
+        <p data-i18n="manifesto">
           Diseño y desarrollo sistemas que traducen fenómenos invisibles en experiencias
           visibles: datos ambientales, comportamiento vegetal, movimiento,
           sonido y luz. Cada proyecto es una mezcla de prototipado técnico,
@@ -68,13 +76,13 @@
       </section>
 
       <section class="universos" id="universos">
-        <div class="section-label">// universos</div>
-        <h2>Áreas de trabajo</h2>
+        <div class="section-label" data-i18n="labelUniverses">// universos</div>
+        <h2 data-i18n="areasTitle">Áreas de trabajo</h2>
         <div class="universos-grid">
           <article class="card">
             <span class="card-tag">[DEV]</span>
-            <h3>Desarrollo tecnológico</h3>
-            <p>
+            <h3 data-i18n="cardDevTitle">Desarrollo tecnológico</h3>
+            <p data-i18n="cardDevText">
               Dispositivos custom, IoT, automatización, sensorización y
               sistemas embebidos para empresas, universidades y equipos
               independientes.
@@ -82,24 +90,24 @@
           </article>
           <article class="card">
             <span class="card-tag">[ART]</span>
-            <h3>Arte interactivo</h3>
-            <p>
+            <h3 data-i18n="cardArtTitle">Arte interactivo</h3>
+            <p data-i18n="cardArtText">
               Instalaciones que combinan electrónica, software, materiales
               orgánicos y programación audiovisual para expandir la percepción.
             </p>
           </article>
           <article class="card">
             <span class="card-tag">[SCI]</span>
-            <h3>Investigación aplicada</h3>
-            <p>
+            <h3 data-i18n="cardSciTitle">Investigación aplicada</h3>
+            <p data-i18n="cardSciText">
               Instrumentación y adquisición de datos para proyectos científicos,
               especialmente en agua, ambiente y procesos experimentales.
             </p>
           </article>
           <article class="card">
             <span class="card-tag">[EDU]</span>
-            <h3>Educación y transferencia</h3>
-            <p>
+            <h3 data-i18n="cardEduTitle">Educación y transferencia</h3>
+            <p data-i18n="cardEduText">
               Talleres, documentación y herramientas abiertas para democratizar
               conocimientos técnicos y autonomía tecnológica.
             </p>
@@ -109,32 +117,33 @@
 
       <section class="obras" id="obras">
         <div class="section-head">
-          <div class="section-label">// obras</div>
-          <h2>Proyectos</h2>
-          <p>Arte, ciencia, IoT, educación y más — filtrá por tag. Click en un proyecto para ver detalle.</p>
+          <div class="section-label" data-i18n="labelWorks">// obras</div>
+          <h2 data-i18n="projectsTitle">Proyectos</h2>
+          <p data-i18n="projectsIntro">Arte, ciencia, IoT, educación y más — filtrá por tag. Click en un proyecto para ver detalle.</p>
         </div>
         <div
           class="tag-filters"
           id="tag-filters"
           role="group"
+          data-i18n-aria="filterAria"
           aria-label="Filtrar proyectos por tag"
         ></div>
         <p class="gallery-count" id="gallery-count" aria-live="polite"></p>
         <div class="gallery" id="gallery"></div>
         <div class="gallery-controls" id="gallery-controls">
-          <button type="button" class="gallery-btn" id="show-more">Mostrar más</button>
-          <button type="button" class="gallery-btn" id="show-all">Mostrar todo</button>
-          <button type="button" class="gallery-btn" id="show-less" hidden>Mostrar menos</button>
+          <button type="button" class="gallery-btn" id="show-more" data-i18n="showMore">Mostrar más</button>
+          <button type="button" class="gallery-btn" id="show-all" data-i18n="showAll">Mostrar todo</button>
+          <button type="button" class="gallery-btn" id="show-less" data-i18n="showLess" hidden>Mostrar menos</button>
         </div>
       </section>
 
       <section class="contextos" id="contextos">
-        <div class="section-label">// universos</div>
-        <h2>Universos</h2>
+        <div class="section-label" data-i18n="labelContexts">// universos</div>
+        <h2 data-i18n="contextsTitle">Universos</h2>
         <div class="contextos-grid">
           <article class="contexto">
-            <h3>Estudio</h3>
-            <p>
+            <h3 data-i18n="studioTitle">Estudio</h3>
+            <p data-i18n="studioText">
               Práctica independiente en instalaciones, dispositivos y software
               entre arte, naturaleza y electrónica. Raíces en Argentina con
               Autobuzz — co-fundado con Faktor para desarrollo tecnológico en
@@ -144,8 +153,8 @@
             </p>
           </article>
           <article class="contexto">
-            <h3>Investigación</h3>
-            <p>
+            <h3 data-i18n="researchTitle">Investigación</h3>
+            <p data-i18n="researchText">
               Colaboración con universidades en instrumentación, IoT y sensores
               ambientales: Universitat de Girona (sistemas experimentales y
               tratamiento de agua), UOC (tecnologías inalámbricas y adquisición
@@ -154,8 +163,8 @@
             </p>
           </article>
           <article class="contexto">
-            <h3>Educación</h3>
-            <p>
+            <h3 data-i18n="eduTitle">Educación</h3>
+            <p data-i18n-html="eduTextHtml">
               Diseño y desarrollo de cursos y talleres para acercar hardware,
               electrónica y programación a más personas. Eje principal en
               <strong>Introducción a la programación y la electrónica</strong>,
@@ -165,8 +174,8 @@
             </p>
           </article>
           <article class="contexto">
-            <h3>Música</h3>
-            <p>
+            <h3 data-i18n="musicTitle">Música</h3>
+            <p data-i18n="musicBio">
               Baterista y percusionista, apasionado del ritmo. Compositor y
               productor en diversos formatos, transitando texturas
               contemplativas y rítmicas, mezcladas con paisajes sonoros
@@ -177,9 +186,9 @@
       </section>
 
       <section class="musica" id="musica">
-        <div class="section-label">// musica</div>
-        <h2>Música</h2>
-        <p class="musica-intro">
+        <div class="section-label" data-i18n="musicLabel">// musica</div>
+        <h2 data-i18n="musicSectionTitle">Música</h2>
+        <p class="musica-intro" data-i18n="musicIntro">
           ≪ bpm↑ ⇄ bpm↓ ≫ · bailables ↔ ambient · pulse ⊕ drift
         </p>
         <div class="music-player">
@@ -190,7 +199,7 @@
             <span id="music-state-flag">STATE::idle</span>
             <span id="music-bitrate-flag">RATE::--kbps</span>
           </div>
-          <div class="music-list" id="music-list" role="list" aria-label="Lista de temas"></div>
+          <div class="music-list" id="music-list" role="list" data-i18n-aria="musicListAria" aria-label="Lista de temas"></div>
           <div class="music-embed-wrap">
             <div class="music-deck-chrome" aria-hidden="true">
               <span>NIXAMP v0.9</span>
@@ -198,8 +207,8 @@
               <span id="music-deck-clock">00:00</span>
             </div>
 
-            <div class="music-now-playing" id="music-now-playing">Sin reproducción</div>
-            <p class="music-description" id="music-description">Esperando señal de SoundCloud…</p>
+            <div class="music-now-playing" id="music-now-playing" data-i18n="musicIdle">Sin reproducción</div>
+            <p class="music-description" id="music-description" data-i18n="musicWaiting">Esperando señal de SoundCloud…</p>
 
             <div class="music-signal" id="music-signal" aria-hidden="true">
               <span id="music-signal-text">STANDBY · waiting for stream</span>
@@ -213,9 +222,9 @@
             ></iframe>
 
             <div class="music-controls">
-              <button type="button" class="music-control-btn" id="music-prev" aria-label="Anterior">‹‹</button>
-              <button type="button" class="music-control-btn music-control-main" id="music-play" aria-label="Reproducir o pausar">PLAY</button>
-              <button type="button" class="music-control-btn" id="music-next" aria-label="Siguiente">››</button>
+              <button type="button" class="music-control-btn" id="music-prev" data-i18n-aria="musicPrev" aria-label="Anterior">‹‹</button>
+              <button type="button" class="music-control-btn music-control-main" id="music-play" data-i18n-aria="musicPlay" aria-label="Reproducir o pausar">PLAY</button>
+              <button type="button" class="music-control-btn" id="music-next" data-i18n-aria="musicNext" aria-label="Siguiente">››</button>
             </div>
 
             <div class="music-timeline">
@@ -227,14 +236,14 @@
               <div class="music-seek-track">
                 <div class="music-seek-fill" id="music-seek-fill"></div>
                 <div class="music-seek-load" id="music-seek-load"></div>
-                <input id="music-seek" class="music-seek" type="range" min="0" max="100" value="0" step="0.1" aria-label="Posición de reproducción" />
+                <input id="music-seek" class="music-seek" type="range" min="0" max="100" value="0" step="0.1" data-i18n-aria="musicSeek" aria-label="Posición de reproducción" />
               </div>
             </div>
 
             <div class="music-meta">
               <span id="music-time">00:00 / 00:00</span>
               <label class="music-volume-label" for="music-volume">VOL</label>
-              <input id="music-volume" class="music-volume" type="range" min="0" max="1" value="0.85" step="0.01" aria-label="Volumen" />
+              <input id="music-volume" class="music-volume" type="range" min="0" max="1" value="0.85" step="0.01" data-i18n-aria="musicVolume" aria-label="Volumen" />
             </div>
             <p class="music-status" id="music-status"></p>
           </div>
@@ -242,16 +251,16 @@
       </section>
 
       <section class="conectar" id="conectar">
-        <div class="section-label">// conectar</div>
-        <h2>Conectar</h2>
+        <div class="section-label" data-i18n="labelConnect">// conectar</div>
+        <h2 data-i18n="connectTitle">Conectar</h2>
         <div class="contact-block">
-          <div class="section-label">// contacto</div>
+          <div class="section-label" data-i18n="labelContact">// contacto</div>
           <div class="links links-contact">
-            <button type="button" id="contact-trigger">Contacto</button>
+            <button type="button" id="contact-trigger" data-i18n="contactBtn">Contacto</button>
           </div>
         </div>
         <div class="social-block">
-          <div class="section-label">// redes</div>
+          <div class="section-label" data-i18n="labelSocial">// redes</div>
           <div class="links links-social">
             <a
               href="https://www.linkedin.com/in/nicolas-saganias/"
@@ -278,40 +287,40 @@
 
     <footer class="footer">
       <p>
-        NIX · Nicolás Saganías · Arte + Ciencia + Tecnología ·
+        <span data-i18n="footer">NIX · Nicolás Saganías · Arte + Ciencia + Tecnología ·</span>
         <span id="year"></span>
       </p>
     </footer>
 
     <div class="modal hidden" id="project-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-content">
-        <button class="close-modal" type="button" aria-label="Cerrar">&times;</button>
+        <button class="close-modal" type="button" data-i18n-aria="closeModal" aria-label="Cerrar">&times;</button>
         <div id="modal-body"></div>
       </div>
     </div>
 
     <div class="modal hidden contact-modal" id="contact-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
       <div class="modal-content">
-        <button class="close-modal" id="contact-close" type="button" aria-label="Cerrar formulario">&times;</button>
+        <button class="close-modal" id="contact-close" type="button" data-i18n-aria="closeForm" aria-label="Cerrar formulario">&times;</button>
         <div class="contact-modal-head">
           <p class="section-label">// compose</p>
-          <h2 id="contact-modal-title">Enviar correo</h2>
+          <h2 id="contact-modal-title" data-i18n="contactModalTitle">Enviar correo</h2>
         </div>
         <form id="contact-form" class="contact-form">
-          <label for="contact-name">Quien sos</label>
-          <input id="contact-name" name="name" type="text" required maxlength="120" placeholder="Tu nombre o como te dicen" />
+          <label for="contact-name" data-i18n="contactNameLabel">Quien sos</label>
+          <input id="contact-name" name="name" type="text" required maxlength="120" data-i18n-placeholder="contactNamePh" placeholder="Tu nombre o como te dicen" />
 
-          <label for="contact-subject">Asunto</label>
-          <input id="contact-subject" name="subject" type="text" required maxlength="160" placeholder="Proyecto, colaboración, consulta..." />
+          <label for="contact-subject" data-i18n="contactSubjectLabel">Asunto</label>
+          <input id="contact-subject" name="subject" type="text" required maxlength="160" data-i18n-placeholder="contactSubjectPh" placeholder="Proyecto, colaboración, consulta..." />
 
-          <label for="contact-message">Mensaje</label>
-          <textarea id="contact-message" name="message" required rows="5" placeholder="Contame que queres hacer."></textarea>
+          <label for="contact-message" data-i18n="contactMessageLabel">Mensaje</label>
+          <textarea id="contact-message" name="message" required rows="5" data-i18n-placeholder="contactMessagePh" placeholder="Contame que queres hacer."></textarea>
 
-          <label for="contact-attachments">Adjuntos</label>
+          <label for="contact-attachments" data-i18n="contactAttachments">Adjuntos</label>
           <input id="contact-attachments" name="attachments" type="file" multiple />
 
           <div class="contact-form-actions">
-            <button type="submit" class="gallery-btn" id="contact-submit">Enviar</button>
+            <button type="submit" class="gallery-btn" id="contact-submit" data-i18n="contactSubmit">Enviar</button>
           </div>
           <p class="contact-status" id="contact-status" role="status"></p>
         </form>
@@ -319,6 +328,7 @@
     </div>
 
     <script src="https://w.soundcloud.com/player/api.js"></script>
+    <script src="./i18n.js"></script>
     <script src="./projects-data.js"></script>
     <script src="./script.js"></script>
   </body>
